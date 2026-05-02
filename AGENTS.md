@@ -1,3 +1,15 @@
+# PajaroMacaWeb — Agent System
+
+## Project Context
+
+**PajaroMacaWeb** is a dual-identity portfolio website for a visual artist who is also a tattoo artist. Two sections: (1) Fine art portfolio with galleries, exhibitions, and print shop; (2) Tattoo portfolio with quote/booking form, portfolio gallery, and aftercare info. Spanish-first content, hosted on Vercel, images on Cloudflare R2, database on Supabase (local Docker for dev).
+
+**Stack**: Next.js 16 (App Router) + TypeScript + Tailwind CSS + shadcn/ui + Supabase + Cloudflare R2 + Vercel
+
+**Architecture**: Route groups (art) + (tattoo) with separate root layouts, split landing page, Server Actions, ISR for galleries, RLS for public reads
+
+---
+
 # Cortex — Multi-Agent Development System
 
 ## System Overview
@@ -16,8 +28,6 @@ This is a **generic multi-agent coding framework** that covers the full developm
 | **Design system** | Token-based UI generation, brand consistency | `DESIGN.md`, design-system skill |
 | **Cross-session** | STATE.md + log.md restore context after /clear | session-memory skill, session-recover tool |
 | **Obsidian integration** | Visual graph view, [[wikilinks]], Dataview dashboards | `.obsidian/` config, wiki schema |
-
-This is a **template**, not a fixed project. You clone it to start any new project, then specialize it.
 
 ## Project Architecture
 This project uses a three-layer knowledge architecture:
@@ -51,12 +61,12 @@ root/
 │   ├── templates/                  # Plan & research templates
 │   └── sessions/                   # Per-session plan files
 ├── wiki/                           # Knowledge base (the "compounding artifact")
-│   ├── index.md                    # Content-oriented catalog of all pages
+│   ├── index.md                    # Content catalog
 │   ├── log.md                      # Append-only chronological record
 │   ├── concepts/                   # Technology & domain concept pages
 │   ├── entities/                   # Code entities (classes, functions, modules)
 │   ├── sources/                    # Source document summaries
-│   ├── sessions/                   # Session summaries & knowledge capture
+│   ├── sessions/                   # Session summaries
 │   ├── decisions/                  # Architecture Decision Records (ADRs)
 │   ├── dashboards/                 # Automated dashboards
 │   └── graph/                      # Knowledge graph outputs
@@ -70,8 +80,6 @@ root/
 ```
 
 ## Self-Maintenance: How This System Manages Itself
-
-This system is self-aware. You have access to specific tools and should use them proactively.
 
 ### Toolkit Summary
 
@@ -150,23 +158,18 @@ Use `@agent-name` to invoke subagents:
 
 Switch primary agents with Tab key: Build (full tools) / Plan (read-only).
 
-After project bootstrap via `/new-project`, custom primary agents are created:
-- `{ProjectName}Build` — Full development, project-aware, orchestrates the team
-- `{ProjectName}Plan` — Read-only analysis and planning, project-aware
-
 ## Agent Team Structure
-When a project is bootstrapped, a team of specialized subagents is created:
 
 | Role | Agent | Responsibility |
 |------|-------|---------------|
-| Backend | `@{project}-backend` | API design, business logic, database access |
-| Frontend | `@{project}-frontend` | UI components, state management, responsive design |
-| Database | `@{project}-database` | Schema design, migrations, query optimization |
-| Security | `@{project}-security` | Vulnerability scanning, auth auditing, compliance |
-| DevOps | `@{project}-devops` | CI/CD, infrastructure, deployment, monitoring |
-| QA | `@{project}-qa` | Testing strategy, coverage, edge case detection |
-
-Agent templates are in `.opencode/templates/agents/`. They are filled with project context during bootstrap.
+| Primary Build | `@PajaroMacaWebBuild` | Full development, orchestrates the team |
+| Primary Plan | `@PajaroMacaWebPlan` | Read-only analysis and planning |
+| Frontend | `@pajaroMacaWeb-frontend` | UI components, Tailwind, animations |
+| Backend | `@pajaroMacaWeb-backend` | Server Actions, Supabase, R2 integration |
+| Database | `@pajaroMacaWeb-database` | Migrations, RLS, schema |
+| DevOps | `@pajaroMacaWeb-devops` | Docker Supabase, Vercel, R2 config |
+| QA | `@pajaroMacaWeb-qa` | Tests (Vitest, Playwright) |
+| Security | `@pajaroMacaWeb-security` | Security audits, dependency scanning |
 
 ## Skill Invocation
 Skills are loaded on-demand via the skill tool. Key skills:

@@ -2,6 +2,12 @@
 
 Content-oriented catalog of all pages in the wiki.
 
+## Project Context
+
+- [[PROJECT]] — PajaroMacaWeb project overview
+- [[ROADMAP]] — Phase-by-phase development roadmap
+- [[STATE]] — Current position, decisions, blockers
+
 ## Concepts
 Pages covering technologies, patterns, and domain knowledge.
 

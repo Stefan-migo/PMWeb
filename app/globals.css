@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+:root {
+  /* Tattoo Section (Dark Theme) */
+  --tattoo-bg: #0a0a0a;
+  --tattoo-surface: #141414;
+  --tattoo-surface-hover: #1f1f1f;
+  --tattoo-border: #2a2a2a;
+  --tattoo-text: #f5f5f5;
+  --tattoo-text-muted: #a3a3a3;
+  --tattoo-accent: #ef4444;
+  --tattoo-accent-hover: #dc2626;
+
+  /* Art Section (Light Theme) */
+  --art-bg: #fafaf9;
+  --art-surface: #ffffff;
+  --art-surface-hover: #f5f5f4;
+  --art-border: #e7e5e4;
+  --art-text: #1c1917;
+  --art-text-muted: #78716c;
+  --art-accent: #78716c;
+  --art-accent-hover: #57534e;
+
+  /* Shared */
+  --color-success: #059669;
+  --color-warning: #d97706;
+  --color-error: #dc2626;
+  --color-whatsapp: #25d366;
+
+  /* Fonts */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+}
+
+@theme inline {
+  --color-tattoo-bg: var(--tattoo-bg);
+  --color-tattoo-surface: var(--tattoo-surface);
+  --color-tattoo-border: var(--tattoo-border);
+  --color-tattoo-text: var(--tattoo-text);
+  --color-tattoo-text-muted: var(--tattoo-text-muted);
+  --color-tattoo-accent: var(--tattoo-accent);
+
+  --color-art-bg: var(--art-bg);
+  --color-art-surface: var(--art-surface);
+  --color-art-border: var(--art-border);
+  --color-art-text: var(--art-text);
+  --color-art-text-muted: var(--art-text-muted);
+  --color-art-accent: var(--art-accent);
+
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+  --color-whatsapp: var(--color-whatsapp);
+
+  --font-sans: var(--font-sans);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--tattoo-accent);
+  color: white;
+}
+
+:focus-visible {
+  outline: 2px solid var(--tattoo-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -156,6 +156,131 @@
         "glob": "allow",
         "grep": "allow"
       }
+    },
+    "PajaroMacaWebBuild": {
+      "description": "PajaroMacaWeb primary build agent. Full development capabilities for the dual-identity artist/tattoo portfolio website.",
+      "mode": "primary",
+      "temperature": 0.3,
+      "permission": {
+        "edit": "allow",
+        "bash": "allow",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "todowrite": "allow",
+        "skill": "allow",
+        "task": { "*": "allow" }
+      }
+    },
+    "PajaroMacaWebPlan": {
+      "description": "PajaroMacaWeb primary plan agent. Read-only analysis and planning for the dual-identity artist/tattoo portfolio website.",
+      "mode": "primary",
+      "temperature": 0.1,
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "ask",
+          "git status": "allow",
+          "git diff": "allow",
+          "git log*": "allow",
+          "ls *": "allow",
+          "cat *": "allow"
+        },
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "allow",
+        "skill": "allow",
+        "task": { "*": "allow" }
+      }
+    },
+    "pajaroMacaWeb-frontend": {
+      "description": "PajaroMacaWeb frontend specialist. Expert in UI/UX implementation, component architecture, responsive design, and animations.",
+      "mode": "subagent",
+      "temperature": 0.3,
+      "permission": {
+        "edit": "allow",
+        "bash": "allow",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow"
+      }
+    },
+    "pajaroMacaWeb-backend": {
+      "description": "PajaroMacaWeb backend specialist. Expert in Server Actions, Supabase integration, R2 image loader, and WhatsApp integration.",
+      "mode": "subagent",
+      "temperature": 0.3,
+      "permission": {
+        "edit": "allow",
+        "bash": "allow",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow"
+      }
+    },
+    "pajaroMacaWeb-database": {
+      "description": "PajaroMacaWeb database specialist. Expert in data modeling, Supabase migrations, RLS policies, and query optimization.",
+      "mode": "subagent",
+      "temperature": 0.2,
+      "permission": {
+        "edit": "allow",
+        "bash": {
+          "*": "ask",
+          "pg_dump *": "allow",
+          "pg_restore *": "allow",
+          "psql *": "ask",
+          "npx supabase *": "allow",
+          "ls *": "allow"
+        },
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow"
+      }
+    },
+    "pajaroMacaWeb-devops": {
+      "description": "PajaroMacaWeb DevOps specialist. Expert in Docker Supabase local, Vercel deployment, Cloudflare R2 setup, and environment configuration.",
+      "mode": "subagent",
+      "temperature": 0.2,
+      "permission": {
+        "edit": "allow",
+        "bash": "allow",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow"
+      }
+    },
+    "pajaroMacaWeb-qa": {
+      "description": "PajaroMacaWeb QA specialist. Expert in test strategy, automated testing, quality assurance, and accessibility audits.",
+      "mode": "subagent",
+      "temperature": 0.2,
+      "permission": {
+        "edit": "allow",
+        "bash": "allow",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow"
+      }
+    },
+    "pajaroMacaWeb-security": {
+      "description": "PajaroMacaWeb security specialist. Expert in vulnerability detection, security architecture, and dependency audits.",
+      "mode": "subagent",
+      "temperature": 0.1,
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "ask",
+          "npm audit": "allow",
+          "pip audit": "allow",
+          "cargo audit": "allow",
+          "yarn audit": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "grep *": "allow"
+        },
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow"
+      }
     }
   },
   "mcp": {
@@ -167,13 +292,13 @@
     "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp",
-      "enabled": false,
+      "enabled": true,
       "_note": "Free docs search. Enable to let agents search official docs for any library."
     },
     "sequential-thinking": {
       "type": "local",
       "command": ["npx", "-y", "@modelcontextprotocol/server-sequential-thinking"],
-      "enabled": false,
+      "enabled": true,
       "_note": "Structured reasoning for complex problems. Enable for better architecture and debugging."
     },
     "github": {
