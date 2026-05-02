@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { X } from "lucide-react";
+import { X, Layout } from "lucide-react";
 import { PageTransition } from "@/app/_components/shared/PageTransition";
 
 const artNavLinks = [
@@ -47,6 +47,23 @@ export default function ArtLayout({
             </div>
 
             <div className="flex items-center gap-4">
+              {/* Section Switcher */}
+              <Link
+                href="/tatuajes"
+                className="hidden md:inline-flex items-center gap-1.5 text-xs text-[#78716c] hover:text-[#1c1917] transition-colors border-r border-[#e7e5e4] pr-4 font-medium tracking-wider uppercase"
+              >
+                <span className="text-[#ef4444] font-bold">&bull;</span>
+                Tatuajes
+              </Link>
+
+              <Link
+                href="/"
+                className="hidden md:inline-flex text-[#78716c] hover:text-[#1c1917] transition-colors"
+                aria-label="Volver al inicio"
+              >
+                <Layout className="w-4 h-4" />
+              </Link>
+
               <a
                 href="https://instagram.com"
                 target="_blank"
@@ -90,6 +107,23 @@ export default function ArtLayout({
                   {link.label}
                 </Link>
               ))}
+
+              <hr className="border-[#e7e5e4] my-2" />
+
+              <Link
+                href="/"
+                onClick={() => setMobileOpen(false)}
+                className="block px-4 py-3 rounded-lg text-[#78716c] hover:text-[#1c1917] hover:bg-[#f5f5f4] transition-colors text-sm"
+              >
+                Inicio (Landing)
+              </Link>
+              <Link
+                href="/tatuajes"
+                onClick={() => setMobileOpen(false)}
+                className="block px-4 py-3 rounded-lg text-[#78716c] hover:text-[#1c1917] hover:bg-[#f5f5f4] transition-colors text-sm"
+              >
+                Ir a Tatuajes &rarr;
+              </Link>
             </div>
           </div>
         )}
@@ -112,6 +146,9 @@ export default function ArtLayout({
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-6 text-sm text-[#78716c]">
+              <Link href="/" className="hover:text-[#1c1917] transition-colors">
+                Inicio
+              </Link>
               <Link href="/arte/galeria" className="hover:text-[#1c1917] transition-colors">
                 Galería
               </Link>
@@ -120,6 +157,9 @@ export default function ArtLayout({
               </Link>
               <Link href="/arte/tienda" className="hover:text-[#1c1917] transition-colors">
                 Tienda
+              </Link>
+              <Link href="/tatuajes" className="hover:text-[#ef4444] transition-colors text-[#ef4444]">
+                Ir a Tatuajes
               </Link>
             </div>
 

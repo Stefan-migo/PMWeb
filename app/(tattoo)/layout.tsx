@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, Instagram } from "lucide-react";
+import { Menu, X, Instagram, ArrowRight, Layout } from "lucide-react";
 import { PageTransition } from "@/app/_components/shared/PageTransition";
 
 const tattooNavLinks = [
@@ -47,6 +47,23 @@ export default function TattooLayout({
             </div>
 
             <div className="flex items-center gap-4">
+              {/* Section Switcher */}
+              <Link
+                href="/arte"
+                className="hidden md:inline-flex items-center gap-1.5 text-xs text-[#a3a3a3] hover:text-[#78716c] transition-colors border-r border-[#2a2a2a] pr-4 font-medium tracking-wider uppercase"
+              >
+                Arte
+                <ArrowRight className="w-3 h-3" />
+              </Link>
+
+              <Link
+                href="/"
+                className="hidden md:inline-flex text-[#a3a3a3] hover:text-[#f5f5f5] transition-colors"
+                aria-label="Volver al inicio"
+              >
+                <Layout className="w-4 h-4" />
+              </Link>
+
               <a
                 href="https://instagram.com"
                 target="_blank"
@@ -82,6 +99,23 @@ export default function TattooLayout({
                   {link.label}
                 </Link>
               ))}
+
+              <hr className="border-[#2a2a2a] my-2" />
+
+              <Link
+                href="/"
+                onClick={() => setMobileOpen(false)}
+                className="block px-4 py-3 rounded-lg text-[#a3a3a3] hover:text-[#f5f5f5] hover:bg-[#141414] transition-colors text-sm"
+              >
+                Inicio (Landing)
+              </Link>
+              <Link
+                href="/arte"
+                onClick={() => setMobileOpen(false)}
+                className="block px-4 py-3 rounded-lg text-[#a3a3a3] hover:text-[#f5f5f5] hover:bg-[#141414] transition-colors text-sm"
+              >
+                Ir a Arte &rarr;
+              </Link>
             </div>
           </div>
         )}
@@ -104,6 +138,9 @@ export default function TattooLayout({
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-6 text-sm text-[#a3a3a3]">
+              <Link href="/" className="hover:text-[#f5f5f5] transition-colors">
+                Inicio
+              </Link>
               <Link href="/tatuajes/portafolio" className="hover:text-[#f5f5f5] transition-colors">
                 Portafolio
               </Link>
@@ -112,6 +149,9 @@ export default function TattooLayout({
               </Link>
               <Link href="/tatuajes/cuidados" className="hover:text-[#f5f5f5] transition-colors">
                 Cuidados
+              </Link>
+              <Link href="/arte" className="hover:text-[#78716c] transition-colors text-[#78716c]">
+                Ir a Arte
               </Link>
             </div>
 
