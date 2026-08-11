@@ -14,12 +14,14 @@ export default defineConfig({
       "@": path.resolve(__dirname, ".")
     }
   },
-  // aria-query is CJS; in browser mode the only CJS interop is for
-  // Vite-pre-bundled deps, so it must be pre-bundled with needsInterop
-  // or @testing-library/dom's `elementRoles` named import breaks.
+  // @testing-library/dom's transitive deps are CJS (aria-query, lz-string,
+  // dom-accessibility-api, pretty-format). In browser mode the only CJS
+  // interop is for Vite-pre-bundled deps, so they must be pre-bundled with
+  // needsInterop or their named/default imports break in the Storybook
+  // vitest project.
   optimizeDeps: {
-    include: ["aria-query"],
-    needsInterop: ["aria-query"],
+    include: ["aria-query", "lz-string", "dom-accessibility-api", "pretty-format"],
+    needsInterop: ["aria-query", "lz-string", "dom-accessibility-api", "pretty-format"],
   },
   test: {
     projects: [{
