@@ -1,0 +1,41 @@
+/* LandingTriSplitDistinct — curtain reveal entrance effect.
+   Typographic variant of LandingTriSplit: each panel uses a distinct font
+   family (Tattoo: display/Space Grotesk, Stage: scenic/Bebas Neue, Art:
+   serif/Cormorant Garamond).
+   Solid color curtains cover each panel on mount and slide away
+   (translateY ±100%) revealing image + content beneath.
+   Phase-driven auto-play (no scroll dependency), like SplitScrollReveal. */
+
+.ltrd {
+  position: relative;
+}
+
+.ltrd-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.ltrd-curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  will-change: transform;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ltrd-curtain--dark {
+  background: var(--tattoo-bg);
+}
+
+.ltrd-curtain--light {
+  background: var(--art-bg);
+}
+
+.ltrd--revealed .ltrd-curtain--up {
+  transform: translateY(-100%);
+}
+
+.ltrd--revealed .ltrd-curtain--down {
+  transform: translateY(100%);
+}

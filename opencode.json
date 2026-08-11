@@ -1,305 +1,26 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "instructions": [
-    "AGENTS.md",
-    "DESIGN.md",
-    "schema/wiki-schema.md",
-    "schema/agent-behavior.md",
-    "schema/editor-policy.md",
-    ".planning/STATE.md",
-    ".planning/ROADMAP.md"
+    "DESIGN.md"
   ],
-  "agent": {
-    "build": {
-      "mode": "primary",
-      "model": "anthropic/claude-sonnet-4-20250514",
-      "temperature": 0.3,
-      "permission": {
-        "edit": "allow",
-        "bash": "allow",
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow",
-        "todowrite": "allow",
-        "skill": "allow",
-        "task": { "*": "allow" }
-      }
-    },
-    "plan": {
-      "mode": "primary",
-      "model": "anthropic/claude-haiku-4-20250514",
-      "temperature": 0.1,
-      "permission": {
-        "edit": "deny",
-        "bash": {
-          "*": "ask",
-          "git status": "allow",
-          "git diff": "allow",
-          "git log*": "allow",
-          "ls *": "allow",
-          "cat *": "allow"
-        },
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow",
-        "webfetch": "allow",
-        "skill": "allow",
-        "task": { "*": "allow" }
-      }
-    },
-    "researcher": {
-      "description": "Deep research on technical topics. Uses web search, reads docs, analyzes approaches. Cannot modify files.",
-      "mode": "subagent",
-      "temperature": 0.2,
-      "permission": {
-        "edit": "deny",
-        "bash": "deny",
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow",
-        "webfetch": "allow",
-        "websearch": "allow"
-      }
-    },
-    "architect": {
-      "description": "System design and architecture analysis. Evaluates trade-offs, produces ADRs and design documents.",
-      "mode": "subagent",
-      "temperature": 0.2,
-      "permission": {
-        "edit": "deny",
-        "bash": "deny",
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow",
-        "webfetch": "allow"
-      }
-    },
-    "reviewer": {
-      "description": "Code review and quality assurance. Checks for bugs, security issues, performance problems, and style violations.",
-      "mode": "subagent",
-      "temperature": 0.1,
-      "permission": {
-        "edit": "deny",
-        "bash": {
-          "*": "ask",
-          "git diff*": "allow",
-          "git log*": "allow",
-          "git status": "allow"
-        },
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow"
-      }
-    },
-    "implementer": {
-      "description": "Focused implementation from structured plans. Executes task plans with fresh context, creates atomic commits.",
-      "mode": "subagent",
-      "temperature": 0.3,
-      "permission": {
-        "edit": "allow",
-        "bash": "allow",
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow",
-        "todowrite": "allow"
-      }
-    },
-    "debugger": {
-      "description": "Bug investigation and root cause analysis. Runs tests, inspects logs, traces execution paths.",
-      "mode": "subagent",
-      "temperature": 0.2,
-      "permission": {
-        "edit": "allow",
-        "bash": "allow",
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow"
-      }
-    },
-    "sec-auditor": {
-      "description": "Security auditing. Identifies vulnerabilities, injection risks, auth flaws, and dependency issues.",
-      "mode": "subagent",
-      "temperature": 0.1,
-      "permission": {
-        "edit": "deny",
-        "bash": {
-          "*": "ask",
-          "npm audit": "allow",
-          "pip audit": "allow",
-          "cargo audit": "allow"
-        },
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow"
-      }
-    },
-    "ingest-agent": {
-      "description": "Wiki ingestion pipeline. Reads source documents, extracts key info, writes wiki pages, updates cross-references and index.",
-      "mode": "subagent",
-      "temperature": 0.2,
-      "permission": {
-        "edit": "allow",
-        "bash": "deny",
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow"
-      }
-    },
-    "lint-agent": {
-      "description": "Wiki health checks. Finds contradictions, orphan pages, missing cross-refs, stale claims, and suggests improvements.",
-      "mode": "subagent",
-      "temperature": 0.1,
-      "permission": {
-        "edit": "deny",
-        "bash": "deny",
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow"
-      }
-    },
-    "PajaroMacaWebBuild": {
-      "description": "PajaroMacaWeb primary build agent. Full development capabilities for the dual-identity artist/tattoo portfolio website.",
-      "mode": "primary",
-      "temperature": 0.3,
-      "permission": {
-        "edit": "allow",
-        "bash": "allow",
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow",
-        "todowrite": "allow",
-        "skill": "allow",
-        "task": { "*": "allow" }
-      }
-    },
-    "PajaroMacaWebPlan": {
-      "description": "PajaroMacaWeb primary plan agent. Read-only analysis and planning for the dual-identity artist/tattoo portfolio website.",
-      "mode": "primary",
-      "temperature": 0.1,
-      "permission": {
-        "edit": "deny",
-        "bash": {
-          "*": "ask",
-          "git status": "allow",
-          "git diff": "allow",
-          "git log*": "allow",
-          "ls *": "allow",
-          "cat *": "allow"
-        },
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow",
-        "webfetch": "allow",
-        "skill": "allow",
-        "task": { "*": "allow" }
-      }
-    },
-    "pajaroMacaWeb-frontend": {
-      "description": "PajaroMacaWeb frontend specialist. Expert in UI/UX implementation, component architecture, responsive design, and animations.",
-      "mode": "subagent",
-      "temperature": 0.3,
-      "permission": {
-        "edit": "allow",
-        "bash": "allow",
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow"
-      }
-    },
-    "pajaroMacaWeb-backend": {
-      "description": "PajaroMacaWeb backend specialist. Expert in Server Actions, Supabase integration, R2 image loader, and WhatsApp integration.",
-      "mode": "subagent",
-      "temperature": 0.3,
-      "permission": {
-        "edit": "allow",
-        "bash": "allow",
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow"
-      }
-    },
-    "pajaroMacaWeb-database": {
-      "description": "PajaroMacaWeb database specialist. Expert in data modeling, Supabase migrations, RLS policies, and query optimization.",
-      "mode": "subagent",
-      "temperature": 0.2,
-      "permission": {
-        "edit": "allow",
-        "bash": {
-          "*": "ask",
-          "pg_dump *": "allow",
-          "pg_restore *": "allow",
-          "psql *": "ask",
-          "npx supabase *": "allow",
-          "ls *": "allow"
-        },
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow"
-      }
-    },
-    "pajaroMacaWeb-devops": {
-      "description": "PajaroMacaWeb DevOps specialist. Expert in Docker Supabase local, Vercel deployment, Cloudflare R2 setup, and environment configuration.",
-      "mode": "subagent",
-      "temperature": 0.2,
-      "permission": {
-        "edit": "allow",
-        "bash": "allow",
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow"
-      }
-    },
-    "pajaroMacaWeb-qa": {
-      "description": "PajaroMacaWeb QA specialist. Expert in test strategy, automated testing, quality assurance, and accessibility audits.",
-      "mode": "subagent",
-      "temperature": 0.2,
-      "permission": {
-        "edit": "allow",
-        "bash": "allow",
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow"
-      }
-    },
-    "pajaroMacaWeb-security": {
-      "description": "PajaroMacaWeb security specialist. Expert in vulnerability detection, security architecture, and dependency audits.",
-      "mode": "subagent",
-      "temperature": 0.1,
-      "permission": {
-        "edit": "deny",
-        "bash": {
-          "*": "ask",
-          "npm audit": "allow",
-          "pip audit": "allow",
-          "cargo audit": "allow",
-          "yarn audit": "allow",
-          "git diff*": "allow",
-          "git log*": "allow",
-          "grep *": "allow"
-        },
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow"
-      }
-    }
-  },
   "mcp": {
-    "graphify": {
-      "type": "local",
-      "command": ["python3", "-m", "graphify.serve", "wiki/graph/graph.json"],
-      "enabled": true
-    },
     "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp",
       "enabled": true,
-      "_note": "Free docs search. Enable to let agents search official docs for any library."
+      "_note": "Free docs search for any library."
     },
     "sequential-thinking": {
       "type": "local",
       "command": ["npx", "-y", "@modelcontextprotocol/server-sequential-thinking"],
       "enabled": true,
-      "_note": "Structured reasoning for complex problems. Enable for better architecture and debugging."
+      "_note": "Structured reasoning for complex problems."
+    },
+    "storybook": {
+      "type": "remote",
+      "url": "http://localhost:6006/mcp",
+      "enabled": true,
+      "_note": "Storybook MCP addon — UI component info and dev workflows. Requires `npm run storybook` running on port 6006."
     },
     "github": {
       "type": "local",
@@ -308,13 +29,7 @@
       "environment": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_TOKEN}"
       },
-      "_note": "GitHub PR and issue management. Set GITHUB_TOKEN env var first."
-    },
-    "memory": {
-      "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-memory"],
-      "enabled": false,
-      "_note": "Official MCP memory server. Uses knowledge graph for persistent memory. Redundant with wiki/ but useful as backup."
+      "_note": "GitHub PR and issue management. Set GITHUB_TOKEN first."
     }
   },
   "permission": {

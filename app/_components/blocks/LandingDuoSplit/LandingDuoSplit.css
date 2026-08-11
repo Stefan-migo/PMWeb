@@ -1,0 +1,35 @@
+/* LandingDuoSplit — curtain reveal entrance effect.
+   Solid color curtains cover each panel on mount and slide away
+   (translateY ±100%) revealing image + content beneath.
+   Mirrored directions: Tatuajes curtain rises, Arte curtain falls.
+   Phase-driven auto-play (no scroll dependency), like SplitScrollReveal. */
+
+.lds {
+  position: relative;
+}
+
+.lds-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.lds-curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  will-change: transform;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lds-curtain--dark {
+  background: var(--tattoo-bg);
+}
+
+.lds--revealed .lds-curtain--up {
+  transform: translateY(-100%);
+}
+
+.lds--revealed .lds-curtain--down {
+  transform: translateY(100%);
+}

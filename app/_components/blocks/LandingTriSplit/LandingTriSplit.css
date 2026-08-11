@@ -1,0 +1,38 @@
+/* LandingTriSplit — curtain reveal entrance effect.
+   Solid color curtains cover each panel on mount and slide away
+   (translateY ±100%) revealing image + content beneath.
+   Phase-driven auto-play (no scroll dependency), like SplitScrollReveal. */
+
+.ltrs {
+  position: relative;
+}
+
+.ltrs-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.ltrs-curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  will-change: transform;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ltrs-curtain--dark {
+  background: var(--tattoo-bg);
+}
+
+.ltrs-curtain--light {
+  background: var(--art-bg);
+}
+
+.ltrs--revealed .ltrs-curtain--up {
+  transform: translateY(-100%);
+}
+
+.ltrs--revealed .ltrs-curtain--down {
+  transform: translateY(100%);
+}

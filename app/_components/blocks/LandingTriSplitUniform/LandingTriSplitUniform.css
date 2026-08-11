@@ -1,0 +1,40 @@
+/* LandingTriSplitUniform — curtain reveal entrance effect.
+   Typographic variant of LandingTriSplit: every panel title, eyebrow and
+   CTA uses the same serif family (Cormorant Garamond).
+   Solid color curtains cover each panel on mount and slide away
+   (translateY ±100%) revealing image + content beneath.
+   Phase-driven auto-play (no scroll dependency), like SplitScrollReveal. */
+
+.ltru {
+  position: relative;
+}
+
+.ltru-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.ltru-curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  will-change: transform;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ltru-curtain--dark {
+  background: var(--tattoo-bg);
+}
+
+.ltru-curtain--light {
+  background: var(--art-bg);
+}
+
+.ltru--revealed .ltru-curtain--up {
+  transform: translateY(-100%);
+}
+
+.ltru--revealed .ltru-curtain--down {
+  transform: translateY(100%);
+}
