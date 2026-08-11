@@ -12,15 +12,16 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, ".")
-    },
-    dedupe: ["aria-query"]
+    }
+  },
+  // aria-query is CJS; in browser mode the only CJS interop is for
+  // Vite-pre-bundled deps, so it must be pre-bundled with needsInterop
+  // or @testing-library/dom's `elementRoles` named import breaks.
+  optimizeDeps: {
+    include: ["aria-query"],
+    needsInterop: ["aria-query"],
   },
   test: {
-    server: {
-      deps: {
-        inline: ["aria-query"],
-      },
-    },
     projects: [{
       extends: true,
       test: {
