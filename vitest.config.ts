@@ -35,6 +35,11 @@ export default defineConfig({
       })],
       test: {
         name: 'storybook',
+        server: {
+          deps: {
+            inline: ['aria-query'],
+          },
+        },
         browser: {
           enabled: true,
           headless: true,
