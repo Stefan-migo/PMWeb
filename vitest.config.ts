@@ -12,9 +12,15 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, ".")
-    }
+    },
+    dedupe: ["aria-query"]
   },
   test: {
+    server: {
+      deps: {
+        inline: ["aria-query"],
+      },
+    },
     projects: [{
       extends: true,
       test: {
@@ -35,11 +41,6 @@ export default defineConfig({
       })],
       test: {
         name: 'storybook',
-        server: {
-          deps: {
-            inline: ['aria-query'],
-          },
-        },
         browser: {
           enabled: true,
           headless: true,
