@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { supabaseAdmin } from "@/app/_lib/supabase/admin";
+import { getSupabaseAdmin } from "@/app/_lib/supabase/admin";
 
 const quoteSchema = z.object({
   name: z.string().min(2),
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true });
     }
 
-    const { error } = await supabaseAdmin.from("quote_requests").insert({
+    const { error } = await getSupabaseAdmin().from("quote_requests").insert({
       name: parsed.data.name,
       phone: parsed.data.phone,
       email: parsed.data.email || null,
