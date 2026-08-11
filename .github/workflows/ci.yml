@@ -42,7 +42,7 @@ jobs:
         run: npx playwright install chromium --with-deps
 
       - name: Unit tests
-        run: npm run test
+        run: npm run test:unit
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
