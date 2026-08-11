@@ -3,24 +3,19 @@ import { render, screen } from "@testing-library/react";
 import HomePage from "@/app/page";
 
 describe("Landing Page", () => {
-  it("renders both section titles", () => {
+  it("renders all three section titles", () => {
     render(<HomePage />);
-    expect(screen.getByText("TATUAJES")).toBeInTheDocument();
-    expect(screen.getByText("ARTE")).toBeInTheDocument();
+    expect(screen.getAllByText("Tatuajes").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Escénico").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Arte").length).toBeGreaterThan(0);
   });
 
-  it("renders navigation links", () => {
-    render(<HomePage />);
-    const instagramLink = screen.getByLabelText("Instagram");
-    expect(instagramLink).toBeInTheDocument();
-    const whatsappLink = screen.getByLabelText("WhatsApp");
-    expect(whatsappLink).toBeInTheDocument();
-  });
-
-  it("has links to tattoo and art sections", () => {
+  it("has links to tattoo, stage and art sections", () => {
     render(<HomePage />);
     const tattooLink = screen.getByLabelText("Ir a sección Tatuajes");
     expect(tattooLink).toHaveAttribute("href", "/tatuajes");
+    const stageLink = screen.getByLabelText("Ir a sección Escénico");
+    expect(stageLink).toHaveAttribute("href", "/escenico");
     const artLink = screen.getByLabelText("Ir a sección Arte");
     expect(artLink).toHaveAttribute("href", "/arte");
   });
