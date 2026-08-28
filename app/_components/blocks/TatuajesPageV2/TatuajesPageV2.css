@@ -1,0 +1,433 @@
+.tatuajes-page-v2 {
+  --page-v2-header-height: 76px;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+}
+
+.tatuajes-page-v2__nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 20;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  transition: background-color 200ms ease-out, border-color 200ms ease-out, backdrop-filter 200ms ease-out;
+}
+
+.tatuajes-page-v2__nav.is-scrolled {
+  border-color: var(--tattoo-border);
+  background: rgb(10 10 10 / 94%);
+  backdrop-filter: blur(12px);
+}
+
+.tatuajes-page-v2__nav-inner {
+  display: flex;
+  min-height: var(--page-v2-header-height);
+  align-items: center;
+  justify-content: center;
+  padding: 0 32px;
+}
+
+.tatuajes-page-v2__links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+.tatuajes-page-v2__links a,
+.tatuajes-page-v2__menu-button,
+.tatuajes-page-v2__progress button {
+  transition: color 150ms ease-out, background-color 150ms ease-out, border-color 150ms ease-out, opacity 150ms ease-out, transform 150ms ease-out;
+}
+
+.tatuajes-page-v2__links a {
+  position: relative;
+  color: var(--tattoo-text);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 75%);
+  text-transform: uppercase;
+}
+
+.tatuajes-page-v2__links a::after {
+  position: absolute;
+  right: 0;
+  bottom: -8px;
+  left: 0;
+  height: 1px;
+  background: var(--tattoo-accent);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 150ms ease-out;
+}
+
+.tatuajes-page-v2__links a:hover,
+.tatuajes-page-v2__links a:focus-visible {
+  color: var(--tattoo-text);
+}
+
+.tatuajes-page-v2__links a:hover::after,
+.tatuajes-page-v2__links a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.tatuajes-page-v2__menu-button {
+  display: none;
+  border: 0;
+  background: transparent;
+  color: var(--tattoo-text);
+  cursor: pointer;
+  padding: 8px;
+}
+
+.tatuajes-page-v2__menu-button svg {
+  height: 22px;
+  width: 22px;
+}
+
+.tatuajes-page-v2__hero {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100svh;
+  min-height: 100svh;
+  align-items: flex-end;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.tatuajes-page-v2__hero-image {
+  position: absolute;
+  inset: 0;
+}
+
+.tatuajes-page-v2__hero-image {
+  z-index: -2;
+  background: var(--tattoo-surface);
+}
+
+.tatuajes-page-v2__hero-image::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgb(0 0 0 / 22%);
+  content: "";
+  pointer-events: none;
+}
+
+.tatuajes-page-v2__image {
+  animation: tatuajes-page-v2-image-in 900ms ease-out both;
+  object-fit: cover;
+}
+
+.tatuajes-page-v2__hero-cta {
+  position: absolute;
+  bottom: 40px;
+  left: 32px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgb(245 245 245 / 65%);
+  border-radius: 8px;
+  background: rgb(10 10 10 / 78%);
+  color: var(--tattoo-text);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  padding: 10px 14px;
+  text-transform: uppercase;
+  transition: background-color 150ms ease-out, border-color 150ms ease-out, transform 150ms ease-out;
+}
+
+.tatuajes-page-v2__hero-cta:hover,
+.tatuajes-page-v2__hero-cta:focus-visible {
+  border-color: var(--tattoo-accent);
+  background: var(--tattoo-accent);
+  color: var(--tattoo-text);
+  transform: scale(1.02);
+}
+
+.tatuajes-page-v2__progress {
+  position: absolute;
+  right: 32px;
+  bottom: 40px;
+  display: flex;
+  gap: 8px;
+}
+
+.tatuajes-page-v2__progress button {
+  width: 28px;
+  height: 2px;
+  border: 0;
+  background: rgb(245 245 245 / 42%);
+  cursor: pointer;
+  padding: 0;
+}
+
+.tatuajes-page-v2__progress button:hover,
+.tatuajes-page-v2__progress button.is-active {
+  background: var(--tattoo-accent);
+}
+
+.tatuajes-page-v2__section {
+  border-top: 1px solid var(--tattoo-border);
+  padding: 96px 32px;
+  scroll-margin-top: var(--page-v2-header-height);
+}
+
+.tatuajes-page-v2__container {
+  width: min(100%, 1280px);
+  margin: 0 auto;
+}
+
+.tatuajes-page-v2__section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.tatuajes-page-v2__eyebrow {
+  margin: 0 0 12px;
+  color: var(--tattoo-accent);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.tatuajes-page-v2 h2 {
+  max-width: 650px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.tatuajes-page-v2__section-heading p:not(.tatuajes-page-v2__eyebrow),
+.tatuajes-page-v2__quote-panel > div > p:last-child {
+  max-width: 540px;
+  margin: 16px 0 0;
+  color: var(--tattoo-text-muted);
+  line-height: 1.7;
+}
+
+.tatuajes-page-v2__text-link {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  color: var(--tattoo-text);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tatuajes-page-v2__text-link svg,
+.tatuajes-page-v2__design-copy svg,
+.tatuajes-page-v2__button svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 150ms ease-out;
+}
+
+.tatuajes-page-v2__text-link:hover,
+.tatuajes-page-v2__text-link:focus-visible { color: var(--tattoo-accent); }
+
+.tatuajes-page-v2__text-link:hover svg,
+.tatuajes-page-v2__text-link:focus-visible svg,
+.tatuajes-page-v2__design-card:hover .tatuajes-page-v2__design-copy svg { transform: translateX(4px); }
+
+.tatuajes-page-v2__portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.tatuajes-page-v2__image-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--tattoo-surface);
+}
+
+.tatuajes-page-v2__image-card img,
+.tatuajes-page-v2__design-image img { object-fit: cover; transition: transform 400ms ease-out; }
+
+.tatuajes-page-v2__image-card:hover img,
+.tatuajes-page-v2__image-card:focus-visible img,
+.tatuajes-page-v2__design-card:hover img { transform: scale(1.04); }
+
+.tatuajes-page-v2__designs { background: var(--tattoo-surface); }
+
+.tatuajes-page-v2__design-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.tatuajes-page-v2__design-card {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--tattoo-border);
+  background: var(--tattoo-bg);
+  transition: border-color 150ms ease-out, transform 150ms ease-out;
+}
+
+.tatuajes-page-v2__design-card:hover,
+.tatuajes-page-v2__design-card:focus-visible { border-color: var(--tattoo-accent); transform: translateY(-2px); }
+
+.tatuajes-page-v2__design-image { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+
+.tatuajes-page-v2__design-copy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px;
+}
+
+.tatuajes-page-v2__design-copy h3 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.25rem; }
+.tatuajes-page-v2__design-copy p { margin: 0; color: var(--tattoo-text-muted); font-size: 0.875rem; }
+.tatuajes-page-v2__design-copy svg { flex-shrink: 0; color: var(--tattoo-accent); }
+
+.tatuajes-page-v2__about-grid,
+.tatuajes-page-v2__care-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(40px, 10vw, 160px);
+}
+
+.tatuajes-page-v2__about { background: var(--tattoo-bg); }
+.tatuajes-page-v2__about-copy,
+.tatuajes-page-v2__care-copy { max-width: 580px; color: var(--tattoo-text-muted); line-height: 1.8; }
+.tatuajes-page-v2__about-copy p,
+.tatuajes-page-v2__care-copy p { margin: 0 0 20px; }
+.tatuajes-page-v2__meta { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 32px; color: var(--tattoo-text); font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.tatuajes-page-v2__quote { background: var(--tattoo-accent); color: white; }
+.tatuajes-page-v2__quote .tatuajes-page-v2__eyebrow { color: white; }
+.tatuajes-page-v2__quote-panel { display: flex; align-items: flex-end; justify-content: space-between; gap: 48px; }
+.tatuajes-page-v2__quote-panel > div > p:last-child { color: rgb(255 255 255 / 82%); }
+.tatuajes-page-v2__button { display: inline-flex; flex-shrink: 0; align-items: center; gap: 12px; border: 1px solid currentColor; padding: 13px 18px; color: inherit; font-family: var(--font-display); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; transition: background-color 150ms ease-out, color 150ms ease-out, transform 150ms ease-out; }
+.tatuajes-page-v2__button:hover,
+.tatuajes-page-v2__button:focus-visible { background: white; color: var(--tattoo-accent); transform: scale(1.02); }
+
+.tatuajes-page-v2__care { background: var(--tattoo-surface); }
+.tatuajes-page-v2__care-copy .tatuajes-page-v2__text-link { margin-top: 12px; }
+
+.tatuajes-page-v2__footer { border-top: 1px solid var(--tattoo-border); padding: 56px 32px; }
+.tatuajes-page-v2__footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; width: min(100%, 1280px); margin: 0 auto; }
+.tatuajes-page-v2__footer p { margin: 0; color: var(--tattoo-text-muted); font-size: 0.875rem; }
+.tatuajes-page-v2__footer-brand { margin-bottom: 8px !important; color: var(--tattoo-text) !important; font-family: var(--font-display); font-size: 1.25rem !important; font-weight: 700; letter-spacing: 0.04em; }
+
+.tatuajes-page-v2__instagram {
+  position: fixed;
+  right: clamp(16px, 3vw, 32px);
+  bottom: max(16px, calc(env(safe-area-inset-bottom) + 16px));
+  z-index: 30;
+  display: inline-flex;
+  width: 52px;
+  height: 52px;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--tattoo-accent);
+  border-radius: 50%;
+  background: var(--tattoo-surface);
+  color: var(--tattoo-text);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 50%);
+  transition: background-color 150ms ease-out, color 150ms ease-out, transform 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+.tatuajes-page-v2__instagram svg {
+  width: 25px;
+  height: 25px;
+}
+
+.tatuajes-page-v2__instagram:hover,
+.tatuajes-page-v2__instagram:focus-visible {
+  background: var(--tattoo-accent);
+  color: var(--tattoo-text);
+  box-shadow: 0 8px 20px rgb(0 0 0 / 60%);
+  transform: scale(1.04);
+}
+
+.tatuajes-page-v2__instagram:active { transform: scale(0.98); }
+
+.tatuajes-page-v2 a:focus-visible,
+.tatuajes-page-v2 button:focus-visible {
+  outline: 2px solid var(--tattoo-accent);
+  outline-offset: 4px;
+}
+
+@keyframes tatuajes-page-v2-image-in {
+  from { opacity: 0; transform: scale(1.04); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 767px) {
+  .tatuajes-page-v2__nav-inner {
+    justify-content: flex-end;
+    padding: 0 16px;
+  }
+
+  .tatuajes-page-v2__menu-button { display: inline-flex; }
+
+  .tatuajes-page-v2__links {
+    position: absolute;
+    top: var(--page-v2-header-height);
+    right: 0;
+    left: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    border-top: 1px solid var(--tattoo-border);
+    background: rgb(10 10 10 / 98%);
+    padding: 8px 16px 16px;
+  }
+
+  .tatuajes-page-v2__links.is-open { display: flex; }
+
+  .tatuajes-page-v2__links a { padding: 14px 8px; }
+  .tatuajes-page-v2__links a::after { bottom: 6px; }
+  .tatuajes-page-v2__hero { height: 100svh; min-height: 100svh; }
+  .tatuajes-page-v2__hero-cta { bottom: 76px; left: 20px; }
+  .tatuajes-page-v2__progress { right: 20px; bottom: 40px; left: 20px; }
+  .tatuajes-page-v2__progress button { flex: 1; }
+
+  .tatuajes-page-v2__section { padding: 64px 20px; }
+  .tatuajes-page-v2__section-heading,
+  .tatuajes-page-v2__quote-panel,
+  .tatuajes-page-v2__footer-inner { align-items: flex-start; flex-direction: column; }
+  .tatuajes-page-v2__section-heading { gap: 24px; margin-bottom: 28px; }
+  .tatuajes-page-v2__portfolio-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .tatuajes-page-v2__design-grid { grid-template-columns: 1fr; gap: 16px; }
+  .tatuajes-page-v2__about-grid,
+  .tatuajes-page-v2__care-grid { grid-template-columns: 1fr; gap: 32px; }
+  .tatuajes-page-v2__quote-panel { gap: 32px; }
+  .tatuajes-page-v2__footer { padding: 40px 20px; }
+  .tatuajes-page-v2__footer .tatuajes-page-v2__button { width: 100%; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tatuajes-page-v2 *,
+  .tatuajes-page-v2 *::before,
+  .tatuajes-page-v2 *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

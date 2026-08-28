@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X, Instagram, ArrowRight, Layout } from "lucide-react";
 import { PageTransition } from "@/app/_components/shared/PageTransition";
@@ -19,6 +20,11 @@ export default function TattooLayout({
   children: React.ReactNode;
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+
+  if (pathname === "/tatuajes") {
+    return children;
+  }
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#f5f5f5]">
