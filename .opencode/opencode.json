@@ -1,14 +1,16 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": [
-    ".opencode/plugins/graphify.js"
-  ],
-  "permission": {
-    "read": {
-      "/run/media/stefan/Nuevo vol/Proyectos/AI code setup/.opencode/get-shit-done/*": "allow"
-    },
-    "external_directory": {
-      "/run/media/stefan/Nuevo vol/Proyectos/AI code setup/.opencode/get-shit-done/*": "allow"
+  "mcp": {
+    "graphify": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "graphify",
+        "mcp",
+        "--project-dir",
+        "/run/media/stefan/Nuevo vol/Proyectos/pajaroMacaWeb/pajaro-maca-web"
+      ],
+      "_description": "Graphify — knowledge graph queries via MCP"
     }
   }
 }
