@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ImageLightbox } from "@/app/_components/shared/ImageLightbox";
 import { Reveal } from "@/app/_components/shared/Reveal";
-import { portfolioImages } from "@/app/_lib/tattoo/designs";
+import { getPortfolioImages } from "@/app/_lib/tattoo/instagram";
 
 export const metadata: Metadata = {
   title: "Portafolio de Tatuajes",
@@ -15,7 +15,9 @@ export const metadata: Metadata = {
 
 const styles = ["Todos", "Blackwork", "Tradicional", "Neo-tradicional", "Realismo", "Dotwork"];
 
-export default function PortafolioPage() {
+export default async function PortafolioPage() {
+  const images = await getPortfolioImages();
+
   return (
     <div className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -47,7 +49,7 @@ export default function PortafolioPage() {
 
         <Reveal delay={0.2}>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            <ImageLightbox images={portfolioImages} />
+            <ImageLightbox images={images} />
           </div>
         </Reveal>
         <p className="mt-10 text-center text-[#a3a3a3]">

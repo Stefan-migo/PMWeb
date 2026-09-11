@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ArrowRight, Instagram, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Reveal } from "@/app/_components/shared/Reveal";
-import { availableDesigns, portfolioImages } from "@/app/_lib/tattoo/designs";
+import { availableDesigns, portfolioImages as localPortfolioImages, type TattooImage } from "@/app/_lib/tattoo/designs";
 import "./TatuajesPageV2.css";
 
 const tattooNavLinks = [
@@ -18,9 +18,8 @@ const tattooNavLinks = [
 
 const heroCtas = tattooNavLinks.filter((link) => link.href.startsWith("#"));
 
-const heroImages = portfolioImages;
-
-export function TatuajesPageV2() {
+export function TatuajesPageV2({ portfolioImages = localPortfolioImages }: { portfolioImages?: TattooImage[] } = {}) {
+  const heroImages = portfolioImages;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
@@ -50,7 +49,7 @@ export function TatuajesPageV2() {
     }, 5500);
 
     return () => window.clearInterval(timer);
-  }, [reducedMotion]);
+  }, [heroImages.length, reducedMotion]);
 
   return (
     <div className="tatuajes-page-v2 min-h-screen bg-[var(--tattoo-bg)] text-[var(--tattoo-text)]">

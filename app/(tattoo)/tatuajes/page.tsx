@@ -1,5 +1,8 @@
 import { TatuajesPageV2 } from "@/app/_components/blocks/TatuajesPageV2/TatuajesPageV2";
+import { getPortfolioImages } from "@/app/_lib/tattoo/instagram";
 
-export default function TatuajesPage() {
-  return <TatuajesPageV2 />;
+export default async function TatuajesPage() {
+  const portfolioImages = await getPortfolioImages();
+
+  return <TatuajesPageV2 portfolioImages={portfolioImages} />;
 }
