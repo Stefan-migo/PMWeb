@@ -1,0 +1,72 @@
+# openspec/config.yaml — PajaroMacaWeb SDD Configuration
+schema: spec-driven
+
+context: |
+  Tech stack: Next.js 16 (App Router) + React 19 + TypeScript 5 (strict) + Tailwind CSS 4 + Supabase (local Docker) + Cloudflare R2 + Vercel
+  Architecture: Dual-identity portfolio with (art)/ and (tattoo)/ route groups, separate layouts per section, split landing page, Server Actions, ISR galleries, RLS public reads
+  Testing: Vitest 4 + React Testing Library (unit), Playwright (E2E Chrome-only), GitHub Actions CI (quality + e2e sequenced)
+  Style: Spanish-first content, CSS variable fonts (Inter, Space Grotesk, Cormorant Garamond), Tailwind custom theme, Framer Motion animations, WCAG AA, Lucide icons
+  Patterns: "use client" boundary components, functional named exports, Zod schemas for validation, atomic imports via @/ alias, flat ESLint 9 config
+
+rules:
+  proposal:
+    - Include effort estimate (story points or t-shirt sizing)
+    - State risk level for each proposed change
+    - Reference relevant DESIGN.md sections for visual consistency
+  specs:
+    - Use Given/When/Then for scenarios
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
+    - Include both Spanish (UI visible) and English (technical) terminology
+  design:
+    - Include architecture decision rationale
+    - Reference route group structure ((art)/ vs (tattoo)/) when UI changes
+    - Document theme implications (dark vs light)
+    - Include sequence diagrams for data flows (forms, auth, payments)
+  tasks:
+    - Group by phase with hierarchical numbering
+    - Keep tasks completable in one session
+    - Always include test tasks alongside implementation
+    - Separate by route group when section-specific
+  apply:
+    - Follow existing code patterns: named exports, CSS variable fonts, Tailwind tokens
+    - Maintain WCAG AA compliance (ARIA labels, focus-visible, keyboard nav)
+    - Preserve security patterns (honeypot, RLS, CSP headers)
+    tdd: true
+    test_command: "npm run test"
+  verify:
+    test_command: "npm run test:all"
+    build_command: "npm run build"
+    coverage_threshold: 0
+  archive:
+    - Warn before merging destructive deltas
+    - Archive completed change folders with ISO date prefix
+
+testing:
+  strict_tdd: true
+  detected: 2026-06-30
+  runner:
+    command: npm run test
+    framework: vitest
+  layers:
+    unit:
+      available: true
+      tool: vitest + React Testing Library + jsdom
+    integration:
+      available: false
+      tool: —
+    e2e:
+      available: true
+      tool: Playwright (Desktop Chrome only)
+  coverage:
+    available: false
+    command: —
+  quality:
+    linter:
+      available: true
+      command: npm run lint
+    type_checker:
+      available: true
+      command: npm run typecheck
+    formatter:
+      available: false
+      command: —
