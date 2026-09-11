@@ -3,10 +3,10 @@
 Ponytail: retain domain queries/actions; no CMS abstraction, media library, roles, or upload proxy. Merge validation with tests; use Supabase/R2. Graph: `admin.ts`→`getSupabaseAdmin()`, `artworks.ts`→`[slug]/page.tsx`, `(tattoo)/layout.tsx`→`PageTransition`, and CI quality/E2E nodes.
 
 ## Phase 1: Schema, Export, Auth (Slice 1)
-- [ ] 1.1 RED: Vitest tests for reset/seed contracts, category-first tattoo seed, draft anon denial/admin read, and unauthorized rejection in `__tests__/cms-schema-auth.test.ts` (graph: `admin.ts`).
-- [ ] 1.2 GREEN: Export/map live data; create `supabase/migrations/*_cms_admin.sql` and modify `supabase/seed.sql` for columns, scenic table, constraints, backfill, indexes, and published policies; verify reset.
-- [ ] 1.3 GREEN: Create/modify `app/_lib/supabase/{server,auth,admin}.ts` and `middleware.ts` for cookie refresh, `getUser()` allowlist, and server-only service role.
-- [ ] 1.4 RED→GREEN: Add `e2e/cms-admin-auth.spec.ts` for allowlisted login and denial, then protect `/admin` with Spanish login/logout UI.
+- [x] 1.1 RED: Vitest tests for reset/seed contracts, category-first tattoo seed, draft anon denial/admin read, and unauthorized rejection in `__tests__/cms-schema-auth.test.ts` (graph: `admin.ts`).
+- [x] 1.2 GREEN: Export/map live data; create `supabase/migrations/*_cms_admin.sql` and modify `supabase/seed.sql` for columns, scenic table, constraints, backfill, indexes, and published policies; verify reset.
+- [x] 1.3 GREEN: Create/modify `app/_lib/supabase/{server,auth,admin}.ts` and `middleware.ts` for cookie refresh, `getUser()` allowlist, and server-only service role.
+- [x] 1.4 RED→GREEN: Add `e2e/cms-admin-auth.spec.ts` for allowlisted login and denial, then protect `/admin` with Spanish login/logout UI.
 
 ## Phase 2: Admin Shell, Art (Slice 2)
 - [ ] 2.1 RED: Vitest tests for Zod mutation rejection, published/order filtering, server boundary, and media refs in `__tests__/cms-art-admin.test.ts` (graph: `artworks.ts`→`[slug]/page.tsx`).
