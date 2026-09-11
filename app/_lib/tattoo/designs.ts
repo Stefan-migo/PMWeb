@@ -8,6 +8,8 @@ export type AvailableDesign = TattooImage & {
   name: string;
   status: "Disponible" | "Reservado";
   detail: string;
+  style?: string;
+  size?: string;
 };
 
 // This local collection intentionally matches the shape a future feed adapter can return.
@@ -29,6 +31,8 @@ export const availableDesigns: AvailableDesign[] = [
     name: "Botánico",
     status: "Disponible",
     detail: "Pieza adaptable a tu tamaño y ubicación.",
+    style: "Línea fina",
+    size: "Mediana",
   },
   {
     id: "fauna-marina",
@@ -36,6 +40,8 @@ export const availableDesigns: AvailableDesign[] = [
     name: "Fauna marina",
     status: "Disponible",
     detail: "Diseño único para reservar.",
+    style: "Botánico",
+    size: "Mediana",
   },
   {
     id: "figurativo",
@@ -43,5 +49,7 @@ export const availableDesigns: AvailableDesign[] = [
     name: "Figurativo",
     status: "Reservado",
     detail: "Consulta por una variación personalizada.",
+    style: "Figurativo",
+    size: "Grande",
   },
 ];
