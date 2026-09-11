@@ -9,6 +9,7 @@ import { PageTransition } from "@/app/_components/shared/PageTransition";
 const tattooNavLinks = [
   { href: "/tatuajes", label: "Inicio" },
   { href: "/tatuajes/portafolio", label: "Portafolio" },
+  { href: "/tatuajes/disenos-disponibles", label: "Diseños disponibles" },
   { href: "/tatuajes/cotizar", label: "Cotizar" },
   { href: "/tatuajes/sobre-mi", label: "Sobre Mí" },
   { href: "/tatuajes/cuidados", label: "Cuidados" },
@@ -44,10 +45,11 @@ export default function TattooLayout({
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm text-[#a3a3a3] hover:text-[#f5f5f5] transition-colors relative group"
+                  className={`text-sm transition-colors relative group ${pathname === link.href ? "text-[#ef4444]" : "text-[#a3a3a3] hover:text-[#f5f5f5]"}`}
+                  aria-current={pathname === link.href ? "page" : undefined}
                 >
                   {link.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#ef4444] group-hover:w-full transition-all" />
+                  <span className={`absolute -bottom-1 left-0 h-px bg-[#ef4444] transition-all ${pathname === link.href ? "w-full" : "w-0 group-hover:w-full"}`} />
                 </Link>
               ))}
             </div>
@@ -71,7 +73,7 @@ export default function TattooLayout({
               </Link>
 
               <a
-                href="https://instagram.com"
+                href="https://instagram.com/pajaro_maca"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#a3a3a3] hover:text-[#f5f5f5] transition-colors"
@@ -100,7 +102,8 @@ export default function TattooLayout({
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block px-4 py-3 rounded-lg text-[#a3a3a3] hover:text-[#f5f5f5] hover:bg-[#141414] transition-colors"
+                  className={`block px-4 py-3 rounded-lg transition-colors ${pathname === link.href ? "text-[#ef4444] bg-[#141414]" : "text-[#a3a3a3] hover:text-[#f5f5f5] hover:bg-[#141414]"}`}
+                  aria-current={pathname === link.href ? "page" : undefined}
                 >
                   {link.label}
                 </Link>
@@ -139,7 +142,7 @@ export default function TattooLayout({
                 TATUAJES
               </p>
               <p className="text-[#a3a3a3] text-sm">
-                Diseño personalizado en Santiago, Chile
+                 Diseño personalizado en Villarrica, Chile
               </p>
             </div>
 
@@ -149,6 +152,9 @@ export default function TattooLayout({
               </Link>
               <Link href="/tatuajes/portafolio" className="hover:text-[#f5f5f5] transition-colors">
                 Portafolio
+              </Link>
+              <Link href="/tatuajes/disenos-disponibles" className="hover:text-[#f5f5f5] transition-colors">
+                Diseños disponibles
               </Link>
               <Link href="/tatuajes/cotizar" className="hover:text-[#f5f5f5] transition-colors">
                 Cotizar

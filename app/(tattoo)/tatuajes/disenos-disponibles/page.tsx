@@ -1,0 +1,9 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
+import { Reveal } from "@/app/_components/shared/Reveal";
+import { availableDesigns } from "@/app/_lib/tattoo/designs";
+
+export const metadata: Metadata = { title: "Diseños disponibles", description: "Explora diseños disponibles para reservar con PajaroMaca." };
+
+export default function DisenosDisponiblesPage() { return <div className="py-24 px-4 sm:px-6 lg:px-8"><div className="max-w-7xl mx-auto"><Reveal><p className="text-[#ef4444] text-xs font-medium tracking-[.16em] uppercase mb-3">Piezas para elegir</p><h1 className="font-[family-name:var(--font-space-grotesk)] text-4xl lg:text-6xl font-bold mb-6">Diseños disponibles</h1><p className="text-[#a3a3a3] text-lg max-w-2xl">Elige una pieza lista para reservar o conversemos sobre una adaptación.</p></Reveal><div className="grid gap-6 md:grid-cols-3 mt-12">{availableDesigns.map((design, i) => <Reveal key={design.id} delay={i * .08}><article className="overflow-hidden border border-[#2a2a2a] bg-[#141414] rounded-xl"><div className="relative aspect-[4/3]"><Image src={design.src} alt={design.alt} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" /></div><div className="p-6"><div className="flex justify-between gap-4"><h2 className="font-[family-name:var(--font-space-grotesk)] text-xl font-bold">{design.name}</h2><span className={`text-xs ${design.status === "Disponible" ? "text-[#ef4444]" : "text-[#a3a3a3]"}`}>{design.status}</span></div><p className="text-[#a3a3a3] text-sm mt-3">{design.detail}</p><a className="inline-flex items-center gap-2 text-sm mt-6 hover:text-[#ef4444]" href="/tatuajes/cotizar">Consultar este diseño <ArrowRight className="w-4 h-4" aria-hidden="true" /></a></div></article></Reveal>)}</div></div></div>; }

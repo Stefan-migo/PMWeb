@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { MapPin, Clock, Instagram } from "lucide-react";
 import { Reveal } from "@/app/_components/shared/Reveal";
 
 export const metadata: Metadata = {
   title: "Sobre Mí — Tatuajes",
   description:
-    "Conoce más sobre mi trabajo como tatuadora en Santiago, Chile. Mi historia, estilo y experiencia en blackwork, dotwork y más.",
+    "Conoce más sobre mi trabajo como tatuadora en Villarrica, Chile. Mi historia, estilo y experiencia en blackwork, dotwork y más.",
   openGraph: {
     title: "Sobre Mí — Tatuajes | PajaroMaca",
-    description: "Tatuadora profesional en Santiago. Blackwork, dotwork, geométrico.",
+    description: "Tatuadora profesional en Villarrica. Blackwork, dotwork, geométrico.",
   },
 };
 
 export default function SobreMiPage() {
   return (
-    <div className="py-16 px-4 sm:px-6 lg:px-8">
+    <div className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <Reveal>
           <div className="mb-12">
@@ -26,8 +27,8 @@ export default function SobreMiPage() {
 
         <Reveal delay={0.1}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div className="aspect-square bg-[#141414] rounded-xl flex items-center justify-center text-[#2a2a2a]" aria-label="Foto de perfil">
-              <span>Tu foto aqu&iacute;</span>
+             <div className="relative aspect-square bg-[#141414] rounded-xl overflow-hidden" aria-label="Trabajo de tatuaje">
+               <Image src="/design/landing/tattoo.jpg" alt="Trabajo de tatuaje" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             </div>
             <div>
               <h2 className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold mb-4">
@@ -51,7 +52,7 @@ export default function SobreMiPage() {
             <div className="bg-[#141414] border border-[#2a2a2a] rounded-xl p-6">
               <MapPin className="w-6 h-6 text-[#ef4444] mb-3" aria-hidden="true" />
               <h3 className="font-bold mb-1">Ubicaci&oacute;n</h3>
-              <p className="text-[#a3a3a3] text-sm">Santiago, Chile</p>
+               <p className="text-[#a3a3a3] text-sm">Villarrica, Chile</p>
             </div>
             <div className="bg-[#141414] border border-[#2a2a2a] rounded-xl p-6">
               <Clock className="w-6 h-6 text-[#ef4444] mb-3" aria-hidden="true" />
@@ -82,14 +83,14 @@ export default function SobreMiPage() {
         <Reveal delay={0.4}>
           <div className="text-center">
             <a
-              href="https://instagram.com"
+               href="https://instagram.com/pajaro_maca"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-[#a3a3a3] hover:text-[#f5f5f5] transition-colors focus-visible:outline-2 focus-visible:outline-[#ef4444] focus-visible:outline-offset-2"
-              aria-label="Instagram @pajaroMacaTattoo"
+               aria-label="Instagram @pajaro_maca"
             >
               <Instagram className="w-5 h-5" aria-hidden="true" />
-              <span>@pajaroMacaTattoo</span>
+               <span>@pajaro_maca</span>
             </a>
           </div>
         </Reveal>

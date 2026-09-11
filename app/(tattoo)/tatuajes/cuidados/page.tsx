@@ -1,103 +1,13 @@
 import type { Metadata } from "next";
+import { MessageCircle } from "lucide-react";
 import { Reveal } from "@/app/_components/shared/Reveal";
 
-export const metadata: Metadata = {
-  title: "Cuidados del Tatuaje",
-  description:
-    "Guía completa de cuidados para tu nuevo tatuaje. Instrucciones paso a paso para una correcta cicatrización.",
-  openGraph: {
-    title: "Cuidados del Tatuaje | PajaroMaca",
-    description: "Guía completa para la cicatrización de tu tatuaje.",
-  },
-};
-
-const aftercareSections = [
-  {
-    title: "Primeras 24 horas",
-    content: `Mantén el vendaje puesto durante las primeras 2-4 horas después de hacerte el tatuaje. Después, lava suavemente con agua tibia y jabón antibacterial sin perfume. Seca dando palmaditas con una toalla limpia.
-
-Aplica una capa fina de crema hidratante o producto específico para tatuajes 2-3 veces al día.`,
-  },
-  {
-    title: "Días 2-14",
-    content: `Lava el tatuaje 2 veces al día con jabón antibacterial. No frotes fuerte, solo da suaves palmaditas.
-
-Aplica crema hidratante después de cada lavado. El tatuaje puede empezar a pelarse como una quemadura solar — ¡no lo arranques!
-
-Evita:
-- Piscinas y jacuzzis
-- Exposición directa al sol
-- Ropa muy ajustada sobre el tatuaje
-- Baños largos en tina`,
-  },
-  {
-    title: "Cuidado a Largo Plazo",
-    content: `Una vez cicatrizado (2-4 semanas), aplica bloqueador solar cuando expongas el tatuaje al sol para mantener los colores vibrantes.
-
-Mantén la piel hidratada para preservar la calidad del tatuaje a largo plazo.`,
-  },
-  {
-    title: "Señales de Infección",
-    content: `Consulta a un médico si experimentas:
-- Fiebre o escalofríos
-- Enrojecimiento excesivo que se expande
-- Hinchazón severa o pus
-- Dolor que empeora en lugar de mejorar después de unos días
-- Líneas rojas que salen del tatuaje
-
-Tu salud es lo primero — ante cualquier duda, consulta a un profesional.`,
-  },
+export const metadata: Metadata = { title: "Cuidados del tatuaje", description: "Guía paso a paso para cuidar tu tatuaje durante la cicatrización." };
+const steps = [
+  ["Primeras 24 horas", "Deja el vendaje el tiempo indicado en sesión. Luego lávate las manos y limpia suavemente con agua tibia y jabón sin perfume."],
+  ["Seca e hidrata", "Seca con toques, usando una toalla limpia. Aplica una capa muy fina de crema recomendada; no lo mantengas empapado."],
+  ["Durante la cicatrización", "Lava e hidrata suavemente. Es normal que pique o se descame: no rasques ni arranques las costras."],
+  ["Evita por 2 a 4 semanas", "Sol directo, piscinas, jacuzzis, baños largos, fricción y ropa ajustada sobre el tatuaje. Cuando sane, usa bloqueador solar."],
 ];
 
-export default function CuidadosPage() {
-  return (
-    <div className="py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        <Reveal>
-          <div className="mb-12">
-            <h1 className="font-[family-name:var(--font-space-grotesk)] text-3xl lg:text-4xl font-bold mb-4">
-              Cuidados del Tatuaje
-            </h1>
-            <p className="text-[#a3a3a3]">
-              Sigue estas instrucciones para asegurar una correcta cicatrización de tu nuevo tatuaje.
-            </p>
-          </div>
-        </Reveal>
-
-        <div className="space-y-8">
-          {aftercareSections.map((section, index) => (
-            <Reveal key={index} delay={index * 0.1}>
-              <div className="bg-[#141414] border border-[#2a2a2a] rounded-xl p-6">
-                <h2 className="font-[family-name:var(--font-space-grotesk)] text-xl font-bold mb-4 flex items-center gap-3">
-                  <span className="w-8 h-8 bg-[#ef4444]/20 rounded-lg flex items-center justify-center text-[#ef4444] text-sm">
-                    {index + 1}
-                  </span>
-                  {section.title}
-                </h2>
-                <div className="text-[#a3a3a3] whitespace-pre-line leading-relaxed">
-                  {section.content}
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-
-        <Reveal delay={0.4}>
-          <div className="mt-12 p-6 bg-[#141414] border border-[#2a2a2a] rounded-xl">
-            <p className="text-center text-[#a3a3a3]">
-              &iquest;Tienes dudas sobre el cuidado de tu tatuaje?{" "}
-              <a
-                href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola! Tengo una pregunta sobre cuidados de mi tatuaje.")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#25D366] hover:underline focus-visible:outline-2 focus-visible:outline-[#25D366] focus-visible:outline-offset-2"
-              >
-                Escr&iacute;beme por WhatsApp
-              </a>
-            </p>
-          </div>
-        </Reveal>
-      </div>
-    </div>
-  );
-}
+export default function CuidadosPage() { const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "56912345678"; return <div className="py-24 px-4 sm:px-6 lg:px-8"><div className="max-w-3xl mx-auto"><Reveal><p className="text-[#ef4444] text-xs font-medium tracking-[.16em] uppercase mb-3">Después de la sesión</p><h1 className="font-[family-name:var(--font-space-grotesk)] text-4xl lg:text-6xl font-bold mb-6">Cuida tu tatuaje</h1><p className="text-[#a3a3a3] text-lg">Una guía breve para acompañar una buena cicatrización.</p></Reveal><div className="mt-12 space-y-4">{steps.map(([title, text], i) => <Reveal key={title} delay={i * .08}><section className="bg-[#141414] border border-[#2a2a2a] rounded-xl p-6 sm:p-8"><div className="flex gap-5"><span className="text-[#ef4444] font-[family-name:var(--font-space-grotesk)] text-2xl font-bold">0{i + 1}</span><div><h2 className="font-[family-name:var(--font-space-grotesk)] text-xl font-bold">{title}</h2><p className="text-[#a3a3a3] mt-3 leading-relaxed">{text}</p></div></div></section></Reveal>)}</div><Reveal delay={.4}><div className="mt-10 border border-[#ef4444]/50 bg-[#ef4444]/10 rounded-xl p-6"><h2 className="font-bold">¿Algo no se ve bien?</h2><p className="text-[#a3a3a3] mt-2">Ante fiebre, pus, dolor creciente o enrojecimiento que se expande, consulta a un profesional de salud. También puedes escribirme si tienes dudas sobre la sesión.</p><a className="inline-flex items-center gap-2 text-[#f5f5f5] mt-5 hover:text-[#ef4444]" href={`https://wa.me/${number}?text=${encodeURIComponent("Hola, tengo una pregunta sobre la cicatrización de mi tatuaje.")}`} target="_blank" rel="noopener noreferrer"><MessageCircle className="w-4 h-4" aria-hidden="true" /> Consultar por WhatsApp</a></div></Reveal></div></div>; }

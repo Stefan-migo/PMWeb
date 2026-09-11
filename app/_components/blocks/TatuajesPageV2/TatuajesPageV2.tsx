@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ArrowRight, Instagram, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Reveal } from "@/app/_components/shared/Reveal";
+import { availableDesigns, portfolioImages } from "@/app/_lib/tattoo/designs";
 import "./TatuajesPageV2.css";
 
 const tattooNavLinks = [
@@ -17,24 +18,7 @@ const tattooNavLinks = [
 
 const heroCtas = tattooNavLinks.filter((link) => link.href.startsWith("#"));
 
-const heroImages = [
-  { src: "/design/tattoo/Layer 1.png", alt: "Tatuaje de un corazón rodeado de flores" },
-  { src: "/design/tattoo/Layer 2.png", alt: "Tatuaje botánico sobre el hombro" },
-  { src: "/design/tattoo/Layer 3.png", alt: "Tatuaje de una sirena con cola de pez" },
-  { src: "/design/tattoo/Layer 4.png", alt: "Tatuaje de un ave en vuelo" },
-  { src: "/design/tattoo/Layer 5.png", alt: "Tatuaje botánico de línea fina" },
-  { src: "/design/tattoo/Layer 6.png", alt: "Tatuaje floral en ambas piernas" },
-  { src: "/design/tattoo/Layer 7.png", alt: "Tatuaje de una ballena entre olas" },
-  { src: "/design/tattoo/Layer 8.png", alt: "Tatuaje de una figura con felino" },
-];
-
-const portfolioImages = heroImages.slice(0, 4);
-
-const availableDesigns = [
-  { image: heroImages[4], label: "Botánico", detail: "Disponible para reservar" },
-  { image: heroImages[6], label: "Fauna marina", detail: "Pieza única" },
-  { image: heroImages[7], label: "Figurativo", detail: "Disponible para reservar" },
-];
+const heroImages = portfolioImages;
 
 export function TatuajesPageV2() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -167,21 +151,21 @@ export function TatuajesPageV2() {
                   <h2>Diseños disponibles</h2>
                   <p>Explora ideas listas para llevar a tu piel o adaptar contigo.</p>
                 </div>
-                <a className="tatuajes-page-v2__text-link" href="#disenos-disponibles">
+                 <a className="tatuajes-page-v2__text-link" href="/tatuajes/disenos-disponibles">
                   Ver todos los diseños <ArrowRight aria-hidden="true" />
                 </a>
               </div>
             </Reveal>
             <div className="tatuajes-page-v2__design-grid">
               {availableDesigns.map((design, index) => (
-                <Reveal key={design.label} delay={index * 0.09} direction="up">
-                  <a className="tatuajes-page-v2__design-card" href="#disenos-disponibles">
+                <Reveal key={design.id} delay={index * 0.09} direction="up">
+                  <a className="tatuajes-page-v2__design-card" href="/tatuajes/disenos-disponibles">
                     <div className="tatuajes-page-v2__design-image">
-                      <Image src={design.image.src} alt={design.image.alt} fill sizes="(max-width: 767px) 100vw, 33vw" />
+                      <Image src={design.src} alt={design.alt} fill sizes="(max-width: 767px) 100vw, 33vw" />
                     </div>
                     <div className="tatuajes-page-v2__design-copy">
                       <div>
-                        <h3>{design.label}</h3>
+                        <h3>{design.name}</h3>
                         <p>{design.detail}</p>
                       </div>
                       <ArrowRight aria-hidden="true" />
@@ -266,7 +250,7 @@ export function TatuajesPageV2() {
 
       <a
         className="tatuajes-page-v2__instagram"
-        href="https://instagram.com"
+         href="https://instagram.com/pajaro_maca"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Visítame en Instagram"
