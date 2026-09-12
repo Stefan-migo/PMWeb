@@ -15,9 +15,9 @@ Ponytail: retain domain queries/actions; no CMS abstraction, media library, role
 - [x] 2.4 RED→GREEN: Add `e2e/cms-admin-art.spec.ts` for CRUD and hidden gallery/detail records; wire art actions.
 
 ## Phase 3: Tattoo (Slice 3)
-- [ ] 3.1 RED: Vitest tests for DB-first order, outage/empty fallback, and Instagram omission in `__tests__/cms-tattoo.test.ts` (graph: `(tattoo)/layout.tsx`).
-- [ ] 3.2 GREEN: Create/modify `app/_lib/queries/tattoos.ts` and tattoo admin forms/actions; fallback to local `designs.ts`, keep Instagram optional.
-- [ ] 3.3 RED→GREEN: Add `e2e/cms-admin-tattoo.spec.ts` for portfolio/designs DB rendering and fallback-safe public pages.
+- [x] 3.1 RED: Vitest tests for DB-first order, outage/empty fallback, and Instagram omission in `__tests__/cms-tattoo.test.ts` (graph: `(tattoo)/layout.tsx`).
+- [x] 3.2 GREEN: Create/modify `app/_lib/queries/tattoos.ts` and tattoo admin forms/actions; fallback to local `designs.ts`, keep Instagram optional.
+- [x] 3.3 RED→GREEN: Add `e2e/cms-admin-tattoo.spec.ts` for portfolio/designs DB rendering and fallback-safe public pages.
 
 ## Phase 4: Scenic (Slice 4)
 - [ ] 4.1 RED: Vitest tests for media-kind validation, hidden exclusion, order, and optional fields in `__tests__/cms-scenic.test.ts`.

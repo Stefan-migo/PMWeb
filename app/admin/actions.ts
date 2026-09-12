@@ -5,6 +5,7 @@ import { isAdminEmail, requireAdmin } from "@/app/_lib/supabase/auth";
 import { getSupabaseAdmin } from "@/app/_lib/supabase/admin";
 import { getSupabaseServer } from "@/app/_lib/supabase/server";
 import { artworkFormData } from "@/app/admin/artwork-form";
+import { tattooFormData } from "@/app/admin/tattoo-form";
 import { revalidatePath } from "next/cache";
 
 export async function login(formData: FormData) {
@@ -47,5 +48,34 @@ export async function deleteArtwork(formData: FormData) {
   if (error) throw new Error("No se pudo eliminar la obra");
   revalidatePath("/admin");
   revalidatePath("/arte/galeria");
+  redirect("/admin");
+}
+
+export async function saveTattoo(formData: FormData) {
+  await requireAdmin();
+  const input = tattooFormData(formData);
+  const id = String(formData.get("id") ?? "");
+  const supabase = getSupabaseAdmin();
+  const result = id
+    ? await supabase.from("tattoos").update(input).eq("id", id)
+    : await supabase.from("tattoos").insert(input);
+  if (result.error) throw new Error("No se pudo guardar el tatuaje");
+  revalidatePath("/admin");
+  revalidatePath("/tatuajes");
+  revalidatePath("/tatuajes/portafolio");
+  revalidatePath("/tatuajes/disenos-disponibles");
+  redirect("/admin");
+}
+
+export async function deleteTattoo(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  if (!id) throw new Error("Tatuaje inválido");
+  const { error } = await getSupabaseAdmin().from("tattoos").delete().eq("id", id);
+  if (error) throw new Error("No se pudo eliminar el tatuaje");
+  revalidatePath("/admin");
+  revalidatePath("/tatuajes");
+  revalidatePath("/tatuajes/portafolio");
+  revalidatePath("/tatuajes/disenos-disponibles");
   redirect("/admin");
 }
