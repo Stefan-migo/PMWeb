@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ImageLightbox } from "@/app/_components/shared/ImageLightbox";
 import { Reveal } from "@/app/_components/shared/Reveal";
-import { getPortfolioImages } from "@/app/_lib/tattoo/instagram";
+import { getPortfolioImages } from "@/app/_lib/queries/tattoos";
 
 export const metadata: Metadata = {
   title: "Portafolio de Tatuajes",
