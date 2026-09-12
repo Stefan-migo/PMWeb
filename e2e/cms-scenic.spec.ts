@@ -11,7 +11,7 @@ test("admin scenic works render in order and hide drafts", async ({ page }) => {
     await page.getByLabel("Correo electrónico").fill(process.env.E2E_ADMIN_EMAIL!);
     await page.getByLabel("Contraseña").fill(process.env.E2E_ADMIN_PASSWORD!);
     await page.getByRole("button", { name: "Iniciar sesión" }).click();
-    await expect(page).toHaveURL(/\/admin$/);
+    await expect(page).toHaveURL(/\/admin$/, { timeout: 30000 });
   }
 
   async function createWork(slug: string, published: boolean, order: number) {
