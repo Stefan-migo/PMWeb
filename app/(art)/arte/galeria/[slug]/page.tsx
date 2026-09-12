@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Palette } from "lucide-react";
-import { getArtworkBySlug, getArtworks } from "@/app/_lib/queries/artworks";
+import { getArtworkBySlug, getArtworkSlugs, getArtworks } from "@/app/_lib/queries/artworks";
 import { ImageLightbox } from "@/app/_components/shared/ImageLightbox";
 import { Reveal } from "@/app/_components/shared/Reveal";
 
 export async function generateStaticParams() {
-  const artworks = await getArtworks();
-  return artworks.map((a) => ({ slug: a.slug }));
+  return getArtworkSlugs();
 }
 
 export async function generateMetadata({
