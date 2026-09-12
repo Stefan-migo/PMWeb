@@ -20,9 +20,9 @@ Ponytail: retain domain queries/actions; no CMS abstraction, media library, role
 - [x] 3.3 RED→GREEN: Add `e2e/cms-admin-tattoo.spec.ts` for portfolio/designs DB rendering and fallback-safe public pages.
 
 ## Phase 4: Scenic (Slice 4)
-- [ ] 4.1 RED: Vitest tests for media-kind validation, hidden exclusion, order, and optional fields in `__tests__/cms-scenic.test.ts`.
-- [ ] 4.2 GREEN: Create `app/_lib/queries/scenic.ts`, scenic admin CRUD, and accessible Spanish-first `app/escenico/**` rendering.
-- [ ] 4.3 RED→GREEN: Add `e2e/cms-scenic.spec.ts` for route resolution, ordered published works, draft hiding, and invalid media rejection.
+- [x] 4.1 RED: Vitest tests for media-kind validation, hidden exclusion, order, and optional fields in `__tests__/cms-scenic.test.ts`.
+- [x] 4.2 GREEN: Create `app/_lib/queries/scenic.ts`, scenic admin CRUD, and accessible Spanish-first `app/escenico/**` rendering.
+- [x] 4.3 RED→GREEN: Add `e2e/cms-scenic.spec.ts` for route resolution, ordered published works, draft hiding, and invalid media rejection.
 
 ## Phase 5: R2 Hardening (Slice 5)
 - [ ] 5.1 RED: Vitest tests for MIME/size/key checks, exact HEAD/stat rejection, auth, cleanup/manifest, and server-only credentials in `__tests__/cms-r2.test.ts`.
