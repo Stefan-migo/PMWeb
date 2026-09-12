@@ -9,10 +9,10 @@ Ponytail: retain domain queries/actions; no CMS abstraction, media library, role
 - [x] 1.4 RED→GREEN: Add `e2e/cms-admin-auth.spec.ts` for allowlisted login and denial, then protect `/admin` with Spanish login/logout UI.
 
 ## Phase 2: Admin Shell, Art (Slice 2)
-- [ ] 2.1 RED: Vitest tests for Zod mutation rejection, published/order filtering, server boundary, and media refs in `__tests__/cms-art-admin.test.ts` (graph: `artworks.ts`→`[slug]/page.tsx`).
-- [ ] 2.2 GREEN: Create `app/admin/**` shell/forms/actions with narrow authorized CRUD; update `app/_lib/queries/artworks.ts` to server-only published ordering.
-- [ ] 2.3 GREEN: Update `app/(art)/arte/galeria/**` detail, metadata, and params; preserve `ImageLightbox`/`Reveal`, tokens, keyboard/focus behavior.
-- [ ] 2.4 RED→GREEN: Add `e2e/cms-admin-art.spec.ts` for CRUD and hidden gallery/detail records; wire art actions.
+- [x] 2.1 RED: Vitest tests for Zod mutation rejection, published/order filtering, server boundary, and media refs in `__tests__/cms-art-admin.test.ts` (graph: `artworks.ts`→`[slug]/page.tsx`).
+- [x] 2.2 GREEN: Create `app/admin/**` shell/forms/actions with narrow authorized CRUD; update `app/_lib/queries/artworks.ts` to server-only published ordering.
+- [x] 2.3 GREEN: Update `app/(art)/arte/galeria/**` detail, metadata, and params; preserve `ImageLightbox`/`Reveal`, tokens, keyboard/focus behavior.
+- [x] 2.4 RED→GREEN: Add `e2e/cms-admin-art.spec.ts` for CRUD and hidden gallery/detail records; wire art actions.
 
 ## Phase 3: Tattoo (Slice 3)
 - [ ] 3.1 RED: Vitest tests for DB-first order, outage/empty fallback, and Instagram omission in `__tests__/cms-tattoo.test.ts` (graph: `(tattoo)/layout.tsx`).
