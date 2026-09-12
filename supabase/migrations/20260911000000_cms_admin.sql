@@ -27,6 +27,11 @@ WHERE section_type IS NULL OR content IS NULL OR title IS NULL;
 ALTER TABLE about_sections ALTER COLUMN section_type SET NOT NULL;
 ALTER TABLE about_sections ALTER COLUMN title SET NOT NULL;
 ALTER TABLE about_sections ALTER COLUMN content SET NOT NULL;
+-- Legacy columns superseded by section_type/content. Relax their NOT NULL so
+-- the reconciled seed (which only writes the new shape) can insert. Safe and
+-- idempotent; a later cleanup may drop them once no rows depend on them.
+ALTER TABLE about_sections ALTER COLUMN section DROP NOT NULL;
+ALTER TABLE about_sections ALTER COLUMN bio_text DROP NOT NULL;
 
 CREATE TABLE IF NOT EXISTS scenic_works (
   id serial PRIMARY KEY,
