@@ -28,6 +28,6 @@ test("authorized media upload persists a delivery URL and rejects invalid files"
   await page.goto("/admin");
   const row = page.locator("[data-artwork-id]").filter({ hasText: slug });
   await row.getByRole("button", { name: "Eliminar" }).click();
-  await page.reload();
+  await page.goto(`/admin?e2e_cleanup=${Date.now()}`);
   await expect(page.locator("[data-artwork-id]").filter({ hasText: slug })).toHaveCount(0);
 });

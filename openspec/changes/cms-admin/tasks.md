@@ -27,7 +27,7 @@ Ponytail: retain domain queries/actions; no CMS abstraction, media library, role
 ## Phase 5: R2 Hardening (Slice 5)
 - [x] 5.1 RED: Vitest tests for MIME/size/key checks, exact HEAD/stat rejection, auth, cleanup/manifest, and server-only credentials in `__tests__/cms-r2.test.ts`.
 - [x] 5.2 GREEN: Create `app/_lib/media/r2.ts` and `app/api/admin/media/**`; presign, verify, associate, clean failures, and update `next.config.ts`/CSP for the configured host.
-- [ ] 5.3 RED→GREEN: Add `e2e/cms-r2.spec.ts` for authorized success and failure without broken references; run `npm run test:all` and `npm run build`.
+- [x] 5.3 RED→GREEN: Add `e2e/cms-r2.spec.ts` for authorized success and failure without broken references; run `npm run test:all` and `npm run build`.
 
 ## Review Workload Forecast
 

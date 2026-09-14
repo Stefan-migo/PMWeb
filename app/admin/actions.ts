@@ -48,8 +48,17 @@ export async function logout() {
 
 export async function saveArtwork(formData: FormData) {
   await requireAdmin();
-  const input = artworkFormData(formData);
-  const mediaKey = await verifyMedia(formData, "image/jpeg");
+  const uploadedKey = String(formData.get("media_key") ?? "");
+  let input;
+  let mediaKey: string | undefined;
+  try {
+    input = artworkFormData(formData);
+    mediaKey = await verifyMedia(formData, "image/jpeg");
+  } catch (error) {
+    await cleanup(uploadedKey);
+    if (error instanceof Error && error.message === "No se pudo verificar el archivo") throw error;
+    throw new Error("No se pudo guardar la obra");
+  }
   const id = String(formData.get("id") ?? "");
   const supabase = getSupabaseAdmin();
   const result = id
@@ -77,8 +86,17 @@ export async function deleteArtwork(formData: FormData) {
 
 export async function saveTattoo(formData: FormData) {
   await requireAdmin();
-  const input = tattooFormData(formData);
-  const mediaKey = await verifyMedia(formData, "image/jpeg");
+  const uploadedKey = String(formData.get("media_key") ?? "");
+  let input;
+  let mediaKey: string | undefined;
+  try {
+    input = tattooFormData(formData);
+    mediaKey = await verifyMedia(formData, "image/jpeg");
+  } catch (error) {
+    await cleanup(uploadedKey);
+    if (error instanceof Error && error.message === "No se pudo verificar el archivo") throw error;
+    throw new Error("No se pudo guardar el tatuaje");
+  }
   const id = String(formData.get("id") ?? "");
   const supabase = getSupabaseAdmin();
   const result = id
@@ -110,8 +128,17 @@ export async function deleteTattoo(formData: FormData) {
 
 export async function saveScenic(formData: FormData) {
   await requireAdmin();
-  const input = scenicFormData(formData);
-  const mediaKey = await verifyMedia(formData, input.media_kind === "video" ? "video/mp4" : "image/jpeg");
+  const uploadedKey = String(formData.get("media_key") ?? "");
+  let input;
+  let mediaKey: string | undefined;
+  try {
+    input = scenicFormData(formData);
+    mediaKey = await verifyMedia(formData, input.media_kind === "video" ? "video/mp4" : "image/jpeg");
+  } catch (error) {
+    await cleanup(uploadedKey);
+    if (error instanceof Error && error.message === "No se pudo verificar el archivo") throw error;
+    throw new Error("No se pudo guardar la obra escénica");
+  }
   const id = String(formData.get("id") ?? "");
   const supabase = getSupabaseAdmin();
   const result = id
