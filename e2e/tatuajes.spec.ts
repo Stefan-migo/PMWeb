@@ -30,8 +30,12 @@ test.describe("Tattoo Section", () => {
 
   test("should navigate to cuidados", async ({ page }) => {
     await page.goto("/tatuajes", { waitUntil: "domcontentloaded" });
-    await page.getByRole("link", { name: "Leer guía de cuidados" }).click();
-    await expect(page).toHaveURL("/tatuajes/cuidados");
+    // The link lives in a client component: retry so the click is never lost before hydration.
+    await expect(async () => {
+      const guideLink = page.getByRole("link", { name: "Leer guía de cuidados" });
+      if (await guideLink.count()) await guideLink.click();
+      await expect(page).toHaveURL("/tatuajes/cuidados", { timeout: 2000 });
+    }).toPass({ timeout: 20000 });
     await expect(page.getByRole("heading", { name: "Primeras 24 h" })).toBeVisible();
   });
 
