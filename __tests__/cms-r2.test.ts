@@ -42,7 +42,17 @@ describe("R2 media contracts", () => {
   });
 
   it("keeps credentials server-side and exposes only public configuration", () => {
-    expect(mediaConfig().publicUrl).toContain("r2.dev");
-    expect(JSON.stringify(mediaConfig())).not.toContain(process.env.R2_SECRET_ACCESS_KEY ?? "__missing__");
+    // Stub the environment instead of asserting on it. Reading the developer's
+    // .env.local would make this pass locally and fail in any clean environment
+    // (CI, a fresh clone, another machine), which tests the environment rather
+    // than the contract.
+    vi.stubEnv("NEXT_PUBLIC_R2_PUBLIC_URL", "https://pub-example.r2.dev");
+    vi.stubEnv("R2_SECRET_ACCESS_KEY", "unit-test-secret");
+    try {
+      expect(mediaConfig().publicUrl).toBe("https://pub-example.r2.dev");
+      expect(JSON.stringify(mediaConfig())).not.toContain("unit-test-secret");
+    } finally {
+      vi.unstubAllEnvs();
+    }
   });
 });
