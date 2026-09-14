@@ -1,7 +1,8 @@
-import { deleteArtwork, logout, saveArtwork } from "@/app/admin/actions";
+import { deleteArtwork, deleteTattoo, logout, saveArtwork, saveTattoo } from "@/app/admin/actions";
 import { requireAdmin } from "@/app/_lib/supabase/auth";
 import { getSupabaseAdmin } from "@/app/_lib/supabase/admin";
 import type { Artwork } from "@/app/_lib/queries/artworks";
+import type { Tattoo } from "@/app/_lib/queries/tattoos";
 
 function ArtworkForm({ artwork }: { artwork?: Artwork }) {
   return (
@@ -29,10 +30,31 @@ function ArtworkForm({ artwork }: { artwork?: Artwork }) {
   );
 }
 
+function TattooForm({ tattoo }: { tattoo?: Tattoo }) {
+  return (
+    <form action={saveTattoo} className="grid gap-3 rounded border border-neutral-200 bg-white p-4">
+      {tattoo && <input type="hidden" name="id" value={tattoo.id} />}
+      <h2 className="text-lg font-medium">{tattoo ? "Editar tatuaje" : "Nuevo tatuaje"}</h2>
+      <label className="grid gap-1 text-sm">Título<input name="title" required defaultValue={tattoo?.title} className="rounded border p-2" /></label>
+      <label className="grid gap-1 text-sm">Slug<input name="slug" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" defaultValue={tattoo?.slug} className="rounded border p-2" /></label>
+      <label className="grid gap-1 text-sm">Imagen (URL o ruta)<input name="image_path" required defaultValue={tattoo?.image_path} className="rounded border p-2" /></label>
+      <label className="grid gap-1 text-sm">Descripción<textarea name="description" defaultValue={tattoo?.description ?? ""} className="rounded border p-2" /></label>
+      <div className="grid grid-cols-2 gap-3">
+        <label className="grid gap-1 text-sm">Orden<input name="sort_order" type="number" min="0" required defaultValue={tattoo?.sort_order ?? 0} className="rounded border p-2" /></label>
+        <label className="flex items-end gap-2 pb-2 text-sm"><input name="is_featured" type="checkbox" defaultChecked={tattoo?.is_featured} /> Destacado</label>
+      </div>
+      <label className="text-sm"><input name="is_published" type="checkbox" defaultChecked={tattoo?.is_published} /> Publicado</label>
+      <button type="submit" className="rounded bg-black px-4 py-2 text-white">Guardar tatuaje</button>
+    </form>
+  );
+}
+
 export default async function AdminPage() {
   const user = await requireAdmin();
   const { data: artworks, error } = await getSupabaseAdmin().from("artworks").select("*").order("sort_order");
   if (error) throw new Error("No se pudieron cargar las obras");
+  const { data: tattoos, error: tattooError } = await getSupabaseAdmin().from("tattoos").select("*").order("sort_order");
+  if (tattooError) throw new Error("No se pudieron cargar los tatuajes");
   return (
     <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-8 bg-[#fafaf9] px-6 py-12">
       <div className="flex items-center justify-between gap-4">
@@ -51,6 +73,16 @@ export default async function AdminPage() {
           <div key={artwork.id} data-artwork-id={artwork.id} className="grid gap-3 rounded border border-neutral-200 p-4 md:grid-cols-[1fr_2fr]">
             <div><h3 className="font-medium">{artwork.title}</h3><p className="text-sm text-neutral-600">{artwork.is_published ? "Publicado" : "Borrador"} · orden {artwork.sort_order}</p></div>
             <div className="flex flex-wrap gap-2"><ArtworkForm artwork={artwork} /><form action={deleteArtwork}><input type="hidden" name="id" value={artwork.id} /><button type="submit" className="rounded border border-red-300 px-3 py-2 text-sm text-red-700">Eliminar</button></form></div>
+          </div>
+        ))}
+      </section>
+      <TattooForm />
+      <section aria-labelledby="tattoos-heading" className="grid gap-4">
+        <h2 id="tattoos-heading" className="text-2xl font-semibold">Tatuajes ({tattoos.length})</h2>
+        {tattoos.map((tattoo) => (
+          <div key={tattoo.id} data-tattoo-id={tattoo.id} className="grid gap-3 rounded border border-neutral-200 p-4 md:grid-cols-[1fr_2fr]">
+            <div><h3 className="font-medium">{tattoo.title}</h3><p className="text-sm text-neutral-600">{tattoo.is_published ? "Publicado" : "Borrador"} · orden {tattoo.sort_order}</p></div>
+            <div className="flex flex-wrap gap-2"><TattooForm tattoo={tattoo} /><form action={deleteTattoo}><input type="hidden" name="id" value={tattoo.id} /><button type="submit" className="rounded border border-red-300 px-3 py-2 text-sm text-red-700">Eliminar</button></form></div>
           </div>
         ))}
       </section>

@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowRight, CalendarCheck, MessageCircle, Pencil, Sparkles } from "lucide-react";
 import { Reveal } from "@/app/_components/shared/Reveal";
-import { availableDesigns } from "@/app/_lib/tattoo/designs";
+import { getAvailableDesigns } from "@/app/_lib/queries/tattoos";
 
 export const metadata: Metadata = { title: "Diseños disponibles", description: "Explora diseños disponibles para reservar con PajaroMaca." };
 
-export default function DisenosDisponiblesPage() {
+export default async function DisenosDisponiblesPage() {
+  const availableDesigns = await getAvailableDesigns();
   return (
     <div className="bg-[var(--tattoo-bg)] px-4 py-20 text-[var(--tattoo-text)] sm:px-6 lg:px-8 lg:py-28"><div className="mx-auto max-w-7xl">
       <Reveal><section className="max-w-3xl" aria-labelledby="designs-heading"><p className="mb-4 text-xs font-medium uppercase tracking-[.16em] text-[var(--tattoo-accent)]">Piezas para elegir</p><h1 id="designs-heading" className="font-[family-name:var(--font-display)] text-5xl font-bold leading-[.95] tracking-tight sm:text-7xl">Diseños disponibles</h1><p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--tattoo-text-muted)]">Explora piezas listas para reservar. Si una ya está reservada, podemos conversar sobre una variación personalizada.</p></section></Reveal>
