@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ImageLightbox } from "@/app/_components/shared/ImageLightbox";
 import { Reveal } from "@/app/_components/shared/Reveal";
+import { getArtworks } from "@/app/_lib/queries/artworks";
 
 export const metadata: Metadata = {
   title: "Galería de Arte",
@@ -12,20 +13,10 @@ export const metadata: Metadata = {
   },
 };
 
-const sampleArtworks = [
-  { src: "/placeholder-art-1.jpg", alt: "Pintura abstracta" },
-  { src: "/placeholder-art-2.jpg", alt: "Ilustración digital" },
-  { src: "/placeholder-art-3.jpg", alt: "Serie botánica" },
-  { src: "/placeholder-art-4.jpg", alt: "Retrato al óleo" },
-  { src: "/placeholder-art-5.jpg", alt: "Escultura en arcilla" },
-  { src: "/placeholder-art-6.jpg", alt: "Dibujo carbón" },
-  { src: "/placeholder-art-7.jpg", alt: "Acuarela sobre papel" },
-  { src: "/placeholder-art-8.jpg", alt: "Grabado" },
-];
-
 const categories = ["Todos", "Pintura", "Ilustración", "Digital", "Escultura", "Dibujo"];
 
-export default function GaleriaPage() {
+export default async function GaleriaPage() {
+  const artworks = await getArtworks();
   return (
     <div className="py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -57,7 +48,7 @@ export default function GaleriaPage() {
 
         <Reveal delay={0.2}>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            <ImageLightbox images={sampleArtworks} variant="art" />
+            <ImageLightbox images={artworks.map((artwork) => ({ src: artwork.image_path, alt: artwork.title }))} variant="art" />
           </div>
         </Reveal>
       </div>
