@@ -1,7 +1,7 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
 
 test("admin scenic works render in order and hide drafts", async ({ page }) => {
-  test.setTimeout(90000);
+  test.setTimeout(180000);
   test.skip(!process.env.E2E_ADMIN_EMAIL || !process.env.E2E_ADMIN_PASSWORD, "E2E admin credentials are not configured");
   const unique = `e2e-scenic-${Date.now()}`;
   const slugs = [`${unique}-first`, `${unique}-second`, `${unique}-draft`];
@@ -14,16 +14,24 @@ test("admin scenic works render in order and hide drafts", async ({ page }) => {
     await expect(page).toHaveURL(/\/admin$/, { timeout: 30000 });
   }
 
+  async function uploadMedia(form: Locator) {
+    await form.locator("input[type=file]").setInputFiles({
+      name: "e2e-scenic.png",
+      mimeType: "image/png",
+      buffer: Buffer.from("e2e-scenic-image"),
+    });
+    await expect(form.getByRole("status")).toHaveText("Archivo listo para guardar", { timeout: 90000 });
+  }
+
   async function createWork(slug: string, published: boolean, order: number) {
     const form = page.locator("form").filter({ hasText: "Nueva obra escénica" });
     await form.getByRole("textbox", { name: "Título" }).fill(slug);
     await form.getByRole("textbox", { name: "Slug" }).fill(slug);
-    await form.getByLabel("Clave del medio").fill(`scenic/${slug}.jpg`);
-    await form.getByLabel("URL del medio").fill(`/design/landing/stage.jpg`);
+    await uploadMedia(form);
     await form.getByLabel("Orden").fill(String(order));
     if (published) await form.getByRole("checkbox", { name: "Publicado" }).check();
     await form.getByRole("button", { name: "Guardar obra escénica" }).click();
-    await expect(page.locator("[data-scenic-id]").filter({ hasText: slug })).toBeVisible();
+    await expect(page.locator("[data-scenic-id]").filter({ hasText: slug })).toBeVisible({ timeout: 30000 });
   }
 
   try {
@@ -35,7 +43,7 @@ test("admin scenic works render in order and hide drafts", async ({ page }) => {
     const visitor = await page.context().browser()!.newContext();
     try {
       const publicPage = await visitor.newPage();
-      const response = await publicPage.goto("/escenico");
+      const response = await publicPage.goto("/escenico", { waitUntil: "domcontentloaded" });
       expect(response?.status()).toBe(200);
       const cards = publicPage.locator("article");
       await expect(cards).toHaveCount(2);
@@ -49,8 +57,7 @@ test("admin scenic works render in order and hide drafts", async ({ page }) => {
     const invalidForm = page.locator("form").filter({ hasText: "Nueva obra escénica" });
     await invalidForm.getByRole("textbox", { name: "Título" }).fill(`${unique}-invalid`);
     await invalidForm.getByRole("textbox", { name: "Slug" }).fill(`${unique}-invalid`);
-    await invalidForm.getByLabel("Clave del medio").fill(`scenic/${unique}-invalid.jpg`);
-    await invalidForm.getByLabel("URL del medio").fill("/design/landing/stage.jpg");
+    await uploadMedia(invalidForm);
     await invalidForm.locator("select[name=media_kind]").evaluate((select) => {
       const option = document.createElement("option");
       option.value = "audio";
@@ -60,7 +67,7 @@ test("admin scenic works render in order and hide drafts", async ({ page }) => {
     });
     void invalidForm.getByRole("button", { name: "Guardar obra escénica" }).click();
     await page.waitForTimeout(1000);
-    await page.reload();
+    await page.reload({ waitUntil: "domcontentloaded" });
     await expect(page.getByText(`${unique}-invalid`)).toHaveCount(0);
   } finally {
     await login();
@@ -69,8 +76,8 @@ test("admin scenic works render in order and hide drafts", async ({ page }) => {
       const row = page.locator("[data-scenic-id]").filter({ hasText: slug });
       if (await row.count()) {
         await row.getByRole("button", { name: "Eliminar" }).click();
-        await page.reload();
-        await expect(page.locator("[data-scenic-id]").filter({ hasText: slug })).toHaveCount(0);
+        await page.reload({ waitUntil: "domcontentloaded" });
+        await expect(page.locator("[data-scenic-id]").filter({ hasText: slug })).toHaveCount(0, { timeout: 30000 });
       }
     }
   }

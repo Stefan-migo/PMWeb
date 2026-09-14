@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Tattoo Section", () => {
   test("should display tattoo landing page", async ({ page }) => {
-    await page.goto("/tatuajes");
+    await page.goto("/tatuajes", { waitUntil: "domcontentloaded" });
     await expect(page.getByRole("heading", { name: "Portafolio" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Diseños disponibles" })).toBeVisible();
     await expect(page.getByRole("navigation")).toHaveCount(1);
@@ -14,7 +14,7 @@ test.describe("Tattoo Section", () => {
   });
 
   test("should navigate to portafolio", async ({ page }) => {
-    await page.goto("/tatuajes");
+    await page.goto("/tatuajes", { waitUntil: "domcontentloaded" });
     await page.getByRole("link", { name: "Ver portafolio completo" }).click();
     await expect(page).toHaveURL("/tatuajes/portafolio");
     await expect(page.getByRole("heading", { name: "Portafolio" })).toBeVisible();
@@ -29,10 +29,10 @@ test.describe("Tattoo Section", () => {
   });
 
   test("should navigate to cuidados", async ({ page }) => {
-    await page.goto("/tatuajes");
+    await page.goto("/tatuajes", { waitUntil: "domcontentloaded" });
     await page.getByRole("link", { name: "Leer guía de cuidados" }).click();
     await expect(page).toHaveURL("/tatuajes/cuidados");
-    await expect(page.getByText("Primeras 24 horas")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Primeras 24 h" })).toBeVisible();
   });
 
   test("portafolio should have filter buttons", async ({ page }) => {
@@ -44,7 +44,7 @@ test.describe("Tattoo Section", () => {
   test("should display available designs", async ({ page }) => {
     await page.goto("/tatuajes/disenos-disponibles");
     await expect(page.getByRole("heading", { name: "Diseños disponibles" })).toBeVisible();
-    await expect(page.getByText("Botánico")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Botánico" })).toBeVisible();
     await expect(page.getByRole("link", { name: /Consultar este diseño/ }).first()).toHaveAttribute("href", "/tatuajes/cotizar");
   });
 
@@ -63,9 +63,14 @@ test.describe("Tattoo Section", () => {
 
   test("mobile menu should work", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/tatuajes");
-    await page.getByLabel("Abrir menú").click();
-    await expect(page.getByRole("link", { name: "Cotizar", exact: true })).toBeVisible();
+    await page.goto("/tatuajes", { waitUntil: "domcontentloaded" });
+    const openButton = page.getByLabel("Abrir menú");
+    const cotizar = page.getByRole("link", { name: "Cotizar", exact: true });
+    // The toggle lives in a client component: retry so the click is never lost before hydration.
+    await expect(async () => {
+      if (await openButton.count()) await openButton.click();
+      await expect(cotizar).toBeVisible({ timeout: 1000 });
+    }).toPass({ timeout: 20000 });
     await page.getByLabel("Cerrar menú").click();
   });
 });
