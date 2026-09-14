@@ -24,4 +24,15 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
   ],
+  // `npm run build` alone does not leave a server listening, so Playwright has
+  // to start one. In CI it reuses the production build from the previous step;
+  // locally a dev server is normally already running on :3000 and is reused.
+  webServer: {
+    command: process.env.CI ? "npm run start" : "npm run dev",
+    url: "http://localhost:3000",
+    reuseExistingServer: !process.env.CI,
+    timeout: 120_000,
+    stdout: "pipe",
+    stderr: "pipe",
+  },
 });
