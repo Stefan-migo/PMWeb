@@ -6,6 +6,7 @@ import { getSupabaseAdmin } from "@/app/_lib/supabase/admin";
 import { getSupabaseServer } from "@/app/_lib/supabase/server";
 import { artworkFormData } from "@/app/admin/artwork-form";
 import { tattooFormData } from "@/app/admin/tattoo-form";
+import { scenicFormData } from "@/app/admin/scenic-form";
 import { revalidatePath } from "next/cache";
 
 export async function login(formData: FormData) {
@@ -77,5 +78,30 @@ export async function deleteTattoo(formData: FormData) {
   revalidatePath("/tatuajes");
   revalidatePath("/tatuajes/portafolio");
   revalidatePath("/tatuajes/disenos-disponibles");
+  redirect("/admin");
+}
+
+export async function saveScenic(formData: FormData) {
+  await requireAdmin();
+  const input = scenicFormData(formData);
+  const id = String(formData.get("id") ?? "");
+  const supabase = getSupabaseAdmin();
+  const result = id
+    ? await supabase.from("scenic_works").update(input).eq("id", id)
+    : await supabase.from("scenic_works").insert(input);
+  if (result.error) throw new Error("No se pudo guardar la obra escénica");
+  revalidatePath("/admin");
+  revalidatePath("/escenico");
+  redirect("/admin");
+}
+
+export async function deleteScenic(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  if (!id) throw new Error("Obra escénica inválida");
+  const { error } = await getSupabaseAdmin().from("scenic_works").delete().eq("id", id);
+  if (error) throw new Error("No se pudo eliminar la obra escénica");
+  revalidatePath("/admin");
+  revalidatePath("/escenico");
   redirect("/admin");
 }
