@@ -4,6 +4,7 @@ import { getSupabaseAdmin } from "@/app/_lib/supabase/admin";
 import type { Artwork } from "@/app/_lib/queries/artworks";
 import type { Tattoo } from "@/app/_lib/queries/tattoos";
 import type { ScenicWork } from "@/app/_lib/queries/scenic";
+import { MediaUploadField } from "@/app/_components/admin/media-upload-field";
 
 function ArtworkForm({ artwork }: { artwork?: Artwork }) {
   return (
@@ -12,7 +13,7 @@ function ArtworkForm({ artwork }: { artwork?: Artwork }) {
       <h2 className="text-lg font-medium">{artwork ? "Editar obra" : "Nueva obra"}</h2>
       <label className="grid gap-1 text-sm">Título<input name="title" required defaultValue={artwork?.title} className="rounded border p-2" /></label>
       <label className="grid gap-1 text-sm">Slug<input name="slug" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" defaultValue={artwork?.slug} className="rounded border p-2" /></label>
-      <label className="grid gap-1 text-sm">Imagen (URL o ruta)<input name="image_path" required defaultValue={artwork?.image_path} className="rounded border p-2" /></label>
+       <MediaUploadField domain="artwork" fieldName="image_path" slug={artwork?.slug} url={artwork?.image_path} />
       <label className="grid gap-1 text-sm">Miniatura (URL o ruta)<input name="thumbnail_path" defaultValue={artwork?.thumbnail_path ?? ""} className="rounded border p-2" /></label>
       <label className="grid gap-1 text-sm">Medio<input name="medium" defaultValue={artwork?.medium ?? ""} className="rounded border p-2" /></label>
       <label className="grid gap-1 text-sm">Descripción<textarea name="description" defaultValue={artwork?.description ?? ""} className="rounded border p-2" /></label>
@@ -38,7 +39,7 @@ function TattooForm({ tattoo }: { tattoo?: Tattoo }) {
       <h2 className="text-lg font-medium">{tattoo ? "Editar tatuaje" : "Nuevo tatuaje"}</h2>
       <label className="grid gap-1 text-sm">Título<input name="title" required defaultValue={tattoo?.title} className="rounded border p-2" /></label>
       <label className="grid gap-1 text-sm">Slug<input name="slug" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" defaultValue={tattoo?.slug} className="rounded border p-2" /></label>
-      <label className="grid gap-1 text-sm">Imagen (URL o ruta)<input name="image_path" required defaultValue={tattoo?.image_path} className="rounded border p-2" /></label>
+       <MediaUploadField domain="tattoo" fieldName="image_path" slug={tattoo?.slug} url={tattoo?.image_path} />
       <label className="grid gap-1 text-sm">Descripción<textarea name="description" defaultValue={tattoo?.description ?? ""} className="rounded border p-2" /></label>
       <div className="grid grid-cols-2 gap-3">
         <label className="grid gap-1 text-sm">Orden<input name="sort_order" type="number" min="0" required defaultValue={tattoo?.sort_order ?? 0} className="rounded border p-2" /></label>
@@ -58,8 +59,7 @@ function ScenicForm({ work }: { work?: ScenicWork }) {
       <label className="grid gap-1 text-sm">Título<input name="title" required defaultValue={work?.title} className="rounded border p-2" /></label>
       <label className="grid gap-1 text-sm">Slug<input name="slug" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" defaultValue={work?.slug} className="rounded border p-2" /></label>
       <label className="grid gap-1 text-sm">Tipo de medio<select name="media_kind" defaultValue={work?.media_kind ?? "image"} className="rounded border p-2"><option value="image">Imagen</option><option value="video">Video</option></select></label>
-      <label className="grid gap-1 text-sm">Clave del medio<input name="media_key" required defaultValue={work?.media_key} className="rounded border p-2" /></label>
-      <label className="grid gap-1 text-sm">URL del medio<input name="media_url" required defaultValue={work?.media_url} className="rounded border p-2" /></label>
+       <MediaUploadField domain="scenic" fieldName="media_url" slug={work?.slug} url={work?.media_url} keyName={work?.media_key} />
       <label className="grid gap-1 text-sm">Poster (opcional)<input name="poster_url" defaultValue={work?.poster_url ?? ""} className="rounded border p-2" /></label>
       <label className="grid gap-1 text-sm">Miniatura (opcional)<input name="thumbnail_path" defaultValue={work?.thumbnail_path ?? ""} className="rounded border p-2" /></label>
       <label className="grid gap-1 text-sm">Descripción<textarea name="description" defaultValue={work?.description ?? ""} className="rounded border p-2" /></label>

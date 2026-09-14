@@ -15,14 +15,14 @@ test.describe("Art Section", () => {
 
   test("should navigate to exposiciones", async ({ page }) => {
     await page.goto("/arte");
-    await page.getByRole("link", { name: "Exposiciones" }).click();
+    await page.getByRole("navigation").getByRole("link", { name: "Exposiciones" }).click();
     await expect(page).toHaveURL("/arte/exposiciones");
     await expect(page.getByText("Exhibiciones Actuales")).toBeVisible();
   });
 
   test("should navigate to tienda", async ({ page }) => {
     await page.goto("/arte");
-    await page.getByRole("link", { name: "Tienda" }).click();
+    await page.getByRole("navigation").getByRole("link", { name: "Tienda" }).click();
     await expect(page).toHaveURL("/arte/tienda");
     await expect(page.getByText("Información de Envíos")).toBeVisible();
   });
@@ -37,6 +37,15 @@ test.describe("Art Section", () => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto("/arte");
     await page.getByLabel("Abrir menú").click();
-    await expect(page.getByRole("link", { name: "Exposiciones" })).toBeVisible();
+    await expect(
+      page.getByRole("navigation").getByRole("link", { name: "Exposiciones" }),
+    ).toBeVisible();
+  });
+
+  test("should expose the Instagram link in the shared navigation", async ({ page }) => {
+    await page.goto("/arte");
+    const instagram = page.getByRole("navigation").getByRole("link", { name: "Instagram" });
+    await expect(instagram).toBeVisible();
+    await expect(instagram).toHaveAttribute("href", /instagram\.com/);
   });
 });
