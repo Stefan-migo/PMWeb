@@ -11,12 +11,22 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: 1,
-  reporter: "html",
+  // `line` keeps a per-test trail in the CI job log; the HTML report alone prints
+  // nothing until the run ends, which left earlier failures (run 34875871432)
+  // impossible to attribute to a test, a skip, or a server crash.
+  reporter: [["html"], ["line"]],
   use: {
     // Allow targeting an alternate server (e.g. a local-Supabase instance on
     // another port) without editing .env.local.
     baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
-    trace: "on-first-retry",
+    // Retain the trace of every failure, not only of the first retry: the retries
+    // were failing identically, so the interesting evidence was the first attempt.
+    trace: "retain-on-failure",
+    launchOptions: {
+      // Containerized runners give Chromium a tiny /dev/shm, which makes the
+      // renderer stall or die on animation-heavy pages (the tattoo views).
+      args: ["--disable-dev-shm-usage"],
+    },
   },
   projects: [
     {
