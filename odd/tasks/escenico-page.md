@@ -30,13 +30,26 @@ S10 — Scenic identity keeps its own accent token (`--scenic-accent`) instead o
 
 | ID | Specs | Route | Commit |
 | --- | --- | --- | --- |
-| T1 | S1, S3 | inline | e2e RED for the page and the detail route |
-| T2 | S1, S5-S8 | inline | typed content module from docs/Escenico.md |
-| T3 | S5-S8 | inline | unit tests turning the editorial rules into assertions |
-| T4 | S2, S10 | inline | scenic route group, layout, accent token, image placeholder |
-| T5 | S1, S3 | inline | `/escenico` page sections |
-| T6 | S3, S9 | inline | `/escenico/[slug]` detail route with metadata |
-| T7 | S1-S10 | inline | final checks: typecheck, lint, unit, e2e, build |
+| T1 | S1, S3 | inline | aadb53b (e2e RED first, 5/5 failing) |
+| T2 | S1, S5-S8 | inline | fb801d0 |
+| T3 | S5-S8 | inline | fb801d0 |
+| T4 | S2, S10 | inline | cefbbef |
+| T5 | S1, S3 | inline | aadb53b |
+| T6 | S3, S9 | inline | aadb53b |
+| T7 | S1-S10 | inline | pending: clean full e2e run |
+
+## Delivery
+
+| Slice | Content | Commit |
+| --- | --- | --- |
+| 1 | home page renders the distinct-font landing variant | 36597d2 |
+| 2 | source document, content module, editorial-rule tests | fb801d0 |
+| 3 | scenic tokens, route-group layout, image placeholder, DESIGN.md | cefbbef |
+| 4 | `/escenico` page, `/escenico/[slug]` detail route, e2e | aadb53b |
+
+Slice 2 is the largest (~800 authored lines). The source document and the content module are
+data, not logic, but they stay one slice because the tests only mean something next to the data
+they assert. Deliver as chained PRs on these boundaries.
 
 ## Log
 
@@ -45,3 +58,9 @@ L1 (user request, verbatim): "3. respecto al handoff y al Escenico.md. ese archi
 L2 (user decisions, in order): images → "Construí con placeholders y enchufamos después"; scope → "Página + /escenico/[slug] por obra"; premiere → "Ya se estrenó".
 
 L3 (state at start): `app/escenico/page.tsx` exists (26 lines, CMS slice 4): a minimal `scenic_works` grid with a "Pronto compartiré nuevas obras escénicas" empty state, hardcoded hex colours, no layout of its own, and no `--scenic-accent` token. The route answers 200; the page is not built. Production `scenic_works` has 0 rows.
+
+L4 (evidence): e2e RED before implementing — 5/5 new specs failed on the missing sections and routes. After implementing: 5/5 passed. Unit suite 53/53 (was 42). Full e2e 24 passed / 1 failed / 5 skipped, where the failure was `tatuajes › should navigate to cuidados`; a clean `.next` run then passed 30/30 with the same durations as `origin/main` (40.0s vs 40.1s on the tattoo spec), so it was the known Turbopack cache artifact, not a regression. Verified by running that spec on `origin/main` and on this branch under identical conditions.
+
+L5 (decision): the media gallery still reads `scenic_works` but degrades to an empty list on query failure (`getScenicWorks().catch(() => [])`). Production has 0 rows today and the page must not 500 because of it.
+
+L6 (pending): images. Every photograph is an explicit placeholder naming what it should be. Pending: cover, portrait, art-direction photo, 8 stage photographs, contact photo, and one image per work. The landing blocks still use `--color-warning` for the scenic accent; switching them to `--scenic-accent` is a separate visual decision.
