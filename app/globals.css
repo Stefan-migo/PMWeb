@@ -21,6 +21,15 @@
   --art-accent: #78716c;
   --art-accent-hover: #57534e;
 
+  /* Scenic Section (Dark Theatre Theme) */
+  --scenic-bg: #17120f;
+  --scenic-surface: #211a16;
+  --scenic-border: #8f7764;
+  --scenic-text: #f7f0e8;
+  --scenic-text-muted: #d8c9bd;
+  --scenic-accent: #e5a85b;
+  --scenic-accent-hover: #d97706;
+
   /* Shared */
   --color-success: #059669;
   --color-warning: #d97706;
@@ -48,6 +57,14 @@
   --color-art-text: var(--art-text);
   --color-art-text-muted: var(--art-text-muted);
   --color-art-accent: var(--art-accent);
+
+  --color-scenic-bg: var(--scenic-bg);
+  --color-scenic-surface: var(--scenic-surface);
+  --color-scenic-border: var(--scenic-border);
+  --color-scenic-text: var(--scenic-text);
+  --color-scenic-text-muted: var(--scenic-text-muted);
+  --color-scenic-accent: var(--scenic-accent);
+  --color-scenic-accent-hover: var(--scenic-accent-hover);
 
   --color-success: var(--color-success);
   --color-warning: var(--color-warning);

@@ -38,6 +38,17 @@ Both share the same base spacing system, border radius, and shadow tokens.
 | `--art-accent` | `#78716c` | Accent (muted earth tone) |
 | `--art-accent-hover` | `#57534e` | Accent hover |
 
+### Scenic Section (Dark Theatre Theme)
+| Token | Hex | Role |
+|-------|-----|------|
+| `--scenic-bg` | `#17120f` | Page background (dark warm brown) |
+| `--scenic-surface` | `#211a16` | Card/surface background |
+| `--scenic-border` | `#8f7764` | Borders and dividers |
+| `--scenic-text` | `#f7f0e8` | Primary text (warm off-white) |
+| `--scenic-text-muted` | `#d8c9bd` | Secondary/muted text |
+| `--scenic-accent` | `#e5a85b` | Accent (stage amber) |
+| `--scenic-accent-hover` | `#d97706` | Accent hover |
+
 ### Shared Tokens
 | Token | Hex | Role |
 |-------|-----|------|
@@ -59,6 +70,12 @@ Both share the same base spacing system, border radius, and shadow tokens.
 - **Display/Headings**: Cormorant Garamond (600) — elegant serif, gallery feel
 - **Body**: Inter (400) — clean, readable
 - **Accent/Labels**: Inter (500) — subtle, refined
+
+### Scenic Section
+- **Display/Headings**: Bebas Neue (400) — condensed stage poster voice; single weight, so never bold it
+- **Section headings**: Cormorant Garamond (600) — editorial, portfolio feel
+- **Body**: Inter (400) — clean, readable on dark backgrounds
+- **Accent/Labels**: Inter (500) — uppercase tracking for period and role labels
 
 ### Shared
 | Element | Font | Weight | Size |
