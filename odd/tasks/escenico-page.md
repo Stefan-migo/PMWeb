@@ -36,7 +36,7 @@ S10 — Scenic identity keeps its own accent token (`--scenic-accent`) instead o
 | T4 | S2, S10 | inline | cefbbef |
 | T5 | S1, S3 | inline | aadb53b |
 | T6 | S3, S9 | inline | aadb53b |
-| T7 | S1-S10 | inline | pending: clean full e2e run |
+| T7 | S1-S10 | inline | d9c24fc (build + full suite green) |
 
 ## Delivery
 
@@ -59,7 +59,17 @@ L2 (user decisions, in order): images → "Construí con placeholders y enchufam
 
 L3 (state at start): `app/escenico/page.tsx` exists (26 lines, CMS slice 4): a minimal `scenic_works` grid with a "Pronto compartiré nuevas obras escénicas" empty state, hardcoded hex colours, no layout of its own, and no `--scenic-accent` token. The route answers 200; the page is not built. Production `scenic_works` has 0 rows.
 
-L4 (evidence): e2e RED before implementing — 5/5 new specs failed on the missing sections and routes. After implementing: 5/5 passed. Unit suite 53/53 (was 42). Full e2e 24 passed / 1 failed / 5 skipped, where the failure was `tatuajes › should navigate to cuidados`; a clean `.next` run then passed 30/30 with the same durations as `origin/main` (40.0s vs 40.1s on the tattoo spec), so it was the known Turbopack cache artifact, not a regression. Verified by running that spec on `origin/main` and on this branch under identical conditions.
+L4 (evidence): e2e RED before implementing — 5/5 new specs failed on the missing sections and routes. After implementing: 5/5 passed. Unit suite 53/53 (was 42).
+
+L4b (investigation, `tatuajes › should navigate to cuidados`): the full suite fails that one test intermittently. It is a pre-existing flake, documented in project memory as "E2E de CI flaky no determinista en navegación por click bajo next start" — the set of failing tests changes between runs. Evidence gathered here:
+
+- `e2e/tatuajes.spec.ts` alone on this branch, clean `.next`: 8/8 passed, 40.0s.
+- The same spec alone on `origin/main`, clean `.next`: 8/8 passed, 40.1s.
+- Full suite on this branch, dev server with a contended external disk: that test fails.
+- Full suite on this branch, production build plus `CI=1` (`npm run start`): 24 passed / 1 failed, 5 skipped.
+- The same command again on the same build with the disk idle: 25 passed / 5 skipped, 0 failed, 30.7s.
+
+The test itself says why it is fragile: the link lives in a client component and the click is retried "so the click is never lost before hydration", with a 20s budget. On this external HDD that budget is consumed by I/O contention. Not caused by this change and not fixed here; recorded as an open observation with the reproduction evidence.
 
 L5 (decision): the media gallery still reads `scenic_works` but degrades to an empty list on query failure (`getScenicWorks().catch(() => [])`). Production has 0 rows today and the page must not 500 because of it.
 
