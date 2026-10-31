@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { ImageLightbox } from "@/app/_components/shared/ImageLightbox";
 import { Reveal } from "@/app/_components/shared/Reveal";
-import { getPortfolioImages } from "@/app/_lib/queries/tattoos";
+import { PortfolioGallery } from "@/app/_components/tattoo/PortfolioGallery";
+import { getPortfolioRecords } from "@/app/_lib/queries/tattoos";
 
 export const metadata: Metadata = {
   title: "Portafolio de Tatuajes",
@@ -13,49 +13,42 @@ export const metadata: Metadata = {
   },
 };
 
-const styles = ["Todos", "Blackwork", "Tradicional", "Neo-tradicional", "Realismo", "Dotwork"];
-
 export default async function PortafolioPage() {
-  const images = await getPortfolioImages();
+  const records = await getPortfolioRecords();
+  const items = records.map((record) => ({
+    src: record.image_path,
+    alt: record.title,
+    style: record.style ?? null,
+  }));
 
   return (
-    <div className="py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="bg-[var(--tattoo-bg)] px-4 py-20 text-[var(--tattoo-text)] sm:px-6 lg:px-8 lg:py-28">
+      <div className="mx-auto max-w-7xl">
         <Reveal>
-          <div className="mb-12">
-            <h1 className="font-[family-name:var(--font-space-grotesk)] text-3xl lg:text-4xl font-bold mb-4">
+          <section className="max-w-3xl" aria-labelledby="portfolio-heading">
+            <p className="mb-4 text-xs font-medium uppercase tracking-[.16em] text-[var(--tattoo-accent)]">
+              Trabajo en piel
+            </p>
+            <h1
+              id="portfolio-heading"
+              className="font-[family-name:var(--font-display)] text-5xl font-bold leading-[.95] tracking-tight sm:text-7xl"
+            >
               Portafolio
             </h1>
-            <p className="text-[#a3a3a3] max-w-2xl">
-              Cada pieza es &uacute;nica, creada especialmente para cada cliente.
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--tattoo-text-muted)]">
+              Cada pieza es única, creada especialmente para cada cliente.
             </p>
-          </div>
+          </section>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <div className="flex flex-wrap gap-3 mb-8" role="tablist" aria-label="Filtrar por estilo">
-            {styles.map((style) => (
-              <button
-                key={style}
-                role="tab"
-                aria-selected={style === "Todos"}
-                className="px-5 py-3 min-h-[44px] rounded-lg text-sm border border-[#2a2a2a] hover:border-[#ef4444] hover:text-[#ef4444] transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-[#ef4444] focus-visible:outline-offset-2"
-              >
-                {style}
-              </button>
-            ))}
-          </div>
-        </Reveal>
+        <div className="mt-16">
+          <PortfolioGallery items={items} />
+        </div>
 
-        <Reveal delay={0.2}>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            <ImageLightbox images={images} />
-          </div>
-        </Reveal>
-        <p className="mt-10 text-center text-[#a3a3a3]">
+        <p className="mt-16 text-center text-[var(--tattoo-text-muted)]">
           Más trabajos en{" "}
           <a
-            className="text-[#ef4444] hover:underline"
+            className="text-[var(--tattoo-accent)] transition-colors hover:text-[var(--tattoo-accent-hover)] hover:underline"
             href="https://instagram.com/pajaro_maca"
             target="_blank"
             rel="noopener noreferrer"
