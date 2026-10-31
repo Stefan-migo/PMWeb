@@ -33,17 +33,19 @@ S6 — Existing behaviour keeps working: the portfolio grid, the lightbox, and t
 | B5 | `(tattoo)/layout.tsx:61` | Instagram link hovers to `#78716c` (the *art* muted colour) instead of `#f5f5f5` like its siblings: on a dark background the label gets darker on hover. |
 | C1 | `_lib/queries/tattoos.ts:82` | `getAvailableDesigns()` decides "we are on the fallback" by sniffing `records[0].id.startsWith("local-")`: depends on query order. |
 | C2 | `cotizar:40`, `cuidados:18` | `NEXT_PUBLIC_WHATSAPP_NUMBER \|\| "56912345678"` duplicated: a missing env renders a fake number. CI does not set that variable, so the fallback is load-bearing there. |
+| C3 | `public/design/tattoo/Layer *.png` | Each source image is ~3 MB of PNG (20 MB for the page). Two tiles were still blank 1.2s after load because of it. |
 
 ## Tasks
 
 | ID | Specs | Defect | Status |
 | --- | --- | --- | --- |
-| T1 | S4 | B1, B2, B3, B4, B5 — tokens and font variables | in progress |
-| T2 | S3, S5 | A1 — real, data-driven filters | pending |
-| T3 | S2 | C1 — source-aware fallback detection | pending |
-| T4 | S6 | C2 — one WhatsApp helper, same behaviour | pending |
-| T5 | S1-S6 | tests: unit for the filter helpers and the source detection, e2e for the portfolio | pending |
+| T1 | S4 | B1, B2, B3, B4, B5 — tokens and font variables | done (c19e8b7) |
+| T2 | S3, S5 | A1 — real, data-driven filters | done (48a09ad) |
+| T3 | S2 | C1 — source-aware fallback detection | done (48a09ad) |
+| T4 | S6 | C2 — one WhatsApp helper, same behaviour | done (c19e8b7) |
+| T5 | S1-S6 | tests: unit for the filter helpers and the source detection, e2e for the portfolio | done (48a09ad) |
 | T6 | S1 | A2 — the quote form | blocked on a product decision |
+| T7 | S2 | C3 — 3 MB source images per piece | new, not fixed |
 
 ## Log
 
@@ -56,3 +58,9 @@ L3 (decision on A1): the filter options will be derived from the data instead of
 L4 (decision on A2): not built. A quote form is new product surface (fields, success and error flow), not a defect fix; it needs the artist's decision. Recorded as blocked, not silently skipped.
 
 L5 (risk on C2): removing the hardcoded WhatsApp fallback would break the existing e2e assertion on `/tatuajes/cotizar` because CI does not provide `NEXT_PUBLIC_WHATSAPP_NUMBER`. The helper keeps the same behaviour and the dependency on CI is recorded instead of changed.
+
+L6 (bug found by looking, not by testing): extracting the gallery into `PortfolioGallery` dropped the grid container, so the eight buttons rendered with zero size and the page showed an empty area. The e2e test passed because it counted buttons instead of asserting visibility. Caught by taking a screenshot and reading it; the test now asserts the first button is visible. Lesson: a count is not a render.
+
+L7 (C3, observed): two tiles were blank 1.2s after load. The files exist and answer 200; they are ~3 MB each. Recorded as a performance defect, not fixed: the real photographs will replace them.
+
+L8 (checks): `tsc --noEmit` clean, eslint clean on every touched path, unit suite 65/65 (13 files, was 53), `npm run build` green, `e2e/tatuajes.spec.ts` 8/8 and `e2e/landing.spec.ts` 3/3 in CI mode against the production build.
