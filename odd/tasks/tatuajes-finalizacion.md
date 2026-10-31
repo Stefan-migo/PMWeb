@@ -47,6 +47,19 @@ S6 — Existing behaviour keeps working: the portfolio grid, the lightbox, and t
 | T6 | S1 | A2 — the quote form | resolved by decision: WhatsApp only, API retired (see L9) |
 | T7 | S2 | C3 — 3 MB source images per piece | new, not fixed |
 
+## Delivery
+
+| Slice | Content | Commit |
+| --- | --- | --- |
+| 1 | tokens, font variables, WhatsApp helper (S4, S6) | c19e8b7 |
+| 2 | real data-driven filters, source-aware fallback, tests (S3, S5, S2) | 48a09ad |
+| 3 | audit record and the bug the screenshot caught | 842ea7b |
+| 4 | retire the unused quote API (S1, decision L9) | 8260052 |
+
+721 authored lines across four commits, past the ~400-line guidance. The slices are
+independent by concern (design tokens, portfolio behaviour, delivery record, dead code), so
+deliver them as chained PRs if this is reviewed rather than merged directly.
+
 ## Log
 
 L1 (user request, verbatim): "por ahora continuaremos con la finalizacion de la pagina tatuajes" / "si un poco de todas la verdad. hay cosas visuales, cosas de frontend principalmente." / material: "Sin fotos: dejá todo listo para cargar después".
