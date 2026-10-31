@@ -19,7 +19,7 @@ export default function SobreMiPage() {
       <div className="max-w-3xl mx-auto">
         <Reveal>
           <div className="mb-12">
-            <h1 className="font-[family-name:var(--font-space-grotesk)] text-3xl lg:text-4xl font-bold mb-4">
+            <h1 className="font-[family-name:var(--font-display)] text-3xl lg:text-4xl font-bold mb-4">
               Sobre M&iacute;
             </h1>
           </div>
@@ -27,19 +27,19 @@ export default function SobreMiPage() {
 
         <Reveal delay={0.1}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-             <div className="relative aspect-square bg-[#141414] rounded-xl overflow-hidden" aria-label="Trabajo de tatuaje">
+             <div className="relative aspect-square bg-[var(--tattoo-surface)] rounded-xl overflow-hidden" aria-label="Trabajo de tatuaje">
                <Image src="/design/landing/tattoo.jpg" alt="Trabajo de tatuaje" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             </div>
             <div>
-              <h2 className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold mb-4">
+              <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold mb-4">
                 Mi Historia
               </h2>
-              <p className="text-[#a3a3a3] mb-4 leading-relaxed">
+              <p className="text-[var(--tattoo-text-muted)] mb-4 leading-relaxed">
                 Soy tatuadora y artista visual con a&ntilde;os de experiencia en el mundo del tatuaje.
                 Mi pasi&oacute;n por el arte me llev&oacute; a especializarme en dise&ntilde;os personalizados que
                 cuentan historias &uacute;nicas en la piel de cada persona.
               </p>
-              <p className="text-[#a3a3a3] leading-relaxed">
+              <p className="text-[var(--tattoo-text-muted)] leading-relaxed">
                 Cada tatuaje es una colaboraci&oacute;n entre t&uacute; y yo. Me gusta conocer la historia
                 detr&aacute;s de cada dise&ntilde;o antes de empezar a tatuar.
               </p>
@@ -49,29 +49,29 @@ export default function SobreMiPage() {
 
         <Reveal delay={0.2}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-            <div className="bg-[#141414] border border-[#2a2a2a] rounded-xl p-6">
-              <MapPin className="w-6 h-6 text-[#ef4444] mb-3" aria-hidden="true" />
+            <div className="bg-[var(--tattoo-surface)] border border-[var(--tattoo-border)] rounded-xl p-6">
+              <MapPin className="w-6 h-6 text-[var(--tattoo-accent)] mb-3" aria-hidden="true" />
               <h3 className="font-bold mb-1">Ubicaci&oacute;n</h3>
-               <p className="text-[#a3a3a3] text-sm">Villarrica, Chile</p>
+               <p className="text-[var(--tattoo-text-muted)] text-sm">Villarrica, Chile</p>
             </div>
-            <div className="bg-[#141414] border border-[#2a2a2a] rounded-xl p-6">
-              <Clock className="w-6 h-6 text-[#ef4444] mb-3" aria-hidden="true" />
+            <div className="bg-[var(--tattoo-surface)] border border-[var(--tattoo-border)] rounded-xl p-6">
+              <Clock className="w-6 h-6 text-[var(--tattoo-accent)] mb-3" aria-hidden="true" />
               <h3 className="font-bold mb-1">Horario</h3>
-              <p className="text-[#a3a3a3] text-sm">Lunes a S&aacute;bado, 10:00 - 19:00</p>
+              <p className="text-[var(--tattoo-text-muted)] text-sm">Lunes a S&aacute;bado, 10:00 - 19:00</p>
             </div>
           </div>
         </Reveal>
 
         <Reveal delay={0.3}>
           <div className="mb-12">
-            <h2 className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold mb-4">
+            <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold mb-4">
               Estilos
             </h2>
             <div className="flex flex-wrap gap-2">
               {["Blackwork", "Dotwork", "Geométrico", "Neo-tradicional", "Linework"].map((style) => (
                 <span
                   key={style}
-                  className="px-4 py-2 bg-[#141414] border border-[#2a2a2a] rounded-full text-sm"
+                  className="px-4 py-2 bg-[var(--tattoo-surface)] border border-[var(--tattoo-border)] rounded-full text-sm"
                 >
                   {style}
                 </span>
@@ -86,7 +86,7 @@ export default function SobreMiPage() {
                href="https://instagram.com/pajaro_maca"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[#a3a3a3] hover:text-[#f5f5f5] transition-colors focus-visible:outline-2 focus-visible:outline-[#ef4444] focus-visible:outline-offset-2"
+              className="inline-flex items-center gap-2 text-[var(--tattoo-text-muted)] hover:text-[var(--tattoo-text)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--tattoo-accent)] focus-visible:outline-offset-2"
                aria-label="Instagram @pajaro_maca"
             >
               <Instagram className="w-5 h-5" aria-hidden="true" />

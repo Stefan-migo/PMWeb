@@ -45,7 +45,7 @@ export function ImageLightbox({ images, variant = "tattoo" }: ImageLightboxProps
           onClick={() => openLightbox(i)}
           className={`aspect-square rounded-lg overflow-hidden group cursor-pointer relative ${
             isTattoo
-              ? "bg-[#141414]"
+              ? "bg-[var(--tattoo-surface)]"
               : "bg-white border border-[#e7e5e4]"
           }`}
           aria-label={`Ver ${img.alt || `imagen ${i + 1}`}`}

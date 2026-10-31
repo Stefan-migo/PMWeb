@@ -39,10 +39,19 @@ test.describe("Tattoo Section", () => {
     await expect(page.getByRole("heading", { name: "Primeras 24 h" })).toBeVisible();
   });
 
-  test("portafolio should have filter buttons", async ({ page }) => {
+  test("portafolio shows every piece and only offers filters it can honour", async ({ page }) => {
     await page.goto("/tatuajes/portafolio");
-    const filterButtons = page.getByRole("tab");
-    await expect(filterButtons).toHaveCount(6);
+
+    await expect(page.getByRole("heading", { name: "Portafolio", level: 1 })).toBeVisible();
+    await expect(page.getByRole("button", { name: /^Ver Tatuaje/ })).toHaveCount(8);
+    // Counting buttons is not enough: without the grid container they render with
+    // zero size and the gallery reads as empty.
+    await expect(page.getByRole("button", { name: /^Ver Tatuaje/ }).first()).toBeVisible();
+
+    // The local collection carries no style metadata, so a style filter rendered
+    // today would be a row of buttons with nothing to filter. It appears on its
+    // own once works are loaded with a style.
+    await expect(page.getByRole("button", { name: "Todos" })).toHaveCount(0);
   });
 
   test("should display available designs", async ({ page }) => {

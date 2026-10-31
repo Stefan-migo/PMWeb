@@ -42,17 +42,14 @@ const localPortfolioRecords: Tattoo[] = portfolioImages.map((image, index) => ({
 }));
 
 export async function getTattoos(): Promise<Tattoo[]> {
-  try {
-    const supabase = await getSupabaseServer();
-    const { data, error } = await supabase
-      .from("tattoos")
-      .select("*")
-      .eq("is_published", true)
-      .order("sort_order", { ascending: true });
-    return resolveTattooRecords(async () => ({ data: data as Tattoo[] | null, error }), localPortfolioRecords);
-  } catch {
-    return localPortfolioRecords;
-  }
+  const { records } = await loadTattooCollection();
+  return records;
+}
+
+/** Portfolio records keep their style metadata so the gallery can filter by it. */
+export async function getPortfolioRecords(): Promise<Tattoo[]> {
+  const { records } = await loadTattooCollection();
+  return records;
 }
 
 export function toPortfolioImages(records: Tattoo[]): TattooImage[] {
@@ -78,7 +75,42 @@ export async function getPortfolioImages(): Promise<TattooImage[]> {
   return records.length ? toPortfolioImages(records) : portfolioImages;
 }
 
+/**
+ * Which source the records came from. Availability is decided by the source, not
+ * by sniffing record ids: the local collection is a fallback, not data.
+ */
+export type TattooSource = "database" | "fallback";
+
+async function loadTattooCollection(): Promise<{
+  records: Tattoo[];
+  source: TattooSource;
+}> {
+  try {
+    const supabase = await getSupabaseServer();
+    const { data, error } = await supabase
+      .from("tattoos")
+      .select("*")
+      .eq("is_published", true)
+      .order("sort_order", { ascending: true });
+
+    if (error || !data?.length) {
+      return { records: localPortfolioRecords, source: "fallback" };
+    }
+
+    return { records: data as Tattoo[], source: "database" };
+  } catch {
+    return { records: localPortfolioRecords, source: "fallback" };
+  }
+}
+
+export function designsForSource(
+  records: Tattoo[],
+  source: TattooSource,
+): AvailableDesign[] {
+  return source === "database" ? toAvailableDesigns(records) : availableDesigns;
+}
+
 export async function getAvailableDesigns(): Promise<AvailableDesign[]> {
-  const records = await getTattoos();
-  return records[0]?.id.toString().startsWith("local-") ? availableDesigns : toAvailableDesigns(records);
+  const { records, source } = await loadTattooCollection();
+  return designsForSource(records, source);
 }
