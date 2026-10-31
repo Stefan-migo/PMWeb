@@ -11,6 +11,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Reveal } from "@/app/_components/shared/Reveal";
+import { whatsAppLink } from "@/app/_lib/tattoo/contact";
 
 export const metadata: Metadata = {
   title: "Cotizar un tatuaje",
@@ -37,8 +38,8 @@ const faqs = [
 ];
 
 export default function CotizarPage() {
-  const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "56912345678";
-  const message = encodeURIComponent("Hola, quiero cotizar un tatuaje.\n\nQué quiero tatuarme: \nUbicación en el cuerpo: \nTamaño en centímetros: ");
+  const message =
+    "Hola, quiero cotizar un tatuaje.\n\nQué quiero tatuarme: \nUbicación en el cuerpo: \nTamaño en centímetros: ";
 
   return (
     <div className="bg-[var(--tattoo-bg)] px-4 py-20 text-[var(--tattoo-text)] sm:px-6 lg:px-8 lg:py-28">
@@ -88,7 +89,7 @@ export default function CotizarPage() {
 
         <Reveal delay={0.15}>
           <section className="mt-20 border border-[var(--tattoo-accent)]/50 bg-[var(--tattoo-accent)]/10 p-6 sm:p-8" aria-label="Contacto para cotizar">
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"><div><p className="text-xs font-medium uppercase tracking-[.16em] text-[var(--tattoo-accent)]">Hablemos</p><h2 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-bold">Tu idea merece un espacio propio.</h2></div><div className="flex flex-col gap-3 sm:flex-row"><a className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--tattoo-accent)] px-6 py-4 font-medium text-white transition-colors hover:bg-[var(--tattoo-accent-hover)]" href={`https://wa.me/${number}?text=${message}`} target="_blank" rel="noopener noreferrer"><MessageCircle className="h-5 w-5" aria-hidden="true" /> Enviar por WhatsApp <ArrowRight className="h-4 w-4" aria-hidden="true" /></a><a className="inline-flex items-center justify-center gap-2 rounded-lg border border-[var(--tattoo-border)] px-6 py-4 font-medium transition-colors hover:border-[var(--tattoo-accent)]" href="https://instagram.com/pajaro_maca" target="_blank" rel="noopener noreferrer"><Instagram className="h-5 w-5" aria-hidden="true" /> Instagram</a></div></div>
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"><div><p className="text-xs font-medium uppercase tracking-[.16em] text-[var(--tattoo-accent)]">Hablemos</p><h2 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-bold">Tu idea merece un espacio propio.</h2></div><div className="flex flex-col gap-3 sm:flex-row"><a className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--tattoo-accent)] px-6 py-4 font-medium text-white transition-colors hover:bg-[var(--tattoo-accent-hover)]" href={whatsAppLink(message)} target="_blank" rel="noopener noreferrer"><MessageCircle className="h-5 w-5" aria-hidden="true" /> Enviar por WhatsApp <ArrowRight className="h-4 w-4" aria-hidden="true" /></a><a className="inline-flex items-center justify-center gap-2 rounded-lg border border-[var(--tattoo-border)] px-6 py-4 font-medium transition-colors hover:border-[var(--tattoo-accent)]" href="https://instagram.com/pajaro_maca" target="_blank" rel="noopener noreferrer"><Instagram className="h-5 w-5" aria-hidden="true" /> Instagram</a></div></div>
           </section>
         </Reveal>
       </div>
