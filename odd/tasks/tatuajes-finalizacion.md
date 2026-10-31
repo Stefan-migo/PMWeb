@@ -44,7 +44,7 @@ S6 — Existing behaviour keeps working: the portfolio grid, the lightbox, and t
 | T3 | S2 | C1 — source-aware fallback detection | done (48a09ad) |
 | T4 | S6 | C2 — one WhatsApp helper, same behaviour | done (c19e8b7) |
 | T5 | S1-S6 | tests: unit for the filter helpers and the source detection, e2e for the portfolio | done (48a09ad) |
-| T6 | S1 | A2 — the quote form | blocked on a product decision |
+| T6 | S1 | A2 — the quote form | resolved by decision: WhatsApp only, API retired (see L9) |
 | T7 | S2 | C3 — 3 MB source images per piece | new, not fixed |
 
 ## Log
@@ -62,5 +62,9 @@ L5 (risk on C2): removing the hardcoded WhatsApp fallback would break the existi
 L6 (bug found by looking, not by testing): extracting the gallery into `PortfolioGallery` dropped the grid container, so the eight buttons rendered with zero size and the page showed an empty area. The e2e test passed because it counted buttons instead of asserting visibility. Caught by taking a screenshot and reading it; the test now asserts the first button is visible. Lesson: a count is not a render.
 
 L7 (C3, observed): two tiles were blank 1.2s after load. The files exist and answer 200; they are ~3 MB each. Recorded as a performance defect, not fixed: the real photographs will replace them.
+
+L9 (user decision, quote form): "Solo WhatsApp: borro la API huérfana". `/api/quote` and its duplicated schema test are deleted. The `quote_requests` table is left in place: its migration is applied in production and dropping a table is destructive, so that belongs to a separate explicit step.
+
+L10 (flake, again): after the deletion, a full-suite run failed two click-navigation tests while taking 3.6m instead of ~30s, with `rm -rf .next` and the build in the same command chain. `e2e/tatuajes.spec.ts` then passed 8/8 twice in a row (13.4s and 12.4s) with the disk idle. Same known flake, not a regression from the deletion.
 
 L8 (checks): `tsc --noEmit` clean, eslint clean on every touched path, unit suite 65/65 (13 files, was 53), `npm run build` green, `e2e/tatuajes.spec.ts` 8/8 and `e2e/landing.spec.ts` 3/3 in CI mode against the production build.
