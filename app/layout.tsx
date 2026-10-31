@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Cormorant_Garamond } from "next/font/google";
+import {
+  Inter,
+  Space_Grotesk,
+  Cormorant_Garamond,
+  Bebas_Neue,
+} from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -20,6 +25,14 @@ const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "600", "700"],
   variable: "--font-cormorant",
+  display: "swap",
+});
+
+// Bebas Neue ships a single weight (400); the landing block keeps font-normal.
+const bebasNeue = Bebas_Neue({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-bebas",
   display: "swap",
 });
 
@@ -79,7 +92,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${cormorant.variable}`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${cormorant.variable} ${bebasNeue.variable}`}
     >
       <head>
         <link rel="preconnect" href="https://*.r2.dev" crossOrigin="anonymous" />

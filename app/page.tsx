@@ -1,10 +1,10 @@
-import { LandingTriSplit } from "@/app/_components/blocks/LandingTriSplit/LandingTriSplit";
+import { LandingTriSplitDistinct } from "@/app/_components/blocks/LandingTriSplitDistinct/LandingTriSplitDistinct";
 
 export default function HomePage() {
   return (
     <main className="min-h-screen flex flex-col">
       <div className="flex-1">
-        <LandingTriSplit
+        <LandingTriSplitDistinct
           hrefTattoo="/tatuajes"
           hrefStage="/escenico"
           hrefArt="/arte"
