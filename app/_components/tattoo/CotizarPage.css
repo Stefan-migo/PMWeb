@@ -1,0 +1,455 @@
+/* Cotizar, in the approved design. The composer prepares the message; Instagram
+   is the first destination and copies it, because a URL cannot prefill it. */
+.tp-cotizar__intro-mark {
+  height: 100px;
+}
+
+.tp-cotizar__inquiry {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 10%;
+  border-top: 1px solid var(--tattoo-border);
+  padding: 55px 0 70px;
+}
+
+.tp-cotizar__aside h2 {
+  margin: 0;
+  font-size: 2.6875rem;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.tp-cotizar__aside h2 em {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.tp-cotizar__aside > p:not(.tattoo-eyebrow) {
+  max-width: 300px;
+  margin: 25px 0;
+  color: var(--tattoo-text-muted);
+  font-size: 0.75rem;
+}
+
+.tp-cotizar__note {
+  margin: 35px 0;
+  font-size: 0.5625rem;
+  letter-spacing: 0.05em;
+  line-height: 2.5;
+  text-transform: uppercase;
+}
+
+.tp-cotizar__dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 8px;
+  background: var(--tattoo-accent);
+}
+
+.tp-cotizar__note span:last-child {
+  margin-left: 16px;
+  color: var(--tattoo-text-muted);
+}
+
+.tp-cotizar__field {
+  margin-bottom: 30px;
+}
+
+.tp-cotizar__field label {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 0.875rem;
+}
+
+.tp-cotizar__field label span {
+  margin-right: 17px;
+  color: var(--tattoo-accent);
+  font-size: 0.5625rem;
+}
+
+.tp-cotizar__field input,
+.tp-cotizar__field textarea {
+  width: 100%;
+  border: 1px solid var(--tattoo-border);
+  border-radius: 2px;
+  background: rgb(255 255 255 / 2%);
+  color: var(--tattoo-text);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  padding: 16px;
+  resize: vertical;
+}
+
+.tp-cotizar__field input:focus,
+.tp-cotizar__field textarea:focus {
+  border-color: var(--tattoo-accent);
+  outline: 1px solid var(--tattoo-accent);
+}
+
+.tp-cotizar__field input::placeholder,
+.tp-cotizar__field textarea::placeholder {
+  color: #8d8c85;
+}
+
+.tp-cotizar__field small {
+  display: block;
+  margin-top: 10px;
+  color: var(--tattoo-text-muted);
+  font-size: 0.5625rem;
+}
+
+.tp-cotizar__submit {
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+}
+
+.tp-cotizar__form-note {
+  margin: 17px 0 0;
+  color: var(--tattoo-text-muted);
+  font-size: 0.5625rem;
+}
+
+/* Message review ---------------------------------------------------------- */
+
+.tp-cotizar__review {
+  border: 1px solid var(--tattoo-border);
+  background: var(--tattoo-surface);
+  margin-top: 30px;
+  padding: 28px;
+}
+
+.tp-cotizar__review h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.tp-cotizar__review h3:focus-visible,
+.tp-cotizar__review:focus-visible {
+  outline: 2px solid var(--tattoo-accent);
+  outline-offset: 4px;
+}
+
+.tp-cotizar__preview {
+  margin: 23px 0;
+  color: var(--tattoo-text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.tp-cotizar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+}
+
+.tp-cotizar__alt {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--tattoo-border);
+  border-radius: 2px;
+  padding: 16px 20px;
+  font-size: 0.75rem;
+  transition: border-color 200ms ease-out, color 200ms ease-out;
+}
+
+.tp-cotizar__alt:hover,
+.tp-cotizar__alt:focus-visible {
+  border-color: var(--tattoo-accent);
+  color: var(--tattoo-accent);
+}
+
+.tp-cotizar__email {
+  color: var(--tattoo-text-muted);
+  font-size: 0.6875rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.tp-cotizar__hint {
+  margin: 20px 0 0;
+  color: var(--tattoo-text-muted);
+  font-size: 0.625rem;
+  line-height: 1.8;
+}
+
+.tp-cotizar__status {
+  min-height: 1.2em;
+  margin: 10px 0 0;
+  color: var(--tattoo-accent);
+  font-size: 0.625rem;
+}
+
+/* Process and FAQ --------------------------------------------------------- */
+
+.tp-cotizar__process {
+  border-top: 1px solid var(--tattoo-border);
+  border-bottom: 1px solid var(--tattoo-border);
+  padding: 60px 0;
+}
+
+.tp-cotizar__process h2 {
+  margin: 0;
+  font-size: 3rem;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.tp-cotizar__process h2 em {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.tp-cotizar__steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  margin-top: 45px;
+}
+
+.tp-cotizar__steps article {
+  border-top: 1px solid var(--tattoo-border);
+  padding-top: 22px;
+}
+
+.tp-cotizar__steps article > span {
+  color: var(--tattoo-accent);
+  font-size: 0.5625rem;
+}
+
+.tp-cotizar__steps h3 {
+  margin: 25px 0 15px;
+  font-size: 1.125rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+.tp-cotizar__steps p {
+  margin: 0;
+  color: var(--tattoo-text-muted);
+  font-size: 0.6875rem;
+}
+
+.tp-cotizar__faq {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 10%;
+  padding: 75px 0 100px;
+}
+
+.tp-cotizar__faq h2 {
+  margin: 0;
+  font-size: 2.6875rem;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.tp-cotizar__faq h2 em {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.tp-cotizar__faq-list details {
+  border-top: 1px solid var(--tattoo-border);
+}
+
+.tp-cotizar__faq-list details:last-child {
+  border-bottom: 1px solid var(--tattoo-border);
+}
+
+.tp-cotizar__faq-list summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  list-style: none;
+  padding: 24px 0;
+}
+
+.tp-cotizar__faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.tp-cotizar__faq-list summary span {
+  color: var(--tattoo-accent);
+  font-size: 1.1875rem;
+  transition: transform 250ms ease-out;
+}
+
+.tp-cotizar__faq-list details[open] summary span {
+  transform: rotate(45deg);
+}
+
+.tp-cotizar__faq-list details p {
+  margin: 0;
+  color: var(--tattoo-text-muted);
+  font-size: 0.75rem;
+  line-height: 1.9;
+  padding: 0 30px 25px 0;
+}
+
+.tp-cotizar__faq-list summary:focus-visible {
+  outline: 1px solid var(--tattoo-accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1000px) {
+  .tp-cotizar__inquiry,
+  .tp-cotizar__faq {
+    gap: 6%;
+  }
+
+  .tp-cotizar__process h2 {
+    font-size: 2.625rem;
+  }
+
+  .tp-cotizar__steps {
+    gap: 20px;
+  }
+
+  .tp-cotizar__steps h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .tp-cotizar__inquiry {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding: 35px 0 55px;
+  }
+
+  .tp-cotizar__aside h2 {
+    font-size: 2.375rem;
+  }
+
+  .tp-cotizar__aside > p:not(.tattoo-eyebrow) {
+    max-width: 100%;
+    font-size: 0.75rem;
+  }
+
+  .tp-cotizar__note {
+    margin: 22px 0;
+    font-size: 0.5625rem;
+  }
+
+  .tp-cotizar__form {
+    border-top: 1px solid var(--tattoo-border);
+    padding-top: 30px;
+  }
+
+  .tp-cotizar__field label {
+    font-size: 0.8125rem;
+  }
+
+  .tp-cotizar__field label span {
+    margin-right: 12px;
+  }
+
+  /* 16px keeps mobile browsers from zooming into the field. */
+  .tp-cotizar__field input,
+  .tp-cotizar__field textarea {
+    font-size: 1rem;
+    padding: 14px;
+  }
+
+  .tp-cotizar__field input::placeholder,
+  .tp-cotizar__field textarea::placeholder {
+    font-size: 0.75rem;
+  }
+
+  .tp-cotizar__field small {
+    font-size: 0.5625rem;
+    line-height: 1.7;
+  }
+
+  .tp-cotizar__form-note {
+    font-size: 0.5625rem;
+    line-height: 1.8;
+  }
+
+  .tp-cotizar__submit {
+    font-size: 0.75rem;
+    padding: 17px 20px;
+  }
+
+  .tp-cotizar__review {
+    padding: 23px;
+  }
+
+  .tp-cotizar__review h3 {
+    font-size: 1.375rem;
+  }
+
+  .tp-cotizar__preview {
+    font-size: 0.6875rem;
+  }
+
+  .tp-cotizar__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tp-cotizar__actions > * {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tp-cotizar__process {
+    padding: 40px 0;
+  }
+
+  .tp-cotizar__process h2,
+  .tp-cotizar__faq h2 {
+    font-size: 2.5rem;
+  }
+
+  .tp-cotizar__steps {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px 20px;
+    margin-top: 30px;
+  }
+
+  .tp-cotizar__steps h3 {
+    margin: 20px 0 15px;
+    font-size: 1.0625rem;
+  }
+
+  .tp-cotizar__steps p {
+    font-size: 0.6875rem;
+  }
+
+  .tp-cotizar__faq {
+    display: block;
+    padding: 50px 0 70px;
+  }
+
+  .tp-cotizar__faq-list {
+    margin-top: 30px;
+  }
+
+  .tp-cotizar__faq-list summary {
+    font-size: 0.75rem;
+    padding: 21px 0;
+  }
+
+  .tp-cotizar__faq-list details p {
+    font-size: 0.6875rem;
+  }
+}

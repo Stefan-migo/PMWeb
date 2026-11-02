@@ -1,100 +1,137 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { MapPin, Clock, Instagram } from "lucide-react";
+import Link from "next/link";
 import { Reveal } from "@/app/_components/shared/Reveal";
+import { TattooMark } from "@/app/_components/tattoo/TattooMark";
+import { TattooBreadcrumb, TattooPageCta } from "@/app/_components/tattoo/TattooSubpage";
+import "./SobreMiPage.css";
 
 export const metadata: Metadata = {
-  title: "Sobre Mí — Tatuajes",
-  description:
-    "Conoce más sobre mi trabajo como tatuadora en Villarrica, Chile. Mi historia, estilo y experiencia en blackwork, dotwork y más.",
-  openGraph: {
-    title: "Sobre Mí — Tatuajes | PajaroMaca",
-    description: "Tatuadora profesional en Villarrica. Blackwork, dotwork, geométrico.",
-  },
+  title: "Sobre mí",
+  description: "Sobre mí · Pájaro Maca. Arte en la piel, Villarrica, Chile.",
 };
+
+const styles = ["Blackwork", "Dotwork", "Geométrico", "Neo-tradicional", "Linework"];
 
 export default function SobreMiPage() {
   return (
-    <div className="py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        <Reveal>
-          <div className="mb-12">
-            <h1 className="font-[family-name:var(--font-display)] text-3xl lg:text-4xl font-bold mb-4">
-              Sobre M&iacute;
+    <div className="tattoo-subpage tp-sobre-mi">
+      <TattooBreadcrumb current="Sobre mí" />
+
+      <section className="tp-sobre-mi__artist">
+        <div className="tp-sobre-mi__image">
+          <Image
+            src="/design/tatuajes-redesign/tattoo-detail.webp"
+            alt="Detalle de un tatuaje ornamental realizado por Pájaro Maca"
+            fill
+            sizes="(max-width: 700px) 92vw, 50vw"
+            className="tp-sobre-mi__image-photo"
+          />
+          <span className="tp-sobre-mi__image-label">
+            El detalle también cuenta una historia.
+          </span>
+        </div>
+
+        <Reveal className="tp-sobre-mi__story" delay={0.1}>
+          <div>
+            <p className="tattoo-eyebrow">03 / Sobre mí</p>
+            <h1>
+              Mi trazo.
+              <br />
+              <em>Tu historia.</em>
             </h1>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.1}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-             <div className="relative aspect-square bg-[var(--tattoo-surface)] rounded-xl overflow-hidden" aria-label="Trabajo de tatuaje">
-               <Image src="/design/landing/tattoo.jpg" alt="Trabajo de tatuaje" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
-            </div>
-            <div>
-              <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold mb-4">
-                Mi Historia
-              </h2>
-              <p className="text-[var(--tattoo-text-muted)] mb-4 leading-relaxed">
-                Soy tatuadora y artista visual con a&ntilde;os de experiencia en el mundo del tatuaje.
-                Mi pasi&oacute;n por el arte me llev&oacute; a especializarme en dise&ntilde;os personalizados que
-                cuentan historias &uacute;nicas en la piel de cada persona.
-              </p>
-              <p className="text-[var(--tattoo-text-muted)] leading-relaxed">
-                Cada tatuaje es una colaboraci&oacute;n entre t&uacute; y yo. Me gusta conocer la historia
-                detr&aacute;s de cada dise&ntilde;o antes de empezar a tatuar.
-              </p>
-            </div>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.2}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-            <div className="bg-[var(--tattoo-surface)] border border-[var(--tattoo-border)] rounded-xl p-6">
-              <MapPin className="w-6 h-6 text-[var(--tattoo-accent)] mb-3" aria-hidden="true" />
-              <h3 className="font-bold mb-1">Ubicaci&oacute;n</h3>
-               <p className="text-[var(--tattoo-text-muted)] text-sm">Villarrica, Chile</p>
-            </div>
-            <div className="bg-[var(--tattoo-surface)] border border-[var(--tattoo-border)] rounded-xl p-6">
-              <Clock className="w-6 h-6 text-[var(--tattoo-accent)] mb-3" aria-hidden="true" />
-              <h3 className="font-bold mb-1">Horario</h3>
-              <p className="text-[var(--tattoo-text-muted)] text-sm">Lunes a S&aacute;bado, 10:00 - 19:00</p>
-            </div>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.3}>
-          <div className="mb-12">
-            <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold mb-4">
-              Estilos
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {["Blackwork", "Dotwork", "Geométrico", "Neo-tradicional", "Linework"].map((style) => (
-                <span
-                  key={style}
-                  className="px-4 py-2 bg-[var(--tattoo-surface)] border border-[var(--tattoo-border)] rounded-full text-sm"
-                >
-                  {style}
-                </span>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.4}>
-          <div className="text-center">
+            <p className="tp-sobre-mi__opening">
+              Soy tatuadora
+              <br />
+              y artista visual.
+            </p>
+            <p className="tp-sobre-mi__text">
+              Mi pasión por el arte me llevó a especializarme en diseños personalizados que cuentan
+              historias únicas en la piel de cada persona.
+            </p>
+            <p className="tp-sobre-mi__text">
+              Cada tatuaje es una colaboración entre tú y yo. Me gusta conocer la historia detrás de
+              cada diseño antes de empezar a tatuar.
+            </p>
             <a
-               href="https://instagram.com/pajaro_maca"
+              className="tattoo-text-link"
+              href="https://instagram.com/pajaro_maca"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[var(--tattoo-text-muted)] hover:text-[var(--tattoo-text)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--tattoo-accent)] focus-visible:outline-offset-2"
-               aria-label="Instagram @pajaro_maca"
             >
-              <Instagram className="w-5 h-5" aria-hidden="true" />
-               <span>@pajaro_maca</span>
+              @pajaro_maca <span aria-hidden="true">↗</span>
             </a>
           </div>
         </Reveal>
-      </div>
+      </section>
+
+      <section className="tp-sobre-mi__studio" aria-label="Datos del estudio">
+        <div>
+          <span>01 / Dónde</span>
+          <h2>Villarrica, Chile</h2>
+          <p>Diseño personalizado, en el sur.</p>
+        </div>
+        <div>
+          <span>02 / Cuándo</span>
+          <h2>Lunes a sábado</h2>
+          <p>10:00 — 19:00</p>
+        </div>
+        <Link href="/tatuajes/cotizar">
+          <span>03 / Conversemos</span>
+          <h2>Tu idea es el comienzo ↗</h2>
+          <p>Hablemos de tu próxima pieza.</p>
+        </Link>
+      </section>
+
+      <Reveal>
+        <section className="tp-sobre-mi__philosophy">
+          <p className="tattoo-eyebrow">Una colaboración en la piel</p>
+          <p className="tp-sobre-mi__quote">
+            Antes de dibujar,
+            <br />
+            <em>me gusta escuchar.</em>
+          </p>
+          <TattooMark className="tp-sobre-mi__philosophy-mark" />
+        </section>
+      </Reveal>
+
+      <section className="tp-sobre-mi__styles">
+        <Reveal>
+          <div>
+            <p className="tattoo-eyebrow">Lenguajes que exploro</p>
+            <h2>
+              Un universo.
+              <br />
+              <em>Muchos trazos.</em>
+            </h2>
+            <p className="tp-sobre-mi__text">Cada idea encuentra su propio lenguaje visual.</p>
+            <Link className="tattoo-text-link" href="/tatuajes/portafolio">
+              Explorar mi trabajo <span aria-hidden="true">↗</span>
+            </Link>
+          </div>
+        </Reveal>
+
+        <ol className="tp-sobre-mi__style-list">
+          {styles.map((style, index) => (
+            <li key={style}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{style}</h3>
+              <TattooMark className="tp-sobre-mi__style-mark" />
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <TattooPageCta
+        eyebrow="Una idea. Una conversación."
+        title={
+          <>
+            Lo creamos <em>juntos.</em>
+          </>
+        }
+        href="/tatuajes/cotizar"
+        label="Hablemos de tu idea"
+      />
     </div>
   );
 }

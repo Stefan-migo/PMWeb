@@ -1,8 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import {
   getContactEmail,
   mailtoLink,
+  tattooInstagramDmUrl,
   tattooInstagramUrl,
 } from "@/app/_lib/tattoo/contact";
 import CotizarPage from "../app/(tattoo)/tatuajes/cotizar/page";
@@ -12,8 +13,9 @@ describe("tattoo contact channels", () => {
     vi.unstubAllEnvs();
   });
 
-  it("publishes the Instagram profile as the primary channel", () => {
+  it("publishes the Instagram profile and its direct messages", () => {
     expect(tattooInstagramUrl).toBe("https://instagram.com/pajaro_maca");
+    expect(tattooInstagramDmUrl).toBe("https://ig.me/m/pajaro_maca");
   });
 
   it("publishes the configured email address", () => {
@@ -37,31 +39,61 @@ describe("tattoo contact channels", () => {
   });
 });
 
-describe("cotizar page contact order", () => {
-  it("offers Instagram first, then WhatsApp, then the published email", () => {
-    vi.stubEnv("NEXT_PUBLIC_CONTACT_EMAIL", "hola@pajaromaca.test");
-    render(<CotizarPage />);
+function fillAndSubmit() {
+  fireEvent.change(screen.getByLabelText(/Qué te gustaría tatuarte/), {
+    target: { value: "Una rama de lavanda en el antebrazo" },
+  });
+  fireEvent.change(screen.getByLabelText(/En qué parte del cuerpo/), {
+    target: { value: "antebrazo izquierdo" },
+  });
+  fireEvent.change(screen.getByLabelText(/Qué tamaño imaginas/), {
+    target: { value: "10 × 15 cm" },
+  });
+  fireEvent.click(screen.getByRole("button", { name: /Preparar mi mensaje/ }));
+}
 
-    const contact = screen.getByRole("region", { name: "Contacto para cotizar" });
-    const links = within(contact).getAllByRole("link");
-
-    expect(links).toHaveLength(3);
-    expect(links[0]).toHaveAttribute("href", tattooInstagramUrl);
-    expect(links[1].getAttribute("href")).toMatch(/^https:\/\/wa\.me\//);
-    expect(links[2].getAttribute("href")).toMatch(/^mailto:hola@pajaromaca\.test\?/);
-
+describe("cotizar composer", () => {
+  afterEach(() => {
     vi.unstubAllEnvs();
   });
 
-  it("publishes the email address as readable text instead of a form", () => {
+  it("prepares the message from the three fields without sending anything", () => {
+    render(<CotizarPage />);
+
+    expect(screen.queryByText(/Así empieza la conversación/)).not.toBeInTheDocument();
+
+    fillAndSubmit();
+
+    expect(screen.getByText(/Así empieza la conversación/)).toBeInTheDocument();
+    expect(screen.getByText(/Una rama de lavanda en el antebrazo/)).toBeInTheDocument();
+    expect(screen.getByText(/antebrazo izquierdo/)).toBeInTheDocument();
+    expect(screen.getByText(/10 × 15 cm/)).toBeInTheDocument();
+  });
+
+  it("leads with Instagram, then WhatsApp, then the published email", () => {
     vi.stubEnv("NEXT_PUBLIC_CONTACT_EMAIL", "hola@pajaromaca.test");
-    const { container } = render(<CotizarPage />);
+    render(<CotizarPage />);
 
-    const contact = screen.getByRole("region", { name: "Contacto para cotizar" });
+    fillAndSubmit();
 
-    expect(within(contact).getByText("hola@pajaromaca.test")).toBeInTheDocument();
-    expect(container.querySelector("form")).toBeNull();
+    const actions = document.querySelector(".tp-cotizar__actions") as HTMLElement;
 
-    vi.unstubAllEnvs();
+    expect(within(actions).getByRole("button", { name: /Abrir Instagram/ })).toBeInTheDocument();
+
+    const links = within(actions).getAllByRole("link");
+
+    expect(links).toHaveLength(2);
+    expect(links[0].getAttribute("href")).toMatch(/^https:\/\/wa\.me\//);
+    expect(links[1].getAttribute("href")).toMatch(/^mailto:hola@pajaromaca\.test\?/);
+    expect(links[1]).toHaveTextContent("hola@pajaromaca.test");
+  });
+
+  it("offers the Instagram destination pointed at the profile's direct messages", async () => {
+    render(<CotizarPage />);
+
+    fillAndSubmit();
+
+    expect(tattooInstagramDmUrl).toBe("https://ig.me/m/pajaro_maca");
+    expect(screen.getByText(/Instagram no admite texto precargado/)).toBeInTheDocument();
   });
 });

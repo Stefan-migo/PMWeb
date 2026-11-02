@@ -13,6 +13,13 @@ const FALLBACK_WHATSAPP_NUMBER = "56912345678";
 const FALLBACK_CONTACT_EMAIL = "pajaro.maca.arte@gmail.com";
 
 export const tattooInstagramUrl = "https://instagram.com/pajaro_maca";
+export const tattooInstagramHandle = "pajaro_maca";
+
+/**
+ * Instagram cannot receive prefilled text through a URL, so the composer copies
+ * the message and then opens the direct conversation.
+ */
+export const tattooInstagramDmUrl = `https://ig.me/m/${tattooInstagramHandle}`;
 
 export function getWhatsAppNumber(): string {
   return process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || FALLBACK_WHATSAPP_NUMBER;

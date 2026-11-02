@@ -1,0 +1,554 @@
+/* Cuidados, in the approved design. Scoped to the page. */
+.tp-cuidados__print {
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  background: none;
+  cursor: pointer;
+  padding: 0 0 12px;
+}
+
+.tp-cuidados__layout {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 60px;
+  border-top: 1px solid var(--tattoo-border);
+  padding-top: 55px;
+  padding-bottom: 80px;
+}
+
+.tp-cuidados__toc {
+  position: sticky;
+  top: calc(var(--tattoo-header-height) + 44px);
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.tp-cuidados__toc > span {
+  margin-bottom: 5px;
+  color: var(--tattoo-accent);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tp-cuidados__toc a {
+  color: var(--tattoo-text-muted);
+  font-size: 0.6875rem;
+}
+
+.tp-cuidados__toc a:hover {
+  color: var(--tattoo-text);
+}
+
+.tp-cuidados__body h2 {
+  margin: 0;
+  font-size: 2.6875rem;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.tp-cuidados__body h2 em {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+/* Stages ------------------------------------------------------------------ */
+
+.tp-cuidados__tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid var(--tattoo-border);
+  margin-top: 35px;
+}
+
+.tp-cuidados__tabs button {
+  position: relative;
+  border: 0;
+  border-top: 1px solid var(--tattoo-border);
+  background: none;
+  color: var(--tattoo-text-muted);
+  cursor: pointer;
+  padding: 20px 12px;
+  text-align: left;
+}
+
+.tp-cuidados__tabs button > span:first-child {
+  display: block;
+  margin-bottom: 13px;
+  font-size: 0.5rem;
+}
+
+.tp-cuidados__tabs b {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.tp-cuidados__tabs button[aria-selected="true"] {
+  border-top: 2px solid var(--tattoo-accent);
+  background: rgb(255 255 255 / 2%);
+  color: var(--tattoo-text);
+}
+
+.tp-cuidados__tab-marker {
+  position: absolute;
+  top: 18px;
+  right: 12px;
+  color: var(--tattoo-accent);
+  font-size: 0.8125rem;
+  opacity: 0;
+}
+
+.tp-cuidados__tabs button[aria-selected="true"] .tp-cuidados__tab-marker {
+  opacity: 1;
+}
+
+.tp-cuidados__panels {
+  min-height: 245px;
+  background: var(--tattoo-surface);
+  padding: 35px 30px;
+}
+
+.tp-cuidados__panels [role="tabpanel"] {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  animation: tp-panel-in 450ms ease;
+}
+
+.tp-cuidados__panels [hidden] {
+  display: none;
+}
+
+.tp-cuidados__stage-number {
+  color: rgb(211 88 73 / 24%);
+  font-size: 7.1875rem;
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.tp-cuidados__panels h3 {
+  margin: 0 0 18px;
+  font-size: 1.875rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.tp-cuidados__panels .tattoo-eyebrow {
+  margin-bottom: 15px;
+  font-size: 0.5rem;
+}
+
+.tp-cuidados__panels p:not(.tattoo-eyebrow) {
+  max-width: 440px;
+  margin: 0;
+  color: var(--tattoo-text-muted);
+  font-size: 0.75rem;
+  line-height: 1.9;
+}
+
+.tp-cuidados__caption {
+  margin-top: 15px;
+  color: var(--tattoo-text-muted);
+  font-size: 0.5625rem;
+}
+
+/* Signals and avoids ------------------------------------------------------ */
+
+.tp-cuidados__signals,
+.tp-cuidados__avoid {
+  padding-top: 75px;
+  scroll-margin-top: calc(var(--tattoo-header-height) + 20px);
+}
+
+#etapas,
+#dudas {
+  scroll-margin-top: calc(var(--tattoo-header-height) + 20px);
+}
+
+.tp-cuidados__signals-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.tp-cuidados__signals-grid > div {
+  border: 1px solid var(--tattoo-border);
+  padding: 28px 25px;
+}
+
+.tp-cuidados__alert {
+  border-color: rgb(211 88 73 / 31%) !important;
+  background: rgb(211 88 73 / 4%);
+}
+
+.tp-cuidados__signal-icon {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  margin-bottom: 25px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: #8bb3a0;
+  font-size: 0.875rem;
+  place-items: center;
+}
+
+.tp-cuidados__alert .tp-cuidados__signal-icon {
+  color: var(--tattoo-accent);
+}
+
+.tp-cuidados__signals-grid h3 {
+  margin: 0 0 18px;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.tp-cuidados__signals-grid p,
+.tp-cuidados__signals-grid li {
+  color: var(--tattoo-text-muted);
+  font-size: 0.6875rem;
+  line-height: 1.9;
+}
+
+.tp-cuidados__signals-grid p {
+  margin: 0;
+}
+
+.tp-cuidados__signals-grid ul {
+  margin: 0;
+  padding-left: 15px;
+}
+
+.tp-cuidados__signals-grid li {
+  margin-bottom: 10px;
+}
+
+.tp-cuidados__avoid-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.tp-cuidados__avoid-grid > div {
+  border: 1px solid var(--tattoo-border);
+  padding: 25px 10px;
+  text-align: center;
+}
+
+.tp-cuidados__avoid-grid span {
+  display: block;
+  margin-bottom: 15px;
+  color: var(--tattoo-accent);
+  font-size: 1.75rem;
+}
+
+.tp-cuidados__avoid-grid p {
+  margin: 0;
+  color: var(--tattoo-text-muted);
+  font-size: 0.625rem;
+}
+
+/* Contact ----------------------------------------------------------------- */
+
+.tp-cuidados__contact {
+  border-top: 1px solid var(--tattoo-border);
+  background: var(--tattoo-surface);
+  margin-top: 75px;
+  padding: 35px;
+  scroll-margin-top: calc(var(--tattoo-header-height) + 20px);
+}
+
+.tp-cuidados__contact-mark {
+  display: block;
+  height: 40px;
+  margin-bottom: 25px;
+}
+
+.tp-cuidados__contact h2 {
+  font-size: 2.25rem;
+}
+
+.tp-cuidados__contact > p {
+  max-width: 590px;
+  margin: 22px 0;
+  color: var(--tattoo-text-muted);
+  font-size: 0.75rem;
+}
+
+@keyframes tp-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1000px) {
+  .tp-cuidados__layout {
+    grid-template-columns: 135px 1fr;
+    gap: 25px;
+  }
+
+  .tp-cuidados__panels {
+    padding: 30px 20px;
+  }
+
+  .tp-cuidados__stage-number {
+    font-size: 5.3125rem;
+  }
+
+  .tp-cuidados__panels [role="tabpanel"] {
+    gap: 25px;
+  }
+
+  .tp-cuidados__panels h3 {
+    font-size: 1.6875rem;
+  }
+
+  .tp-cuidados__signals-grid > div {
+    padding: 24px 18px;
+  }
+
+  .tp-cuidados__signals-grid h3 {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .tp-cuidados__layout {
+    display: block;
+    padding-top: 25px;
+    padding-bottom: 55px;
+  }
+
+  .tp-cuidados__toc {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+    border-bottom: 1px solid var(--tattoo-border);
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+  }
+
+  .tp-cuidados__toc > span {
+    flex-basis: 100%;
+    margin-bottom: 0;
+    font-size: 0.4375rem;
+  }
+
+  .tp-cuidados__toc a {
+    font-size: 0.5625rem;
+  }
+
+  .tp-cuidados__body h2 {
+    font-size: 2.3125rem;
+    letter-spacing: -0.03em;
+  }
+
+  .tp-cuidados__tabs {
+    margin-top: 28px;
+  }
+
+  .tp-cuidados__tabs button {
+    padding: 17px 6px;
+  }
+
+  .tp-cuidados__tabs b {
+    font-size: 0.5625rem;
+  }
+
+  .tp-cuidados__tabs button > span:first-child {
+    margin-bottom: 12px;
+    font-size: 0.4375rem;
+  }
+
+  .tp-cuidados__tab-marker {
+    top: 14px;
+    right: 6px;
+    font-size: 0.625rem;
+  }
+
+  .tp-cuidados__panels {
+    min-height: 230px;
+    padding: 25px 20px;
+  }
+
+  .tp-cuidados__panels [role="tabpanel"] {
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .tp-cuidados__stage-number {
+    font-size: 3.625rem;
+    letter-spacing: -0.03em;
+  }
+
+  .tp-cuidados__panels h3 {
+    margin-bottom: 17px;
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .tp-cuidados__panels .tattoo-eyebrow {
+    font-size: 0.4375rem;
+  }
+
+  .tp-cuidados__panels p:not(.tattoo-eyebrow) {
+    font-size: 0.6875rem;
+  }
+
+  .tp-cuidados__caption {
+    font-size: 0.5rem;
+  }
+
+  .tp-cuidados__signals,
+  .tp-cuidados__avoid {
+    padding-top: 55px;
+  }
+
+  .tp-cuidados__signals-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 25px;
+  }
+
+  .tp-cuidados__signals-grid > div {
+    padding: 25px;
+  }
+
+  .tp-cuidados__signals-grid h3 {
+    font-size: 1.3125rem;
+  }
+
+  .tp-cuidados__signals-grid p,
+  .tp-cuidados__signals-grid li {
+    font-size: 0.75rem;
+  }
+
+  .tp-cuidados__avoid-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 25px;
+  }
+
+  .tp-cuidados__avoid-grid > div {
+    padding: 25px 10px;
+  }
+
+  .tp-cuidados__avoid-grid p {
+    font-size: 0.6875rem;
+  }
+
+  .tp-cuidados__contact {
+    margin-top: 50px;
+    padding: 25px;
+  }
+
+  .tp-cuidados__contact h2 {
+    font-size: 1.875rem;
+  }
+
+  .tp-cuidados__contact > p {
+    font-size: 0.6875rem;
+  }
+}
+
+/* The guide is printable: hide the chrome and let every stage through. */
+@media print {
+  .tattoo-section header.tattoo-header,
+  .tattoo-footer,
+  .tattoo-breadcrumb,
+  .tp-cuidados__toc,
+  .tp-cuidados__print,
+  .tp-cuidados .tattoo-aside {
+    display: none !important;
+  }
+
+  .tattoo-section {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+
+  .tattoo-subpage {
+    max-width: none;
+    padding: 0;
+  }
+
+  .tp-cuidados__layout {
+    display: block;
+    border: 0;
+    padding: 0;
+  }
+
+  .tp-cuidados__body h2 {
+    font-size: 1.5625rem;
+  }
+
+  .tp-cuidados__tabs {
+    display: none;
+  }
+
+  .tp-cuidados__panels {
+    background: none;
+    padding: 0;
+  }
+
+  .tp-cuidados__panels [role="tabpanel"],
+  .tp-cuidados__panels [hidden] {
+    display: flex !important;
+    break-inside: avoid;
+    margin: 20px 0;
+  }
+
+  .tp-cuidados__stage-number {
+    color: #555555;
+    font-size: 2.8125rem;
+  }
+
+  .tp-cuidados__body p,
+  .tp-cuidados__body li {
+    color: #333333 !important;
+  }
+
+  .tp-cuidados__signals,
+  .tp-cuidados__avoid {
+    padding-top: 25px;
+  }
+
+  .tp-cuidados__signals-grid > div,
+  .tp-cuidados__avoid-grid > div {
+    background: none !important;
+    border-color: #aaaaaa;
+    break-inside: avoid;
+  }
+
+  .tp-cuidados__contact {
+    background: none;
+    border-color: #aaaaaa;
+    margin-top: 25px;
+    padding: 15px;
+  }
+
+  .tp-cuidados__contact-mark {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tp-cuidados__panels [role="tabpanel"] {
+    animation: none;
+  }
+}

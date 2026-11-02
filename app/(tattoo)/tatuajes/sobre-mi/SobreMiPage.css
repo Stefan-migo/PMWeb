@@ -1,0 +1,314 @@
+/* Sobre mí, in the approved design. Every rule is scoped to the page. */
+.tp-sobre-mi__artist {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 8%;
+  padding-top: 60px;
+}
+
+.tp-sobre-mi__image {
+  position: relative;
+  height: 620px;
+  overflow: hidden;
+  background: var(--tattoo-surface);
+}
+
+.tp-sobre-mi__image-photo {
+  object-fit: cover;
+  filter: saturate(0.6);
+}
+
+.tp-sobre-mi__image-label {
+  position: absolute;
+  right: 25px;
+  bottom: 24px;
+  left: 25px;
+  color: #ffffff;
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 100%);
+}
+
+.tp-sobre-mi__story h1 {
+  margin: 0;
+  font-size: clamp(3.25rem, 6vw, 5.5rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+}
+
+.tp-sobre-mi__story h1 em {
+  font-family: var(--font-serif);
+  font-size: 1.04em;
+  font-style: italic;
+}
+
+.tp-sobre-mi__opening {
+  margin: 30px 0 22px;
+  color: var(--tattoo-text);
+  font-size: 1.5625rem;
+  letter-spacing: -0.02em;
+  line-height: 1.5;
+}
+
+.tp-sobre-mi__text {
+  color: var(--tattoo-text-muted);
+  font-size: 0.75rem;
+  line-height: 1.9;
+  margin: 0 0 20px;
+}
+
+.tp-sobre-mi__story .tattoo-text-link {
+  margin-top: 12px;
+}
+
+/* Studio data ------------------------------------------------------------- */
+
+.tp-sobre-mi__studio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--tattoo-border);
+  border-bottom: 1px solid var(--tattoo-border);
+  margin-top: 60px;
+  padding: 30px 0;
+}
+
+.tp-sobre-mi__studio > div,
+.tp-sobre-mi__studio > a {
+  padding: 10px 25px;
+  border-right: 1px solid var(--tattoo-border);
+}
+
+.tp-sobre-mi__studio > :first-child {
+  padding-left: 0;
+}
+
+.tp-sobre-mi__studio > :last-child {
+  border-right: 0;
+}
+
+.tp-sobre-mi__studio span {
+  color: var(--tattoo-accent);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tp-sobre-mi__studio h2 {
+  margin: 17px 0 10px;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.tp-sobre-mi__studio p {
+  margin: 0;
+  color: var(--tattoo-text-muted);
+  font-size: 0.6875rem;
+}
+
+.tp-sobre-mi__studio a:hover h2 {
+  color: var(--tattoo-accent);
+}
+
+/* Philosophy -------------------------------------------------------------- */
+
+.tp-sobre-mi__philosophy {
+  position: relative;
+  border-bottom: 1px solid var(--tattoo-border);
+  padding: 100px 0;
+  text-align: center;
+}
+
+.tp-sobre-mi__quote {
+  margin: 0;
+  font-size: clamp(2.625rem, 5vw, 4.5rem);
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+}
+
+.tp-sobre-mi__quote em {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.tp-sobre-mi__philosophy-mark {
+  display: block;
+  height: 38px;
+  margin: 30px auto 0;
+}
+
+/* Styles ------------------------------------------------------------------ */
+
+.tp-sobre-mi__styles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  padding: 90px 0 10px;
+}
+
+.tp-sobre-mi__styles h2 {
+  margin: 0;
+  font-size: 3rem;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.tp-sobre-mi__styles h2 em {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.tp-sobre-mi__styles .tp-sobre-mi__text {
+  margin: 25px 0;
+  font-size: 0.75rem;
+}
+
+.tp-sobre-mi__style-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tp-sobre-mi__style-list li {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  border-top: 1px solid var(--tattoo-border);
+  padding: 22px 0;
+}
+
+.tp-sobre-mi__style-list li > span {
+  color: var(--tattoo-accent);
+  font-size: 0.5625rem;
+}
+
+.tp-sobre-mi__style-list h3 {
+  margin: 0;
+  font-size: 1.625rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.tp-sobre-mi__style-mark {
+  height: 22px;
+  margin-left: auto;
+}
+
+@media (max-width: 1000px) {
+  .tp-sobre-mi__artist {
+    gap: 6%;
+  }
+
+  .tp-sobre-mi__image {
+    height: 550px;
+  }
+
+  .tp-sobre-mi__text {
+    font-size: 0.6875rem;
+  }
+
+  .tp-sobre-mi__studio h2 {
+    font-size: 1.0625rem;
+  }
+
+  .tp-sobre-mi__styles {
+    gap: 40px;
+  }
+
+  .tp-sobre-mi__styles h2 {
+    font-size: 2.625rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .tp-sobre-mi__artist {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding-top: 35px;
+  }
+
+  .tp-sobre-mi__image {
+    height: 420px;
+  }
+
+  .tp-sobre-mi__image-label {
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+    font-size: 0.4375rem;
+  }
+
+  .tp-sobre-mi__story h1 {
+    font-size: clamp(2.9375rem, 11.4vw, 4.25rem);
+  }
+
+  .tp-sobre-mi__opening {
+    margin: 24px 0 20px;
+    font-size: 1.4375rem;
+  }
+
+  .tp-sobre-mi__text {
+    font-size: 0.75rem;
+  }
+
+  .tp-sobre-mi__studio {
+    grid-template-columns: 1fr;
+    margin-top: 40px;
+    padding: 10px 0;
+  }
+
+  .tp-sobre-mi__studio > div,
+  .tp-sobre-mi__studio > a {
+    border-right: 0;
+    border-bottom: 1px solid var(--tattoo-border);
+    padding: 22px 0;
+  }
+
+  .tp-sobre-mi__studio > :last-child {
+    border-bottom: 0;
+  }
+
+  .tp-sobre-mi__studio h2 {
+    margin: 14px 0 8px;
+    font-size: 1.375rem;
+  }
+
+  .tp-sobre-mi__philosophy {
+    padding: 60px 0;
+  }
+
+  .tp-sobre-mi__quote {
+    font-size: clamp(2.5625rem, 10.5vw, 3.5rem);
+    letter-spacing: -0.03em;
+  }
+
+  .tp-sobre-mi__philosophy-mark {
+    height: 30px;
+    margin-top: 25px;
+  }
+
+  .tp-sobre-mi__styles {
+    display: block;
+    padding: 60px 0 10px;
+  }
+
+  .tp-sobre-mi__styles h2 {
+    font-size: 2.5rem;
+  }
+
+  .tp-sobre-mi__style-list {
+    margin-top: 35px;
+  }
+
+  .tp-sobre-mi__style-list li {
+    padding: 23px 0;
+  }
+
+  .tp-sobre-mi__style-list h3 {
+    font-size: 1.5625rem;
+  }
+}
