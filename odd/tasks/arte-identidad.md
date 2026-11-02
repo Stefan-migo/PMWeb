@@ -24,7 +24,7 @@ Porta el prototipo aprobado `refs/PAJARO_MACA_ARTE_COMPLETO/pajaro-maca-arte` (H
 - [x] T6 — Tests: unitarios del modelo/filtros y de las interacciones del visor; actualización de `e2e/arte.spec.ts` al nuevo diseño. (S4, S5) · commit 5
 - [x] T7 — Documentación de la paleta y tipografía de arte en `DESIGN.md`. (S6) · commit 5
 - [x] T8 — Controles: typecheck, lint, unit, build y e2e del recorrido de arte. (S4, S5)
-- [ ] T9 — Deploy: rama de trabajo, commits por unidad, merge a `main`, push y verificación de producción. (S9)
+- [x] T9 — Deploy: rama de trabajo, commits por unidad, merge a `main`, push y verificación de producción. (S9)
 
 ## Log
 
@@ -38,3 +38,5 @@ Porta el prototipo aprobado `refs/PAJARO_MACA_ARTE_COMPLETO/pajaro-maca-arte` (H
 - L8 — Precedente de repo aplicado: el rediseño de Escénico usó módulo CSS aislado, layout con header propio, modelo de contenido en `_lib/` y e2e actualizado; arte sigue el mismo patrón.
 - L9 — Límite de slices: el commit 1 (`82c60fe`) lleva 1732 líneas porque incluye el módulo CSS portado del paquete; es una hoja de estilos de un solo propósito y se revisa mecánicamente. Los slices 2–5 quedan chicos. El destino es un único push a `main` (integración Git de Vercel), no PRs encadenados.
 - L10 — Sesión concurrente: hay otra sesión de Pi trabajando en el mismo working tree (trabajo sin commitear de tatuajes y escénico en `app/(tattoo)`, `app/(scenic)`, `app/globals.css`, `e2e/escenico.spec.ts`). Por eso cada commit se prepara con `git add` de rutas explícitas y `DESIGN.md` se commitea en un parche con solo los hunks de arte. El merge y el push se hacen desde un worktree aislado para no cambiarle el HEAD a esa sesión.
+- L11 — Verificación y deploy: `next build` de producción en un worktree aislado (`/run/media/stefan/Nuevo vol/Proyectos/pajaroMacaWeb/.pm-art-verify`) sobre `e12927b`: compilado OK, 30 rutas generadas, `/arte`, `/arte/exposiciones`, `/arte/galeria`, `/arte/sobre-mi` y `/arte/tienda` estáticas. Push `5055adc..e12927b` a `main`; Vercel desplegó en ~50 s y `https://pajaro-maca-web.vercel.app` sirve el diseño nuevo en las cinco rutas con las imágenes en `/design/arte/*.webp`.
+- L12 — El commit `d890486 feat(escenico)` lo escribió la otra sesión sobre esta misma rama después del push de arte; no forma parte de `main` ni de este deploy. Hueco conocido: `/arte/galeria/[slug]` conserva la paleta anterior hasta que el CMS publique obras (hoy no genera ninguna ruta).
