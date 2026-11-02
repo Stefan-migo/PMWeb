@@ -49,8 +49,9 @@
 }
 
 .tattoo-footer__mark {
+  --tattoo-mark-height: clamp(4.5rem, 12vw, 12rem);
+
   width: auto;
-  height: clamp(3rem, 9vw, 8rem);
   flex-shrink: 0;
   /* The pack asks for clear space of at least 10% of the mark's height. */
   margin-left: 10%;
@@ -105,7 +106,7 @@
   }
 
   .tattoo-footer__mark {
-    height: 48px;
+    --tattoo-mark-height: 72px;
   }
 
   .tattoo-footer__bottom {

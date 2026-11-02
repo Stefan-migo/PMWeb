@@ -62,7 +62,7 @@
 }
 
 .tatuajes-page-v2__intro-mark {
-  height: 2.2rem;
+  --tattoo-mark-height: 2.2rem;
 }
 
 /* Hero ------------------------------------------------------------------- */
@@ -513,7 +513,8 @@
 }
 
 .tatuajes-page-v2__stamp-mark {
-  height: 1.1rem;
+  --tattoo-mark-height: 1.1rem;
+
   margin-top: 4px;
 }
 
@@ -661,8 +662,9 @@
 }
 
 .tatuajes-page-v2__care-mark {
+  --tattoo-mark-height: 6.875rem;
+
   display: block;
-  height: 6.875rem;
   margin-top: 40px;
 }
 
@@ -879,7 +881,7 @@
   }
 
   .tatuajes-page-v2__intro-mark {
-    height: 1.5625rem;
+    --tattoo-mark-height: 1.5625rem;
   }
 
   .tatuajes-page-v2__section {
@@ -1053,7 +1055,7 @@
   }
 
   .tatuajes-page-v2__stamp-mark {
-    height: 0.9rem;
+    --tattoo-mark-height: 0.9rem;
   }
 
   .tatuajes-page-v2__stamp {

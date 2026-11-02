@@ -135,8 +135,9 @@
 }
 
 .tp-sobre-mi__philosophy-mark {
+  --tattoo-mark-height: 38px;
+
   display: block;
-  height: 38px;
   margin: 30px auto 0;
 }
 
@@ -194,7 +195,8 @@
 }
 
 .tp-sobre-mi__style-mark {
-  height: 22px;
+  --tattoo-mark-height: 22px;
+
   margin-left: auto;
 }
 
@@ -287,7 +289,8 @@
   }
 
   .tp-sobre-mi__philosophy-mark {
-    height: 30px;
+    --tattoo-mark-height: 30px;
+
     margin-top: 25px;
   }
 

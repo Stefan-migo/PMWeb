@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { PageTransition } from "@/app/_components/shared/PageTransition";
 import { TattooFooter } from "@/app/_components/tattoo/TattooFooter";
+import "@/app/_components/tattoo/TattooShell.css";
 import { TATTOO_LANDING_PATH, TattooHeader } from "@/app/_components/tattoo/TattooHeader";
 
 export default function TattooLayout({

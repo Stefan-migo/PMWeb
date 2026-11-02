@@ -1,4 +1,5 @@
 import Image from "next/image";
+import "./TattooMark.css";
 
 type TattooMarkProps = {
   /** `light` is the white silhouette for dark surfaces; `dark` is the ink one. */

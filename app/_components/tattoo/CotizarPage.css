@@ -1,7 +1,7 @@
 /* Cotizar, in the approved design. The composer prepares the message; Instagram
    is the first destination and copies it, because a URL cannot prefill it. */
 .tp-cotizar__intro-mark {
-  height: 100px;
+  --tattoo-mark-height: 100px;
 }
 
 .tp-cotizar__inquiry {

@@ -15,15 +15,6 @@
   color: var(--tattoo-text);
 }
 
-/* The monochrome mark from the logo pack, where the design used an asterisk. */
-.tattoo-mark {
-  display: inline-block;
-  width: auto;
-  height: 1.5rem;
-  flex-shrink: 0;
-  object-fit: contain;
-}
-
 /* Sub-page scaffolding ---------------------------------------------------- */
 
 .tattoo-subpage {
@@ -114,7 +105,7 @@
 
 /* The page-intro mark is the largest decorative use of the brand. */
 .tattoo-aside .tattoo-mark {
-  height: 100px;
+  --tattoo-mark-height: 100px;
 }
 
 .tattoo-page-cta {
@@ -208,7 +199,7 @@
   }
 
   .tattoo-aside .tattoo-mark {
-    height: 75px;
+    --tattoo-mark-height: 75px;
   }
 
   .tattoo-aside p {
