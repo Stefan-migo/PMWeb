@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
 import styles from "./arte.module.css";
 import {
   arteCategories,
@@ -26,6 +27,7 @@ interface ArteGalleryProps {
 export function ArteGallery({ works }: ArteGalleryProps) {
   const [category, setCategory] = useState<ArteCategoryFilter>("Todas");
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const reducedMotion = useReducedMotion();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const openerRef = useRef<HTMLButtonElement | null>(null);
 
@@ -97,14 +99,23 @@ export function ArteGallery({ works }: ArteGalleryProps) {
           Todavía no hay obras en esta categoría.
         </p>
       ) : (
-        <div className={styles.gallery}>
+        <div className={styles.gallery} key={category}>
           {visible.map((work, index) => (
-            <button
+            <motion.button
               key={work.id}
               type="button"
               className={styles.work}
+              data-reveal=""
               aria-label={`Ver obra ${work.code}: ${work.alt}`}
               onClick={(event) => open(index, event.currentTarget)}
+              initial={{ opacity: 0, y: 34, scale: 0.985 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{
+                duration: reducedMotion ? 0 : 0.7,
+                delay: reducedMotion ? 0 : (index % 3) * 0.08,
+                ease: [0.22, 1, 0.36, 1],
+              }}
             >
               <span className={styles.artFrame}>
                 <Image
@@ -126,7 +137,7 @@ export function ArteGallery({ works }: ArteGalleryProps) {
                   {work.category} / {work.code}
                 </span>
               </span>
-            </button>
+            </motion.button>
           ))}
         </div>
       )}

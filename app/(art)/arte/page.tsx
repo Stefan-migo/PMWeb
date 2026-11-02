@@ -4,6 +4,7 @@ import Link from "next/link";
 import styles from "./arte.module.css";
 import { ArteGallery } from "./arte-gallery";
 import { ArteHero } from "./arte-hero";
+import { ArteReveal } from "./arte-reveal";
 import { arteMiradaWork, arteWorks } from "@/app/_lib/arte/works";
 
 export const metadata: Metadata = {
@@ -28,27 +29,31 @@ export default function ArtePage() {
     <>
       <ArteHero />
 
-      <div className={styles.strip} aria-hidden="true">
-        Lo natural <span>✳</span> Lo sensible <span>✳</span> Lo imaginado{" "}
-        <span>✳</span> Lo natural <span>✳</span> Lo sensible
-      </div>
+      <ArteReveal direction="none" duration={1.1} amount={0.3}>
+        <div className={styles.strip} aria-hidden="true">
+          Lo natural <span>✳</span> Lo sensible <span>✳</span> Lo imaginado{" "}
+          <span>✳</span> Lo natural <span>✳</span> Lo sensible
+        </div>
+      </ArteReveal>
 
       <section className={`${styles.section} ${styles.wrap} ${styles.anchor}`} id="galeria">
         <div className={styles.sectionHead}>
-          <div>
+          <ArteReveal>
             <span className={styles.eyebrow}>01 / Obra visual</span>
             <h2 className={styles.sectionTitle}>
               Un mundo para
               <br />
               <em>mirar de cerca.</em>
             </h2>
-          </div>
-          <p className={styles.intro}>
-            Recorre las obras a tu ritmo.
-            <br />
-            Abre cada imagen para verla completa
-            <br />y descubrir sus detalles.
-          </p>
+          </ArteReveal>
+          <ArteReveal delay={0.12}>
+            <p className={styles.intro}>
+              Recorre las obras a tu ritmo.
+              <br />
+              Abre cada imagen para verla completa
+              <br />y descubrir sus detalles.
+            </p>
+          </ArteReveal>
         </div>
 
         <ArteGallery works={arteWorks} />
@@ -56,7 +61,7 @@ export default function ArtePage() {
 
       <section className={`${styles.section} ${styles.mirada} ${styles.anchor}`} id="mirada">
         <div className={`${styles.wrap} ${styles.miradaGrid}`}>
-          <div className={styles.miradaPicture}>
+          <ArteReveal className={styles.miradaPicture} direction="left" amount={0.25}>
             <Image
               className={styles.miradaImage}
               src={arteMiradaWork.src}
@@ -66,9 +71,9 @@ export default function ArtePage() {
               sizes="(max-width: 620px) 80vw, 40vw"
               loading="lazy"
             />
-          </div>
+          </ArteReveal>
 
-          <div className={styles.miradaText}>
+          <ArteReveal className={styles.miradaText} delay={0.12} amount={0.25}>
             <span className={styles.eyebrow}>02 / Una mirada, muchos lenguajes</span>
             <h2 className={styles.sectionTitle}>
               Entre el cuerpo
@@ -87,13 +92,13 @@ export default function ArtePage() {
               Descubrir el universo escénico ↗
             </Link>
             <div className={styles.tagline}>CUERPO · NATURALEZA · IMAGINACIÓN</div>
-          </div>
+          </ArteReveal>
         </div>
       </section>
 
       <section className={`${styles.contactSection} ${styles.anchor}`} id="contacto">
         <div className={`${styles.wrap} ${styles.contactTop}`}>
-          <div>
+          <ArteReveal amount={0.3}>
             <span className={styles.eyebrow}>03 / Sigamos la conversación</span>
             <h2 className={styles.contactTitle}>
               ¿Una obra te
@@ -104,15 +109,17 @@ export default function ArtePage() {
               Para consultar por una pieza, proponer una colaboración o conocer
               más del trabajo de Pájaro Maca.
             </p>
-          </div>
-          <a
-            className={`${styles.pill} ${styles.contactPillAction}`}
-            href={instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Escríbeme en Instagram <span aria-hidden="true">↗</span>
-          </a>
+          </ArteReveal>
+          <ArteReveal className={styles.contactAction} delay={0.15} amount={0.3}>
+            <a
+              className={`${styles.pill} ${styles.contactPillAction}`}
+              href={instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Escríbeme en Instagram <span aria-hidden="true">↗</span>
+            </a>
+          </ArteReveal>
         </div>
       </section>
     </>

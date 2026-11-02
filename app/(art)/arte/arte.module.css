@@ -645,7 +645,11 @@
   margin: 0;
 }
 
-.contactSection .contactPillAction {
+.contactSection .contactAction {
+  flex-shrink: 0;
+}
+
+.contactPillAction {
   background: var(--ar-acid);
   color: var(--ar-ink);
   flex-shrink: 0;
@@ -1353,7 +1357,11 @@
     font-size: 49px;
   }
 
-  .contactSection .contactPillAction {
+  .contactSection .contactAction {
+  flex-shrink: 0;
+}
+
+.contactPillAction {
     margin-top: 20px;
   }
 
@@ -1463,6 +1471,12 @@
   .shell *::before,
   .shell *::after {
     transition: none !important;
+  }
+
+  /* Entrance animations are progressive: never let one hide its content. */
+  .shell [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .work:hover .workImage {
