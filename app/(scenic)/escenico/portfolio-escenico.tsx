@@ -475,7 +475,10 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
             <span className={styles.stageTotal}>
               / {String(heroSlides.length).padStart(2, "0")}
             </span>
-            <span className={styles.stageAuthor}>{heroCopy.author}</span>
+            <span className={styles.stageAuthor}>
+              {heroCopy.author}
+              <span className={styles.stageDiscipline}>ARTES ESCÉNICAS</span>
+            </span>
           </div>
 
           <div

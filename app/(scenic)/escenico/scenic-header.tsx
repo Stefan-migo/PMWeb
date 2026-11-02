@@ -50,7 +50,6 @@ export function ScenicHeader() {
           priority
           className={styles.wordmarkLogo}
         />
-        <small className={styles.wordmarkSmall}>ARTES ESCÉNICAS</small>
       </Link>
 
       <button

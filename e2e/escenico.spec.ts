@@ -14,6 +14,10 @@ test.describe("Escénico page", () => {
     ).toHaveAttribute("href", "/");
     await expect(page.locator('header img[src*="pajaro-maca-logo"]')).toBeVisible();
     await expect(page.locator('footer img[src*="pajaro-maca-logo"]')).toBeVisible();
+    await expect(page.locator("#inicio")).toContainText("ARTES ESCÉNICAS");
+    await expect(
+      page.locator("header").getByText("ARTES ESCÉNICAS"),
+    ).toHaveCount(0);
     await expect(
       page.getByRole("heading", { name: /La escena, un cuerpo vivo\./ }),
     ).toBeVisible();

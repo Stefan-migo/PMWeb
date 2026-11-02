@@ -180,14 +180,6 @@
   height: 54px;
 }
 
-.wordmarkSmall {
-  display: block;
-  font-family: var(--font-escenico-sans), Arial, sans-serif;
-  font-size: 8px;
-  letter-spacing: 2.8px;
-  color: #d1bd98;
-}
-
 .shell .footerLogo {
   width: auto;
   height: 46px;
@@ -375,10 +367,20 @@
 }
 
 .stageAuthor {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 12px;
   margin-left: 20px;
   font-size: 8px;
   letter-spacing: 1.6px;
   color: #c4b8a5;
+}
+
+.stageDiscipline {
+  padding-left: 12px;
+  border-left: 1px solid #ffffff30;
+  color: #9f9688;
+  letter-spacing: 1.6px;
 }
 
 .stageThumbs {
@@ -1546,11 +1548,6 @@
 
   .shell .wordmarkLogo {
     height: 52px;
-  }
-
-  .wordmarkSmall {
-    font-size: 7px;
-    letter-spacing: 2.2px;
   }
 
   .stageContact {

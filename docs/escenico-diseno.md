@@ -39,6 +39,9 @@ y en `public/escenico/assets/FONT-LICENSE.txt`.
   recortado y optimizado a `public/escenico/assets/pajaro-maca-logo.webp`.
 - Se usa en el header (72 px, 54 px con scroll, 52 px en móvil) y en el footer
   (46 px), sobre el fondo oscuro.
+- El subtítulo «ARTES ESCÉNICAS» ya no va en el header: acompaña el byline del
+  carrusel, al lado de «MACARENA ALMEIDA». El byline completo se oculta por
+  debajo de 1100 px para no cargar la barra inferior del hero en móvil.
 - No se modificó el favicon, `app/favicon.ico` ni los metadatos de iconos: esa
   pieza pertenece al trabajo de arte que se mergea en `main`.
 - El último ítem de la navegación es «Más», que vuelve a `/` (la selección de

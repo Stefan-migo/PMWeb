@@ -56,6 +56,7 @@ describe("Escénico portfolio — content", () => {
       name: "Archivo escénico de Macarena Almeida",
     });
     expect(within(hero).getByText("01")).toBeInTheDocument();
+    expect(within(hero).getByText("ARTES ESCÉNICAS")).toBeInTheDocument();
     expect(within(hero).getAllByRole("button", { name: /^Ver fotografía \d+:/ })).toHaveLength(6);
     expect(within(hero).getByRole("group", { name: "1 de 6" })).toBeInTheDocument();
     expect(within(hero).getByRole("button", { name: "Pausar carrusel" })).toHaveAttribute(
@@ -83,6 +84,7 @@ describe("Escénico portfolio — content", () => {
 
     fireEvent.click(within(hero).getByRole("button", { name: "Fotografía anterior" }));
     expect(within(hero).getByText("01")).toBeInTheDocument();
+    expect(within(hero).getByText("ARTES ESCÉNICAS")).toBeInTheDocument();
 
     const pause = within(hero).getByRole("button", { name: "Pausar carrusel" });
     fireEvent.click(pause);
@@ -230,6 +232,7 @@ describe("Escénico header — mobile menu", () => {
     const toggle = screen.getByRole("button", { name: /Menú/ });
     const nav = screen.getByRole("navigation", { name: /Navegación principal/ });
     expect(screen.getByRole("link", { name: "Más" })).toHaveAttribute("href", "/");
+    expect(screen.queryByText("ARTES ESCÉNICAS")).not.toBeInTheDocument();
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(nav).toHaveAttribute("data-open", "false");
 
