@@ -74,27 +74,58 @@ test.describe("Art section", () => {
     await expect(page.getByRole("button", { name: /^Ver obra 15:/ })).toBeVisible();
   });
 
-  test("navigates to my gaze and keeps the scenic link internal", async ({ page }) => {
+  test("navigates to my gaze and leaves the section from the last entry", async ({ page }) => {
     await page.goto("/arte");
     await headerNav(page).getByRole("link", { name: "Mi mirada" }).click();
 
     await expect(page).toHaveURL("/arte/sobre-mi");
-    await expect(page.getByRole("heading", { level: 1, name: /Sobre/ })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: /Mi mirada/ })).toBeVisible();
+    await expect(page.getByText("Artist statement")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Trayectoria" })).toHaveCount(0);
 
-    const scenicLink = headerNav(page).getByRole("link", { name: /Escénico/ });
-    await expect(scenicLink).toHaveAttribute("href", "/escenico");
+    const more = headerNav(page).getByRole("link", { name: /Más/ });
+    await expect(more).toHaveAttribute("href", "/");
+    await expect(headerNav(page).getByRole("link", { name: /Escénico/ })).toHaveCount(0);
   });
 
-  test("reaches exhibitions and shop from the footer navigation", async ({ page }) => {
+  test("keeps the contact pill inside the header over the hero", async ({ page }) => {
     await page.goto("/arte");
 
-    await footerNav(page).getByRole("link", { name: "Exposiciones" }).click();
-    await expect(page).toHaveURL("/arte/exposiciones");
-    await expect(page.getByText("Exhibiciones Actuales")).toBeVisible();
+    const pill = headerNav(page).getByRole("link", { name: /Conversemos/ });
+    await expect(pill).toBeVisible();
+
+    const pillBox = await pill.boundingBox();
+    const viewport = page.viewportSize()!;
+    // The pill used to lose its horizontal padding to the underline rule, so its
+    // text touched the border and the outline read as broken.
+    expect(pillBox!.width).toBeGreaterThan(110);
+    expect(viewport.width - (pillBox!.x + pillBox!.width)).toBeGreaterThan(30);
+  });
+
+  test("navigates to the trajectory", async ({ page }) => {
+    await page.goto("/arte");
+    await headerNav(page).getByRole("link", { name: "Trayectoria" }).click();
+
+    await expect(page).toHaveURL("/arte/trayectoria");
+    await expect(page.getByRole("heading", { level: 1, name: /recorrido/ })).toBeVisible();
+    await expect(page.getByText("Actualmente en exhibición")).toBeVisible();
+    await expect(page.getByText("Conexiones Contemporáneas")).toBeVisible();
+    await expect(page.getByText("Formas del Silencio")).toBeVisible();
+  });
+
+  test("reaches the shop from the footer navigation", async ({ page }) => {
+    await page.goto("/arte");
 
     await footerNav(page).getByRole("link", { name: "Tienda" }).click();
     await expect(page).toHaveURL("/arte/tienda");
     await expect(page.getByText("Información de Envíos")).toBeVisible();
+  });
+
+  test("redirects the retired exhibitions route to the trajectory", async ({ page }) => {
+    await page.goto("/arte/exposiciones");
+
+    await expect(page).toHaveURL("/arte/trayectoria");
+    await expect(page.getByText("Actualmente en exhibición")).toBeVisible();
   });
 
   test("filters the curated works and reports the count", async ({ page }) => {
