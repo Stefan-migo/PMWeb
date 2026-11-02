@@ -25,6 +25,11 @@ function pad(value: number) {
   return String(value).padStart(2, "0");
 }
 
+/** The approved design captions a piece with its title, not with its alt text. */
+function captionOf(image: TattooImage) {
+  return image.title ?? image.alt;
+}
+
 type TatuajesPageV2Props = {
   portfolioImages?: TattooImage[];
   designs?: AvailableDesign[];
@@ -93,7 +98,7 @@ export function TatuajesPageV2({
                 type="button"
                 className="tatuajes-page-v2__work-button"
                 onClick={() => setLightboxIndex(index)}
-                aria-label={`Ver ${image.alt}`}
+                aria-label={`Ver ${captionOf(image)}`}
               >
                 <span className="tatuajes-page-v2__photo">
                   <Image
@@ -108,7 +113,7 @@ export function TatuajesPageV2({
                   </span>
                 </span>
                 <span className="tatuajes-page-v2__caption">
-                  <span>{image.alt}</span>
+                  <span>{captionOf(image)}</span>
                   <small>{pad(index + 1)} / Tatuaje</small>
                 </span>
               </button>
@@ -126,7 +131,7 @@ export function TatuajesPageV2({
                 type="button"
                 className="tatuajes-page-v2__work-button"
                 onClick={() => setLightboxIndex(index)}
-                aria-label={`Ver ${image.alt}`}
+                aria-label={`Ver ${captionOf(image)}`}
               >
                 <span className="tatuajes-page-v2__photo">
                   <Image
@@ -141,7 +146,7 @@ export function TatuajesPageV2({
                   </span>
                 </span>
                 <span className="tatuajes-page-v2__caption">
-                  <span>{image.alt}</span>
+                  <span>{captionOf(image)}</span>
                   <small>{pad(index + 1)} / Tatuaje</small>
                 </span>
               </button>

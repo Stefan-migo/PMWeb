@@ -95,7 +95,7 @@ export function TattooLightbox({ items, index, onChange, onClose }: TattooLightb
         </div>
         {current && index !== null ? (
           <figcaption>
-            {pad(index + 1)} / {pad(items.length)} — {current.alt}
+            {pad(index + 1)} / {pad(items.length)} — {current.title ?? current.alt}
           </figcaption>
         ) : null}
       </figure>

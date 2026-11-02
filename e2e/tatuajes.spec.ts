@@ -46,7 +46,7 @@ test.describe("Tattoo Section", () => {
   test("landing gallery expands and the viewer moves with the arrow keys", async ({ page }) => {
     await page.goto("/tatuajes", { waitUntil: "domcontentloaded" });
 
-    const works = page.getByRole("button", { name: /^Ver Tatuaje/ });
+    const works = page.getByRole("button", { name: /^Ver (?!foto|más|menos)/ });
     await expect(works).toHaveCount(4);
     await expect(works.first()).toBeVisible();
 
@@ -56,10 +56,10 @@ test.describe("Tattoo Section", () => {
     await works.first().click();
     const dialog = page.getByRole("dialog", { name: "Fotografía de tatuaje" });
     await expect(dialog).toBeVisible();
-    await expect(dialog.getByText("01 / 08 — Tatuaje de corazón y flores")).toBeVisible();
+    await expect(dialog.getByText("01 / 08 — Corazón & botánica")).toBeVisible();
 
     await page.keyboard.press("ArrowRight");
-    await expect(dialog.getByText("02 / 08 — Tatuaje botánico sobre el hombro")).toBeVisible();
+    await expect(dialog.getByText("02 / 08 — Un jardín en la piel")).toBeVisible();
 
     await page.keyboard.press("Escape");
     await expect(dialog).toBeHidden();
@@ -123,7 +123,7 @@ test.describe("Tattoo Section", () => {
 
   test("should navigate to cotizar from the header pill", async ({ page }) => {
     await page.goto("/tatuajes/portafolio");
-    await page.getByRole("link", { name: /Hablemos/ }).click();
+    await page.getByRole("link", { name: "Hablemos", exact: true }).click();
     await expect(page).toHaveURL("/tatuajes/cotizar");
     await expect(page.getByRole("heading", { name: /Cuéntame/ })).toBeVisible();
     await expect(page.getByRole("button", { name: /Preparar mi mensaje/ })).toBeVisible();

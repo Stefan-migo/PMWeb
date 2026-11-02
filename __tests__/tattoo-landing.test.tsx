@@ -22,7 +22,7 @@ function installDialogShim() {
   };
 }
 
-const workOpeners = () => screen.getAllByRole("button", { name: /^Ver Tatuaje/ });
+const workOpeners = () => screen.getAllByRole("button", { name: /^Ver (?!foto|más|menos)/ });
 
 describe("TatuajesPageV2", () => {
   beforeEach(() => {
@@ -81,7 +81,7 @@ describe("TatuajesPageV2", () => {
 
     const dialog = screen.getByRole("dialog", { name: "Fotografía de tatuaje" });
     expect(dialog).toHaveAttribute("open");
-    expect(within(dialog).getByText(/01 \/ 08 — Tatuaje de corazón y flores/)).toBeInTheDocument();
+    expect(within(dialog).getByText(/01 \/ 08 — Corazón & botánica/)).toBeInTheDocument();
     expect(document.body).toHaveClass("tattoo-lightbox-open");
 
     fireEvent.click(within(dialog).getByRole("button", { name: "Siguiente fotografía" }));
