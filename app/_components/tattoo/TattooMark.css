@@ -1,0 +1,12 @@
+/* The monochrome mark from the logo pack, where the design used an asterisk.
+   It lives with the component so every surface that renders it gets the base
+   box, and each use sets its own size through --tattoo-mark-height: a plain
+   `height` on a per-use class would fight this rule depending on the order the
+   stylesheets happen to load. */
+.tattoo-mark {
+  display: inline-block;
+  width: auto;
+  height: var(--tattoo-mark-height, 1.5rem);
+  flex-shrink: 0;
+  object-fit: contain;
+}

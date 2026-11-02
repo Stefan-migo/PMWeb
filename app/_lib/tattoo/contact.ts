@@ -6,10 +6,33 @@
  */
 const FALLBACK_WHATSAPP_NUMBER = "56912345678";
 
+/**
+ * Contact hierarchy for every tattoo surface: Instagram first, WhatsApp second,
+ * email last. The email is published as an address, never behind a form.
+ */
+const FALLBACK_CONTACT_EMAIL = "pajaro.maca.arte@gmail.com";
+
+export const tattooInstagramUrl = "https://instagram.com/pajaro_maca";
+export const tattooInstagramHandle = "pajaro_maca";
+
+/**
+ * Instagram cannot receive prefilled text through a URL, so the composer copies
+ * the message and then opens the direct conversation.
+ */
+export const tattooInstagramDmUrl = `https://ig.me/m/${tattooInstagramHandle}`;
+
 export function getWhatsAppNumber(): string {
   return process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || FALLBACK_WHATSAPP_NUMBER;
 }
 
 export function whatsAppLink(message: string): string {
   return `https://wa.me/${getWhatsAppNumber()}?text=${encodeURIComponent(message)}`;
+}
+
+export function getContactEmail(): string {
+  return process.env.NEXT_PUBLIC_CONTACT_EMAIL || FALLBACK_CONTACT_EMAIL;
+}
+
+export function mailtoLink(subject: string): string {
+  return `mailto:${getContactEmail()}?subject=${encodeURIComponent(subject)}`;
 }

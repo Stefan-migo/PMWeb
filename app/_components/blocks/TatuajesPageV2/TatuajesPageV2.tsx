@@ -1,261 +1,383 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Instagram, Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useCallback, useState } from "react";
 import { Reveal } from "@/app/_components/shared/Reveal";
-import { availableDesigns, portfolioImages as localPortfolioImages, type TattooImage } from "@/app/_lib/tattoo/designs";
+import { TattooFooter } from "@/app/_components/tattoo/TattooFooter";
+import { TattooHeroCarousel } from "@/app/_components/tattoo/TattooHeroCarousel";
+import { TattooLightbox } from "@/app/_components/tattoo/TattooLightbox";
+import { TattooMark } from "@/app/_components/tattoo/TattooMark";
+import {
+  availableDesigns,
+  portfolioImages as localPortfolioImages,
+  type AvailableDesign,
+  type TattooImage,
+} from "@/app/_lib/tattoo/designs";
 import "./TatuajesPageV2.css";
 
-const tattooNavLinks = [
-  { href: "#portafolio", label: "Portafolio" },
-  { href: "#cotizar", label: "Cotizar" },
-  { href: "#sobre-mi", label: "Sobre Mí" },
-  { href: "#cuidados", label: "Cuidados" },
-  { href: "#disenos-disponibles", label: "Diseños disponibles" },
-  { href: "/", label: "Más" },
-];
+/** The three photographs the approved hero rotates through, in its order. */
+const HERO_ORDER = [1, 0, 3];
+/** Gallery slots: two wide frames, one tall frame and a wide closing frame. */
+const WORK_SLOTS = ["a", "b", "c", "d"];
 
-const heroCtas = tattooNavLinks.filter((link) => link.href.startsWith("#"));
+function pad(value: number) {
+  return String(value).padStart(2, "0");
+}
 
-export function TatuajesPageV2({ portfolioImages = localPortfolioImages }: { portfolioImages?: TattooImage[] } = {}) {
-  const heroImages = portfolioImages;
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [activeImage, setActiveImage] = useState(0);
-  const [reducedMotion, setReducedMotion] = useState(false);
+/** The approved design captions a piece with its title, not with its alt text. */
+function captionOf(image: TattooImage) {
+  return image.title ?? image.alt;
+}
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 8);
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handleMotionPreference = () => setReducedMotion(mediaQuery.matches);
+type TatuajesPageV2Props = {
+  portfolioImages?: TattooImage[];
+  designs?: AvailableDesign[];
+};
 
-    handleScroll();
-    handleMotionPreference();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    mediaQuery.addEventListener("change", handleMotionPreference);
+export function TatuajesPageV2({
+  portfolioImages = localPortfolioImages,
+  designs = availableDesigns,
+}: TatuajesPageV2Props = {}) {
+  const [expanded, setExpanded] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      mediaQuery.removeEventListener("change", handleMotionPreference);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (reducedMotion) return;
-
-    const timer = window.setInterval(() => {
-      setActiveImage((image) => (image + 1) % heroImages.length);
-    }, 5500);
-
-    return () => window.clearInterval(timer);
-  }, [heroImages.length, reducedMotion]);
+  const heroImages = HERO_ORDER.map((position) => portfolioImages[position]).filter(
+    (image): image is TattooImage => Boolean(image),
+  );
+  const heroSlides = heroImages.length === HERO_ORDER.length ? heroImages : portfolioImages.slice(0, 3);
+  const featuredWorks = portfolioImages.slice(0, WORK_SLOTS.length);
+  const moreWorks = portfolioImages.slice(WORK_SLOTS.length);
+  const aboutImage = portfolioImages[5] ?? portfolioImages[0];
+  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
 
   return (
-    <div className="tatuajes-page-v2 min-h-screen bg-[var(--tattoo-bg)] text-[var(--tattoo-text)]">
-      <nav className={`tatuajes-page-v2__nav ${scrolled ? "is-scrolled" : ""}`} aria-label="Navegación principal">
-        <div className="tatuajes-page-v2__nav-inner">
-          <button
-            type="button"
-            className="tatuajes-page-v2__menu-button"
-            onClick={() => setMobileOpen((open) => !open)}
-            aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
-            aria-expanded={mobileOpen}
-            aria-controls="tatuajes-page-v2-menu"
-          >
-            {mobileOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
-          </button>
+    <div className="tatuajes-page-v2">
+      <TattooHeroCarousel images={heroSlides} />
 
-          <div id="tatuajes-page-v2-menu" className={`tatuajes-page-v2__links ${mobileOpen ? "is-open" : ""}`}>
-            {tattooNavLinks.map((link) => (
-              <a key={link.href} href={link.href} onClick={() => setMobileOpen(false)}>
-                {link.label}
-              </a>
-            ))}
+      <div className="tatuajes-page-v2__intro">
+        <span className="tatuajes-page-v2__intro-claim">Un trazo. Una historia. Tu piel.</span>
+        <TattooMark className="tatuajes-page-v2__intro-mark" />
+        <p className="tatuajes-page-v2__intro-note">
+          Diseños pensados para acompañarte por mucho tiempo.
+        </p>
+      </div>
+
+      <section id="portafolio" className="tatuajes-page-v2__section">
+        <Reveal>
+          <div className="tatuajes-page-v2__heading">
+            <div>
+              <p className="tatuajes-page-v2__eyebrow">01 / Trabajo reciente</p>
+              <h2>
+                El arte de
+                <br />
+                <em>hacerlo tuyo.</em>
+              </h2>
+            </div>
+            <div className="tatuajes-page-v2__heading-aside">
+              <p>
+                Botánica, fauna y universos personales.
+                <br />
+                Un recorrido por mis últimos trabajos.
+              </p>
+              <Link className="tatuajes-page-v2__text-link" href="/tatuajes/portafolio">
+                Ver portafolio completo <span aria-hidden="true">↗</span>
+              </Link>
+            </div>
           </div>
+        </Reveal>
+
+        <div className="tatuajes-page-v2__gallery">
+          {featuredWorks.map((image, index) => (
+            <Reveal
+              key={image.src}
+              className={`tatuajes-page-v2__work tatuajes-page-v2__work--${WORK_SLOTS[index]}`}
+              delay={index * 0.07}
+            >
+              <button
+                type="button"
+                className="tatuajes-page-v2__work-button"
+                onClick={() => setLightboxIndex(index)}
+                aria-label={`Ver ${captionOf(image)}`}
+              >
+                <span className="tatuajes-page-v2__photo">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    sizes="(max-width: 700px) 92vw, 60vw"
+                    className="tatuajes-page-v2__photo-image"
+                  />
+                  <span className="tatuajes-page-v2__expand" aria-hidden="true">
+                    ↗
+                  </span>
+                </span>
+                <span className="tatuajes-page-v2__caption">
+                  <span>{captionOf(image)}</span>
+                  <small>{pad(index + 1)} / Tatuaje</small>
+                </span>
+              </button>
+            </Reveal>
+          ))}
         </div>
-      </nav>
 
-      <main>
-        <section
-          id="inicio"
-          className="tatuajes-page-v2__hero"
-          aria-label="Carrusel de imágenes de tatuajes"
-        >
-          <div className="tatuajes-page-v2__hero-image" aria-live="polite">
-            <Image
-              key={heroImages[activeImage].src}
-              src={heroImages[activeImage].src}
-              alt={heroImages[activeImage].alt}
-              fill
-              priority
-              sizes="100vw"
-              className="tatuajes-page-v2__image"
-            />
-          </div>
-          <a
-            className="tatuajes-page-v2__hero-cta"
-            href={heroCtas[activeImage % heroCtas.length].href}
-            aria-label={`Ir a ${heroCtas[activeImage % heroCtas.length].label}`}
-          >
-            {heroCtas[activeImage % heroCtas.length].label}
-            <span aria-hidden="true">→</span>
-          </a>
-          <div className="tatuajes-page-v2__progress" aria-label="Seleccionar imagen del hero">
-            {heroImages.map((image, index) => (
+        <div className="tatuajes-page-v2__more" id="tatuajes-more-gallery" hidden={!expanded}>
+          {moreWorks.map((image, position) => {
+            const index = WORK_SLOTS.length + position;
+
+            return (
               <button
                 key={image.src}
                 type="button"
-                className={index === activeImage ? "is-active" : ""}
-                onClick={() => setActiveImage(index)}
-                aria-label={`Mostrar imagen ${index + 1}`}
-                aria-current={index === activeImage ? "true" : undefined}
+                className="tatuajes-page-v2__work-button"
+                onClick={() => setLightboxIndex(index)}
+                aria-label={`Ver ${captionOf(image)}`}
+              >
+                <span className="tatuajes-page-v2__photo">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    sizes="(max-width: 700px) 45vw, 24vw"
+                    className="tatuajes-page-v2__photo-image"
+                  />
+                  <span className="tatuajes-page-v2__expand" aria-hidden="true">
+                    ↗
+                  </span>
+                </span>
+                <span className="tatuajes-page-v2__caption">
+                  <span>{captionOf(image)}</span>
+                  <small>{pad(index + 1)} / Tatuaje</small>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="tatuajes-page-v2__gallery-footer">
+          <span>Una selección de mi trabajo</span>
+          {moreWorks.length > 0 ? (
+            <button
+              type="button"
+              className="tatuajes-page-v2__text-link tatuajes-page-v2__more-button"
+              onClick={() => setExpanded((value) => !value)}
+              aria-expanded={expanded}
+              aria-controls="tatuajes-more-gallery"
+            >
+              {expanded ? "Ver menos" : "Ver más tatuajes"}{" "}
+              <span aria-hidden="true">{expanded ? "−" : "＋"}</span>
+            </button>
+          ) : null}
+        </div>
+      </section>
+
+      <section id="disenos-disponibles" className="tatuajes-page-v2__section tatuajes-page-v2__designs">
+        <Reveal>
+          <div className="tatuajes-page-v2__heading">
+            <div>
+              <p className="tatuajes-page-v2__eyebrow">02 / Piezas para elegir</p>
+              <h2>
+                Una idea esperando
+                <br />
+                <em>encontrarte.</em>
+              </h2>
+            </div>
+            <div className="tatuajes-page-v2__heading-aside">
+              <p>
+                Explora ideas listas para llevar a tu piel
+                <br />
+                o adaptar contigo.
+              </p>
+              <Link
+                className="tatuajes-page-v2__text-link"
+                href="/tatuajes/disenos-disponibles"
+              >
+                Ver diseños disponibles <span aria-hidden="true">↗</span>
+              </Link>
+            </div>
+          </div>
+        </Reveal>
+
+        <div className="tatuajes-page-v2__design-grid">
+          {designs.map((design, index) => (
+            <Reveal key={design.id} delay={index * 0.08}>
+              <Link
+                className="tatuajes-page-v2__design-card"
+                href="/tatuajes/disenos-disponibles"
+              >
+                <div className="tatuajes-page-v2__design-image">
+                  <Image
+                    src={design.src}
+                    alt={design.alt}
+                    fill
+                    sizes="(max-width: 700px) 78vw, 33vw"
+                    className="tatuajes-page-v2__design-photo"
+                  />
+                  <span className="tatuajes-page-v2__design-index">{pad(index + 1)}</span>
+                </div>
+                <div className="tatuajes-page-v2__design-label">
+                  <h3>{design.name}</h3>
+                  <span aria-hidden="true">↗</span>
+                </div>
+                <p className="tatuajes-page-v2__design-detail">{design.detail}</p>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section id="sobre-mi" className="tatuajes-page-v2__section tatuajes-page-v2__about">
+        <Reveal className="tatuajes-page-v2__about-visual">
+          <span className="tatuajes-page-v2__about-image">
+            {aboutImage ? (
+              <Image
+                src={aboutImage.src}
+                alt={aboutImage.alt}
+                fill
+                sizes="(max-width: 700px) 92vw, 45vw"
+                className="tatuajes-page-v2__photo-image"
               />
-            ))}
-          </div>
-        </section>
+            ) : null}
+          </span>
+          <span className="tatuajes-page-v2__stamp">
+            Pájaro Maca
+            <br />
+            Arte en la piel
+            <br />
+            <TattooMark tone="dark" className="tatuajes-page-v2__stamp-mark" />
+          </span>
+        </Reveal>
 
-        <section id="portafolio" className="tatuajes-page-v2__section tatuajes-page-v2__portfolio">
-          <div className="tatuajes-page-v2__container">
-            <Reveal direction="up">
-              <div className="tatuajes-page-v2__section-heading">
-                <div>
-                  <p className="tatuajes-page-v2__eyebrow">Trabajo reciente</p>
-                  <h2>Portafolio</h2>
-                  <p>Diseños pensados para acompañarte por mucho tiempo.</p>
-                </div>
-                <a className="tatuajes-page-v2__text-link" href="/tatuajes/portafolio">
-                  Ver portafolio completo <ArrowRight aria-hidden="true" />
-                </a>
+        <Reveal className="tatuajes-page-v2__about-copy" delay={0.12} direction="right">
+          <div>
+            <p className="tatuajes-page-v2__eyebrow">03 / Sobre mí</p>
+            <h2>
+              Una colaboración
+              <br />
+              <em>en la piel.</em>
+            </h2>
+            <p className="tatuajes-page-v2__body-text">
+              Soy tatuadora y artista visual. Creo diseños personalizados que convierten historias,
+              símbolos e intuiciones en piezas únicas.
+            </p>
+            <p className="tatuajes-page-v2__body-text">
+              Cada sesión comienza escuchando tu idea. Juntos definimos el lenguaje visual, la
+              ubicación y el tamaño para que el resultado se sienta verdaderamente tuyo.
+            </p>
+            <a
+              className="tatuajes-page-v2__text-link"
+              href="https://instagram.com/pajaro_maca"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Conoce mi universo <span aria-hidden="true">↗</span>
+            </a>
+            <p className="tatuajes-page-v2__location">
+              <span className="tatuajes-page-v2__dot" aria-hidden="true" />
+              Villarrica, Chile
+            </p>
+          </div>
+        </Reveal>
+      </section>
+
+      <section id="cotizar" className="tatuajes-page-v2__section tatuajes-page-v2__quote">
+        <Reveal className="tatuajes-page-v2__quote-heading">
+          <div>
+            <p className="tatuajes-page-v2__eyebrow">04 / Tu idea, el primer paso</p>
+            <h2>
+              Todo empieza
+              <br />
+              con un <em>«¿y si…?»</em>
+            </h2>
+            <p className="tatuajes-page-v2__body-text">
+              Cuéntame qué tienes en mente.
+              <br />
+              Le damos forma, juntos.
+            </p>
+            <Link className="tatuajes-page-v2__button" href="/tatuajes/cotizar">
+              Solicitar cotización <span aria-hidden="true">↗</span>
+            </Link>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.12}>
+          <div className="tatuajes-page-v2__quote-steps">
+            <div>
+              <span>01</span>
+              <div>
+                <h3>Tu idea</h3>
+                <p>Una historia, un símbolo o una referencia visual. No necesitas tener todo resuelto.</p>
               </div>
-            </Reveal>
-            <div className="tatuajes-page-v2__portfolio-grid">
-              {portfolioImages.map((image, index) => (
-                <Reveal key={image.src} delay={index * 0.07} direction={index % 2 ? "up" : "left"}>
-                  <a className="tatuajes-page-v2__image-card" href="/tatuajes/portafolio" aria-label={`Ver portafolio: ${image.alt}`}>
-                    <Image src={image.src} alt={image.alt} fill sizes="(max-width: 767px) 50vw, 25vw" />
-                  </a>
-                </Reveal>
-              ))}
+              <b aria-hidden="true">↗</b>
+            </div>
+            <div>
+              <span>02</span>
+              <div>
+                <h3>El lugar y el tamaño</h3>
+                <p>Dónde te gustaría llevarlo y sus medidas aproximadas.</p>
+              </div>
+              <b aria-hidden="true">↗</b>
+            </div>
+            <div>
+              <span>03</span>
+              <div>
+                <h3>Lo creamos contigo</h3>
+                <p>
+                  Con esa información puedo orientarte sobre el diseño, el valor y la disponibilidad.
+                </p>
+              </div>
+              <b aria-hidden="true">↗</b>
             </div>
           </div>
-        </section>
+        </Reveal>
+      </section>
 
-        <section id="disenos-disponibles" className="tatuajes-page-v2__section tatuajes-page-v2__designs">
-          <div className="tatuajes-page-v2__container">
-            <Reveal direction="right">
-              <div className="tatuajes-page-v2__section-heading">
-                <div>
-                  <p className="tatuajes-page-v2__eyebrow">Piezas para elegir</p>
-                  <h2>Diseños disponibles</h2>
-                  <p>Explora ideas listas para llevar a tu piel o adaptar contigo.</p>
-                </div>
-                 <a className="tatuajes-page-v2__text-link" href="/tatuajes/disenos-disponibles">
-                  Ver todos los diseños <ArrowRight aria-hidden="true" />
-                </a>
-              </div>
-            </Reveal>
-            <div className="tatuajes-page-v2__design-grid">
-              {availableDesigns.map((design, index) => (
-                <Reveal key={design.id} delay={index * 0.09} direction="up">
-                  <a className="tatuajes-page-v2__design-card" href="/tatuajes/disenos-disponibles">
-                    <div className="tatuajes-page-v2__design-image">
-                      <Image src={design.src} alt={design.alt} fill sizes="(max-width: 767px) 100vw, 33vw" />
-                    </div>
-                    <div className="tatuajes-page-v2__design-copy">
-                      <div>
-                        <h3>{design.name}</h3>
-                        <p>{design.detail}</p>
-                      </div>
-                      <ArrowRight aria-hidden="true" />
-                    </div>
-                  </a>
-                </Reveal>
-              ))}
-            </div>
+      <section id="cuidados" className="tatuajes-page-v2__section tatuajes-page-v2__care">
+        <Reveal className="tatuajes-page-v2__care-symbol">
+          <TattooMark className="tatuajes-page-v2__care-mark" />
+        </Reveal>
+
+        <Reveal className="tatuajes-page-v2__care-copy" delay={0.08}>
+          <div>
+            <p className="tatuajes-page-v2__eyebrow">05 / Después de la sesión</p>
+            <h2>
+              El cuidado también
+              <br />
+              es parte del <em>arte.</em>
+            </h2>
+            <p className="tatuajes-page-v2__body-text">
+              Cuida tu tatuaje desde el primer día. La guía completa te acompaña paso a paso durante
+              la cicatrización.
+            </p>
+            <Link className="tatuajes-page-v2__text-link" href="/tatuajes/cuidados">
+              Leer guía de cuidados <span aria-hidden="true">↗</span>
+            </Link>
           </div>
-        </section>
+        </Reveal>
 
-        <section id="sobre-mi" className="tatuajes-page-v2__section tatuajes-page-v2__about">
-          <div className="tatuajes-page-v2__container tatuajes-page-v2__about-grid">
-            <Reveal direction="left">
-              <div>
-                <p className="tatuajes-page-v2__eyebrow">Sobre mí</p>
-                <h2>Una colaboración en la piel</h2>
-              </div>
-            </Reveal>
-            <Reveal delay={0.12} direction="right">
-              <div className="tatuajes-page-v2__about-copy">
-                <p>Soy tatuadora y artista visual. Creo diseños personalizados que convierten historias, símbolos e intuiciones en piezas únicas.</p>
-                <p>Cada sesión comienza escuchando tu idea. Juntos definimos el lenguaje visual, la ubicación y el tamaño para que el resultado se sienta verdaderamente tuyo.</p>
-                <div className="tatuajes-page-v2__meta">
-                  <span>Villarrica, Chile</span>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
+        <Reveal className="tatuajes-page-v2__care-points" delay={0.16} direction="right">
+          <>
+            <span>
+              <i>01</i> <b>Lava suavemente</b>
+            </span>
+            <span>
+              <i>02</i> <b>Hidrata con una capa fina</b>
+            </span>
+            <span>
+              <i>03</i> <b>Evita sol, piscinas y fricción</b>
+            </span>
+          </>
+        </Reveal>
+      </section>
 
-        <section id="cotizar" className="tatuajes-page-v2__section tatuajes-page-v2__quote">
-          <div className="tatuajes-page-v2__container">
-            <Reveal direction="up">
-              <div className="tatuajes-page-v2__quote-panel">
-                <div>
-                  <p className="tatuajes-page-v2__eyebrow">Tu idea, el primer paso</p>
-                  <h2>¿Cómo cotizar?</h2>
-                  <p>Cuéntame qué tienes en mente, dónde te gustaría llevarlo y el tamaño aproximado. Con esa información puedo orientarte sobre el diseño, el valor y la disponibilidad.</p>
-                </div>
-                <a className="tatuajes-page-v2__button" href="/tatuajes/cotizar">
-                  Solicitar cotización <ArrowRight aria-hidden="true" />
-                </a>
-              </div>
-            </Reveal>
-          </div>
-        </section>
+      <TattooFooter variant="landing" />
 
-        <section id="cuidados" className="tatuajes-page-v2__section tatuajes-page-v2__care">
-          <div className="tatuajes-page-v2__container tatuajes-page-v2__care-grid">
-            <Reveal direction="left">
-              <div>
-                <p className="tatuajes-page-v2__eyebrow">Después de la sesión</p>
-                <h2>Cuida tu tatuaje desde el primer día</h2>
-              </div>
-            </Reveal>
-            <Reveal delay={0.12} direction="right">
-              <div className="tatuajes-page-v2__care-copy">
-                <p>Lava suavemente, hidrata con una capa fina y evita sol, piscinas y fricción durante la cicatrización. La guía completa te acompaña paso a paso.</p>
-                <a className="tatuajes-page-v2__text-link" href="/tatuajes/cuidados">
-                  Leer guía de cuidados <ArrowRight aria-hidden="true" />
-                </a>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-
-        <footer className="tatuajes-page-v2__footer">
-          <Reveal direction="up">
-            <div className="tatuajes-page-v2__footer-inner">
-              <div>
-                <p className="tatuajes-page-v2__footer-brand">TATUAJES</p>
-                <p>Diseño personalizado en Villarrica, Chile.</p>
-              </div>
-              <a className="tatuajes-page-v2__button" href="/tatuajes/cotizar">
-                Hablemos de tu idea <ArrowRight aria-hidden="true" />
-              </a>
-            </div>
-          </Reveal>
-        </footer>
-      </main>
-
-      <a
-        className="tatuajes-page-v2__instagram"
-         href="https://instagram.com/pajaro_maca"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Visítame en Instagram"
-      >
-        <Instagram aria-hidden="true" focusable="false" />
-      </a>
+      <TattooLightbox
+        items={portfolioImages}
+        index={lightboxIndex}
+        onChange={setLightboxIndex}
+        onClose={closeLightbox}
+      />
     </div>
   );
 }

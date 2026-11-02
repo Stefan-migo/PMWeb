@@ -13,6 +13,8 @@ export type Tattoo = {
   availability?: string | null;
   sort_order: number;
   is_published: boolean;
+  /** Local fallback descriptors; the CMS has no column for them yet. */
+  tags?: string[];
 };
 
 export function selectPublishedTattoos<T extends { is_published: boolean; sort_order: number }>(records: T[]) {
@@ -33,10 +35,12 @@ export async function resolveTattooRecords<T>(
 
 const localPortfolioRecords: Tattoo[] = portfolioImages.map((image, index) => ({
   id: `local-${index}`,
-  title: image.alt,
+  title: image.title ?? image.alt,
   slug: `local-${index}`,
   description: null,
   image_path: image.src,
+  style: image.style ?? null,
+  tags: image.tags,
   sort_order: index,
   is_published: true,
 }));

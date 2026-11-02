@@ -1,0 +1,270 @@
+/* Shared shell of the tattoo section: the landing and the five sub-pages.
+   The warm palette of the approved design lives here, on the wrapper the layout
+   renders, so every tattoo surface inherits the same tokens. */
+.tattoo-section {
+  --tattoo-bg: #111110;
+  --tattoo-surface: #191918;
+  --tattoo-text: #edece5;
+  --tattoo-text-muted: #a6a59e;
+  --tattoo-accent: #d35849;
+  --tattoo-border: rgb(255 255 255 / 15%);
+  --tattoo-page-width: 1320px;
+
+  min-height: 100vh;
+  background: var(--tattoo-bg);
+  color: var(--tattoo-text);
+}
+
+/* Sub-page scaffolding ---------------------------------------------------- */
+
+.tattoo-subpage {
+  width: 100%;
+  max-width: var(--tattoo-page-width);
+  margin: 0 auto;
+  padding: 0 55px;
+}
+
+.tattoo-breadcrumb {
+  display: flex;
+  gap: 13px;
+  padding-top: 40px;
+  color: var(--tattoo-text-muted);
+  font-size: 0.5625rem;
+  letter-spacing: 0.025em;
+}
+
+.tattoo-breadcrumb a:hover {
+  color: var(--tattoo-text);
+}
+
+.tattoo-breadcrumb > span:last-child {
+  color: var(--tattoo-text);
+}
+
+.tattoo-page-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 50px;
+  padding: 65px 0 55px;
+}
+
+.tattoo-page-intro h1 {
+  margin: 0;
+  font-size: clamp(3.25rem, 6vw, 5.5rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+}
+
+.tattoo-page-intro h1 em {
+  font-family: var(--font-serif);
+  font-size: 1.04em;
+  font-style: italic;
+  letter-spacing: -0.01em;
+}
+
+.tattoo-eyebrow {
+  margin: 0 0 23px;
+  color: var(--tattoo-accent);
+  font-size: 0.5625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tattoo-lead {
+  max-width: 500px;
+  margin: 27px 0 0;
+  color: var(--tattoo-text-muted);
+  font-size: 0.8125rem;
+  line-height: 1.8;
+}
+
+.tattoo-aside {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding-bottom: 5px;
+}
+
+.tattoo-aside p {
+  margin: 0;
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  line-height: 1.9;
+  text-transform: uppercase;
+}
+
+.tattoo-aside small {
+  color: var(--tattoo-text-muted);
+  font-size: 0.625rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* The page-intro mark is the largest decorative use of the brand. */
+.tattoo-aside .tattoo-mark {
+  --tattoo-mark-height: 100px;
+}
+
+.tattoo-page-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+  border-top: 1px solid var(--tattoo-border);
+  border-bottom: 1px solid var(--tattoo-border);
+  margin: 75px 0 85px;
+  padding: 45px 0;
+}
+
+.tattoo-page-cta h2 {
+  margin: 0;
+  font-size: 2.75rem;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.tattoo-page-cta h2 em {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.tattoo-page-cta .tattoo-eyebrow {
+  margin-bottom: 15px;
+  font-size: 0.5rem;
+}
+
+.tattoo-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  border-radius: 2px;
+  padding: 18px 23px;
+  background: var(--tattoo-text);
+  color: var(--tattoo-bg);
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: background-color 250ms ease-out, transform 250ms ease-out;
+}
+
+.tattoo-button:hover,
+.tattoo-button:focus-visible {
+  background: #ffffff;
+  transform: translateY(-3px);
+}
+
+.tattoo-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 40px;
+  border-bottom: 1px solid rgb(255 255 255 / 33%);
+  padding: 0 0 12px;
+  color: inherit;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  transition: color 200ms ease-out, border-color 200ms ease-out;
+}
+
+.tattoo-text-link:hover,
+.tattoo-text-link:focus-visible {
+  border-color: var(--tattoo-accent);
+  color: var(--tattoo-accent);
+}
+
+.tattoo-text-link span {
+  font-size: 1.25rem;
+}
+
+.tattoo-subpage a:focus-visible,
+.tattoo-subpage button:focus-visible {
+  outline: 2px solid var(--tattoo-accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1000px) {
+  .tattoo-subpage {
+    padding: 0 35px;
+  }
+
+  .tattoo-page-intro {
+    gap: 30px;
+  }
+
+  .tattoo-aside {
+    gap: 20px;
+  }
+
+  .tattoo-aside .tattoo-mark {
+    --tattoo-mark-height: 75px;
+  }
+
+  .tattoo-aside p {
+    font-size: 0.5rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .tattoo-subpage {
+    padding: 0 6%;
+  }
+
+  .tattoo-breadcrumb {
+    gap: 10px;
+    padding-top: 25px;
+    font-size: 0.5rem;
+  }
+
+  .tattoo-page-intro {
+    display: block;
+    padding: 40px 0 35px;
+  }
+
+  .tattoo-page-intro h1 {
+    font-size: clamp(2.9375rem, 11.4vw, 4.25rem);
+    letter-spacing: -0.03em;
+  }
+
+  .tattoo-eyebrow {
+    margin-bottom: 21px;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  .tattoo-lead {
+    max-width: 95%;
+    margin-top: 23px;
+    font-size: 0.75rem;
+  }
+
+  .tattoo-aside {
+    display: none;
+  }
+
+  .tattoo-page-cta {
+    display: block;
+    margin: 35px 0 60px;
+    padding: 30px 0;
+  }
+
+  .tattoo-page-cta h2 {
+    font-size: 2.1875rem;
+  }
+
+  .tattoo-page-cta .tattoo-button {
+    margin-top: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tattoo-section *,
+  .tattoo-section *::before,
+  .tattoo-section *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

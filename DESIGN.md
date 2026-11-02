@@ -25,6 +25,11 @@ Both share the same base spacing system, border radius, and shadow tokens.
 | `--tattoo-text-muted` | `#a3a3a3` | Secondary/muted text |
 | `--tattoo-accent` | `#ef4444` | Accent (bold red — tattoo energy) |
 | `--tattoo-accent-hover` | `#dc2626` | Accent hover |
+| `--tattoo-quote-bg` | `#ad3b33` | Deep red for full-width filled panels (the accent is too bright behind a section of copy) |
+| `--tattoo-panel` | `#252522` | Lighter panel for the landing quote section |
+| `--tattoo-footer-bg` | `#d25748` | Filled red footer block on the landing |
+| `--tattoo-footer-ink` | `#171614` | Text on the red footer block |
+| `--tattoo-header-height` | `76px` | Height of the single shared tattoo header; anchors and sticky offsets use it |
 
 ### Art Section (Light Theme)
 | Token | Hex | Role |
@@ -136,12 +141,41 @@ Both share the same base spacing system, border radius, and shadow tokens.
 - **Labels**: Above input, small caps or uppercase, `--tattoo-text-muted` / `--art-text-muted`
 
 ### Navigation
-- **Tattoo Nav**: Dark background, white text, hover underline in `--tattoo-accent`, active state with accent color
+- **Tattoo Nav**: One shared header for the whole section (`app/_components/tattoo/TattooHeader.tsx`). It sits over the landing hero, becomes a solid sticky bar on the section pages, uses white text with a `--tattoo-accent` underline, and marks the current page with `aria-current="page"`.
+- **Tattoo landing links**: the header entries scroll to the landing sections; on a section page the same entries link to that section's page.
+- **PajaroMaca entry**: the last entry of the tattoo header always returns to the three-option main page (`/`). No "Más" or generic back link.
 - **Art Nav**: Transparent or light background, dark text, hover underline in `--art-text`, active state with accent color
 - **Mobile**: Hamburger menu, full-screen overlay
 
 ### Code Blocks
 - Monospace, `--tattoo-surface` / `--art-surface-secondary` background, 14px, 16px padding, 8px radius
+
+### Landing Palette (approved redesign)
+
+`/tatuajes` carries the palette of the approved design bundle. It is declared as
+`--tattoo-*` overrides inside `.tatuajes-page-v2`, so the section pages keep the values above and
+the landing gets the warmer set:
+
+| Landing value | Token it overrides | Note |
+|---------------|--------------------|------|
+| `#111110` | `--tattoo-bg` | Warmer near-black behind the photographs |
+| `#191918` | `--tattoo-surface` | The designs row |
+| `#edece5` | `--tattoo-text` | Off-white ink |
+| `#a6a59e` | `--tattoo-text-muted` | Warm grey |
+| `#d35849` | `--tattoo-accent` | Softer red of the design bundle |
+| `rgb(255 255 255 / 15%)` | `--tattoo-border` | Hairlines over photographs |
+
+Typography stays the site's own: Inter for the sans voice and the Georgia fallback of
+`--font-serif` for the italic accent. The bundle's DM Sans `@import` is not adopted.
+
+### Contact Hierarchy
+One order on every surface, highest priority first:
+
+1. **Instagram** (`@pajaro_maca`) — primary channel and the first CTA wherever contact is offered.
+2. **WhatsApp** — secondary, prefilled message.
+3. **Email** — last; published as a readable address (`pajaro.maca.arte@gmail.com`, overridable with `NEXT_PUBLIC_CONTACT_EMAIL`) behind a `mailto:` link.
+
+Never contact the artist through a form: publishing the address is the email channel.
 
 ---
 
