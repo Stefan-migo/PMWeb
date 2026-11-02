@@ -8,7 +8,7 @@ import { PageTransition } from "@/app/_components/shared/PageTransition";
 const footerNavigation = [
   { href: "/arte/galeria", label: "Obras" },
   { href: "/arte/sobre-mi", label: "Mi mirada" },
-  { href: "/arte/exposiciones", label: "Exposiciones" },
+  { href: "/arte/trayectoria", label: "Trayectoria" },
   { href: "/arte/tienda", label: "Tienda" },
 ];
 

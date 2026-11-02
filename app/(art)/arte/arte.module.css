@@ -142,16 +142,17 @@
   z-index: 30;
   background: transparent;
   color: var(--hero-ink, var(--ar-ink));
-  border-bottom-color: color-mix(in srgb, currentColor 15%, transparent);
+  /* Opaque blends: a translucent hairline loses its curve to anti-aliasing. */
+  border-bottom-color: color-mix(in srgb, currentColor 15%, var(--hero-bg, var(--ar-paper)));
   transition: color 0.8s;
 }
 
 .headerOverHero .headLabel {
-  border-left-color: color-mix(in srgb, currentColor 30%, transparent);
+  border-left-color: color-mix(in srgb, currentColor 30%, var(--hero-bg, var(--ar-paper)));
 }
 
 .headerOverHero .contactPill {
-  border-color: color-mix(in srgb, currentColor 45%, transparent);
+  border-color: color-mix(in srgb, currentColor 45%, var(--hero-bg, var(--ar-paper)));
 }
 
 .headerOverHero .contactPill:hover {
@@ -164,7 +165,8 @@
   padding: 0 42px;
 }
 
-.headOverHero .nav a {
+/* The pill keeps its own padding: the underline treatment is for plain links. */
+.headOverHero .nav a:not(.contactPill) {
   position: relative;
   padding: 10px 0;
 }
@@ -828,6 +830,105 @@
   margin-top: 40px;
 }
 
+/* ---------- trajectory ---------- */
+
+.now {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: end;
+  padding: 34px 0 38px;
+  border-top: 1px solid var(--ar-line);
+  border-bottom: 1px solid var(--ar-line);
+}
+
+.nowLabel {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ar-violet);
+  margin: 0 0 14px;
+}
+
+.nowLabel::before {
+  content: "●";
+  font-size: 8px;
+}
+
+.nowTitle {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: normal;
+  font-size: clamp(30px, 3.4vw, 46px);
+  letter-spacing: -1.5px;
+  line-height: 1.05;
+  margin: 0 0 12px;
+}
+
+.nowMeta {
+  font-size: 12px;
+  color: var(--ar-muted);
+  margin: 0;
+}
+
+.nowDate {
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--ar-muted);
+  text-align: right;
+  margin: 0;
+}
+
+.timelineList {
+  border-top: 1px solid var(--ar-line);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timelineRow {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  gap: 24px;
+  align-items: baseline;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--ar-line);
+}
+
+.timelineYear {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--ar-violet);
+  font-variant-numeric: tabular-nums;
+}
+
+.timelineTitle {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: normal;
+  font-size: 23px;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.timelineVenue {
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ar-muted);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+
 .profileGrid {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
@@ -1311,13 +1412,49 @@
   }
 
   .listMeta {
+    display: block;
     text-align: left;
     padding-top: 8px;
   }
 
-  .profileGrid {
+    .profileGrid {
     grid-template-columns: 1fr;
     gap: 30px;
+  }
+
+  .now {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 14px;
+  }
+
+  .nowDate {
+    text-align: left;
+  }
+
+  .timelineRow {
+    grid-template-columns: 62px 1fr;
+    gap: 14px;
+  }
+
+  .timelineVenue {
+    grid-column: 2;
+    text-align: left;
+    white-space: normal;
+    padding-top: 6px;
+  }
+
+  .timelineTitle {
+    font-size: 20px;
+  }
+
+  .timelineYear {
+    font-size: 19px;
+  }
+
+  .columns {
+    grid-template-columns: 1fr;
+    gap: 0;
   }
 }
 

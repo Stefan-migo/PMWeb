@@ -9,7 +9,8 @@ import styles from "./arte/arte.module.css";
 const navigation = [
   { href: "/arte/galeria", label: "Obras" },
   { href: "/arte/sobre-mi", label: "Mi mirada" },
-  { href: "/escenico", label: "Escénico ↗" },
+  { href: "/arte/trayectoria", label: "Trayectoria" },
+  { href: "/", label: "Más ↗" },
 ];
 
 const contactLink = { href: "/arte#contacto", label: "Conversemos ↗" };
@@ -18,9 +19,8 @@ const contactLink = { href: "/arte#contacto", label: "Conversemos ↗" };
  * Arte section header.
  *
  * The approved reference package ships this wordmark, label and navigation. The
- * anchors of the prototype become real routes so the four art pages stay
- * reachable, and «Escénico» points at the project's own scenic section instead
- * of the external proposal site.
+ * anchors of the prototype become real routes so the art pages stay reachable,
+ * and the last entry leaves the section for the site's three-way selection.
  *
  * On the landing the header overlays the animated hero and takes the colours of
  * the slide on screen, exactly as the hero package does; on every other art page

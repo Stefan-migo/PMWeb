@@ -31,6 +31,16 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "2mb",
     },
   },
+  async redirects() {
+    // The trajectory page owns the exhibitions list now.
+    return [
+      {
+        source: "/arte/exposiciones",
+        destination: "/arte/trayectoria",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
