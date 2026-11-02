@@ -7,6 +7,11 @@ import {
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import {
+  SITE_ICONS,
+  SITE_MANIFEST_PATH,
+  SITE_VIEWPORT,
+} from "@/app/_lib/site-icons";
 import "./globals.css";
 
 const inter = Inter({
@@ -75,14 +80,14 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
-  },
+  icons: SITE_ICONS,
+  manifest: SITE_MANIFEST_PATH,
   other: {
     "mobile-web-app-capable": "yes",
   },
 };
+
+export const viewport = SITE_VIEWPORT;
 
 export default function RootLayout({
   children,

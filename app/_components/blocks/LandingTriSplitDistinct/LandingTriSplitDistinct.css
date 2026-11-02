@@ -8,6 +8,12 @@
 
 .ltrd {
   position: relative;
+  /* The hovered panel grows by 1% (Tailwind scale-[1.01] sets the CSS `scale`
+     property). A scaled box still contributes its painted size to the
+     document's scrollable overflow, so without this clip the growth produced a
+     horizontal and a vertical scrollbar on the landing page. Clipping here
+     keeps the growth inside its own frame. */
+  overflow: hidden;
 }
 
 .ltrd-panel {
