@@ -4,8 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { Reveal } from "@/app/_components/shared/Reveal";
+import { TattooFooter } from "@/app/_components/tattoo/TattooFooter";
 import { TattooHeroCarousel } from "@/app/_components/tattoo/TattooHeroCarousel";
 import { TattooLightbox } from "@/app/_components/tattoo/TattooLightbox";
+import { TattooMark } from "@/app/_components/tattoo/TattooMark";
 import {
   availableDesigns,
   portfolioImages as localPortfolioImages,
@@ -50,9 +52,7 @@ export function TatuajesPageV2({
 
       <div className="tatuajes-page-v2__intro">
         <span className="tatuajes-page-v2__intro-claim">Un trazo. Una historia. Tu piel.</span>
-        <span className="tatuajes-page-v2__star" aria-hidden="true">
-          ✳
-        </span>
+        <TattooMark className="tatuajes-page-v2__intro-mark" />
         <p className="tatuajes-page-v2__intro-note">
           Diseños pensados para acompañarte por mucho tiempo.
         </p>
@@ -239,7 +239,7 @@ export function TatuajesPageV2({
             <br />
             Arte en la piel
             <br />
-            <span aria-hidden="true">✳</span>
+            <TattooMark tone="dark" className="tatuajes-page-v2__stamp-mark" />
           </span>
         </Reveal>
 
@@ -329,7 +329,7 @@ export function TatuajesPageV2({
 
       <section id="cuidados" className="tatuajes-page-v2__section tatuajes-page-v2__care">
         <Reveal className="tatuajes-page-v2__care-symbol">
-          <span aria-hidden="true">✳</span>
+          <TattooMark className="tatuajes-page-v2__care-mark" />
         </Reveal>
 
         <Reveal className="tatuajes-page-v2__care-copy" delay={0.08}>
@@ -365,36 +365,7 @@ export function TatuajesPageV2({
         </Reveal>
       </section>
 
-      <footer className="tatuajes-page-v2__footer">
-        <div className="tatuajes-page-v2__footer-top">
-          <p>¿Lo imaginamos?</p>
-          <Link href="/tatuajes/cotizar">
-            Tu próxima historia. <span aria-hidden="true">↗</span>
-          </Link>
-        </div>
-
-        <p className="tatuajes-page-v2__footer-brand">
-          pájaro maca
-          {/* The pack's single-colour stamp: the illustrated mark loses its
-              colours against a filled red field. */}
-          <Image
-            src="/design/logo/pajaro-maca-silhouette-dark.png"
-            alt=""
-            width={120}
-            height={188}
-            className="tatuajes-page-v2__footer-mark"
-          />
-        </p>
-
-        <div className="tatuajes-page-v2__footer-bottom">
-          <span>Tatuajes · Villarrica, Chile</span>
-          <a href="https://instagram.com/pajaro_maca" target="_blank" rel="noopener noreferrer">
-            Instagram ↗
-          </a>
-          <Link href="/">Explorar más de mi universo ↗</Link>
-          <a href="#inicio">Volver arriba ↑</a>
-        </div>
-      </footer>
+      <TattooFooter variant="landing" />
 
       <TattooLightbox
         items={portfolioImages}

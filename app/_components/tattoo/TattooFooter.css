@@ -1,0 +1,126 @@
+.tattoo-footer {
+  padding: 65px 4.5% 25px;
+  background: var(--tattoo-footer-bg, #d25748);
+  color: var(--tattoo-footer-ink, #171614);
+}
+
+.tattoo-footer__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 45px;
+}
+
+.tattoo-footer__top p {
+  margin: 0;
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tattoo-footer__top a {
+  color: inherit;
+  font-size: clamp(1.375rem, 3vw, 2.625rem);
+  letter-spacing: -0.03em;
+}
+
+.tattoo-footer__top a span {
+  padding-left: 40px;
+}
+
+.tattoo-footer__brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgb(23 22 20 / 38%);
+  border-bottom: 1px solid rgb(23 22 20 / 38%);
+  margin: 0;
+  padding: 20px 0;
+  font-family: var(--font-serif);
+  font-size: clamp(3.125rem, 13.9vw, 13.4rem);
+  letter-spacing: -0.06em;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.tattoo-footer--section .tattoo-footer__brand {
+  font-size: clamp(3.4375rem, 13vw, 11.875rem);
+}
+
+.tattoo-footer__mark {
+  width: auto;
+  height: clamp(3rem, 9vw, 8rem);
+  flex-shrink: 0;
+  /* The pack asks for clear space of at least 10% of the mark's height. */
+  margin-left: 10%;
+}
+
+.tattoo-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 25px;
+  font-size: 0.5rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tattoo-footer__bottom a,
+.tattoo-footer__bottom span {
+  color: inherit;
+}
+
+@media (max-width: 700px) {
+  .tattoo-footer {
+    padding: 40px 6% 25px;
+  }
+
+  .tattoo-footer__top {
+    align-items: start;
+    gap: 18px;
+    padding-bottom: 30px;
+  }
+
+  .tattoo-footer__top p {
+    max-width: 65px;
+    font-size: 0.4375rem;
+    line-height: 1.8;
+  }
+
+  .tattoo-footer__top a {
+    font-size: 1.4375rem;
+    letter-spacing: -0.03em;
+  }
+
+  .tattoo-footer__top a span {
+    padding-left: 8px;
+  }
+
+  .tattoo-footer__brand,
+  .tattoo-footer--section .tattoo-footer__brand {
+    font-size: 13.4vw;
+  }
+
+  .tattoo-footer__mark {
+    height: 48px;
+  }
+
+  .tattoo-footer__bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    font-size: 0.4375rem;
+    line-height: 1.7;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tattoo-footer *,
+  .tattoo-footer *::before,
+  .tattoo-footer *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

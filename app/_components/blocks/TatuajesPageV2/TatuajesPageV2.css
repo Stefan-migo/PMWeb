@@ -1,17 +1,7 @@
-/* The approved landing. Every rule lives under .tatuajes-page-v2 so the other
-   tattoo pages keep their own tokens: the design bundle's warm palette is
-   declared here as token overrides instead of leaking into app/globals.css. */
+/* The approved landing. The warm palette lives on .tattoo-section, the wrapper
+   the layout renders for the whole tattoo section; this file only styles the
+   landing itself. */
 .tatuajes-page-v2 {
-  --tattoo-bg: #111110;
-  --tattoo-surface: #191918;
-  --tattoo-text: #edece5;
-  --tattoo-text-muted: #a6a59e;
-  --tattoo-accent: #d35849;
-  --tattoo-border: rgb(255 255 255 / 15%);
-
-  min-height: 100vh;
-  background: var(--tattoo-bg);
-  color: var(--tattoo-text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
@@ -71,10 +61,8 @@
   text-transform: uppercase;
 }
 
-.tatuajes-page-v2__star {
-  color: var(--tattoo-accent);
-  font-size: 2.2rem;
-  line-height: 1;
+.tatuajes-page-v2__intro-mark {
+  height: 2.2rem;
 }
 
 /* Hero ------------------------------------------------------------------- */
@@ -524,6 +512,11 @@
   background: var(--tattoo-panel);
 }
 
+.tatuajes-page-v2__stamp-mark {
+  height: 1.1rem;
+  margin-top: 4px;
+}
+
 .tatuajes-page-v2__stamp {
   position: absolute;
   right: 0;
@@ -667,12 +660,10 @@
   gap: 5%;
 }
 
-.tatuajes-page-v2__care-symbol span {
+.tatuajes-page-v2__care-mark {
   display: block;
+  height: 6.875rem;
   margin-top: 40px;
-  color: var(--tattoo-accent);
-  font-size: 6.875rem;
-  line-height: 1;
 }
 
 .tatuajes-page-v2__care h2 {
@@ -704,76 +695,6 @@
   color: var(--tattoo-text);
   font-size: 0.75rem;
   font-weight: 400;
-}
-
-/* Footer ----------------------------------------------------------------- */
-
-.tatuajes-page-v2__footer {
-  padding: 65px 4.5% 25px;
-  background: var(--tattoo-footer-bg);
-  color: var(--tattoo-footer-ink);
-}
-
-.tatuajes-page-v2__footer-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding-bottom: 45px;
-}
-
-.tatuajes-page-v2__footer-top p {
-  font-size: 0.5625rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.tatuajes-page-v2__footer-top a {
-  color: var(--tattoo-footer-ink);
-  font-size: clamp(1.375rem, 3vw, 2.625rem);
-  letter-spacing: -0.03em;
-}
-
-.tatuajes-page-v2__footer-top a span {
-  padding-left: 40px;
-}
-
-.tatuajes-page-v2__footer-brand {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 1px solid rgb(23 22 20 / 38%);
-  border-bottom: 1px solid rgb(23 22 20 / 38%);
-  padding: 20px 0;
-  font-family: var(--font-serif);
-  font-size: clamp(3.125rem, 13.9vw, 13.4rem);
-  letter-spacing: -0.06em;
-  line-height: 1.25;
-  white-space: nowrap;
-}
-
-.tatuajes-page-v2__footer-mark {
-  width: auto;
-  height: clamp(3rem, 9vw, 8rem);
-  flex-shrink: 0;
-  /* The pack asks for clear space of at least 10% of the mark's height. */
-  margin-left: 10%;
-}
-
-.tatuajes-page-v2__footer-bottom {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding-top: 25px;
-  font-size: 0.5rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.tatuajes-page-v2__footer-bottom a {
-  color: var(--tattoo-footer-ink);
 }
 
 /* Lightbox --------------------------------------------------------------- */
@@ -957,8 +878,8 @@
     font-size: 0.625rem;
   }
 
-  .tatuajes-page-v2__star {
-    font-size: 1.5625rem;
+  .tatuajes-page-v2__intro-mark {
+    height: 1.5625rem;
   }
 
   .tatuajes-page-v2__section {
@@ -1131,6 +1052,10 @@
     height: 440px;
   }
 
+  .tatuajes-page-v2__stamp-mark {
+    height: 0.9rem;
+  }
+
   .tatuajes-page-v2__stamp {
     width: 108px;
     height: 108px;
@@ -1191,51 +1116,6 @@
 
   .tatuajes-page-v2__care-points span {
     padding: 20px 0;
-  }
-
-  .tatuajes-page-v2__footer {
-    padding: 40px 6% 25px;
-  }
-
-  .tatuajes-page-v2__footer-top {
-    align-items: start;
-    gap: 18px;
-    padding-bottom: 30px;
-  }
-
-  .tatuajes-page-v2__footer-top p {
-    max-width: 65px;
-    font-size: 0.4375rem;
-    line-height: 1.8;
-  }
-
-  .tatuajes-page-v2__footer-top a {
-    font-size: 1.4375rem;
-    letter-spacing: -0.03em;
-  }
-
-  .tatuajes-page-v2__footer-top a span {
-    padding-left: 8px;
-  }
-
-  .tatuajes-page-v2__footer-brand {
-    font-size: 13.4vw;
-  }
-
-  .tatuajes-page-v2__footer-bottom {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    font-size: 0.4375rem;
-    line-height: 1.7;
-  }
-
-  .tatuajes-page-v2__footer-bottom a:last-child {
-    text-align: right;
-  }
-
-  .tatuajes-page-v2__footer-bottom a:nth-child(2) {
-    text-align: right;
   }
 
   .tatuajes-page-v2__lightbox {
