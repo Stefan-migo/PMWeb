@@ -52,6 +52,8 @@ section (S6 of `tatuajes-finalizacion.md`), so on a section page its labels open
 | T5 | S3-S6 | Unit coverage for the landing and the header | inline | with T2 |
 | T6 | S3-S6 | E2E for hero, gallery, viewer and mobile menu | inline | with T2 |
 | T7 | S2 | Record the design decisions and the mapped palette | inline | `docs(tatuajes): record the landing redesign` |
+| T8 | S8 | Brand mark in the header and the landing footer, from `refs/PAJARO_MACA_LOGO_PACK` | inline | `feat(tatuajes): carry the Pájaro Maca mark in the header and footer` |
+| T9 | S8 | The header keeps its hairline on first paint, as in the approved design | inline | same slice as T8 |
 
 ## Log
 
@@ -100,6 +102,12 @@ icons work (`app/_lib/site-icons.ts`, `__tests__/site-icons.test.ts`, `public/fa
 **not** part of this feature and were left unstaged. The build that validated the redesign
 included them; they are metadata and viewport only, so they do not change the landing's rendering.
 
+L10 (logo pack, user request verbatim): "'/run/media/stefan/Nuevo vol/Proyectos/pajaroMacaWeb/refs/PAJARO_MACA_LOGO_PACK' agrega el logo de pajaro maca donde sea necesario. principalmente en header y footer" plus "el header, cuando recien abre no se ve el borderline blanco inferior que si esta en la ref".
+
+L10a (decision on which variant): the pack's own rules decide it. The illustrated mark has a 100 px minimum height and the header is 94 px tall, so the header takes the **circular head badge** (`05-favicons/apple-touch-icon.png`, 34 KB) beside the existing wordmark; the landed file is `public/design/logo/pajaro-maca-head-badge.png`. The red footer takes the **single-colour silhouette** (`03-monochrome/pajaro-maca-silhouette-dark.png`, 16 KB): the pack sanctions the silhouette as a one-colour stamp, and the full-colour rooster's orange-red breast would sit on its own red field. No 2 MB SVG and no 1.5 MB master PNG ships to the browser. Clear space of 10% of the mark's height is applied to the footer mark.
+
+L10b (hairline): the bundle's header carries `border-bottom: 1px solid #ffffff30` in every state; the conversion had made it transparent until the first scroll. The hairline is now `rgb(255 255 255 / 19%)` from the first paint, and the section pages keep `--tattoo-border`.
+
 L9 (delivery): the redesign is one page, so it lands as one code slice; the review split is a
 chained PR over the header, the interactive pieces and the page composition if it is reviewed
 rather than merged.
@@ -111,4 +119,5 @@ rather than merged.
 | 0 | shared header and contact hierarchy found in the tree | `2f8ce9f` |
 | 1 | the bundled photographs replace the 20 MB PNG fallback | `810e204` |
 | 2 | landing redesign, header, viewer, tests | `a85ce58` |
-| 3 | this record and the DESIGN.md palette | `ff2c0d3` |
+| 3 | this record and the DESIGN.md palette | `866ee22` |
+| 4 | brand mark in header and footer, header hairline | `91446d9` |
