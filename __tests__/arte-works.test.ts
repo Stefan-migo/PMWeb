@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   arteCategories,
   arteCountLabel,
+  arteHeroDuration,
   arteHeroWorks,
   arteMiradaWork,
   arteWorks,
@@ -47,9 +48,7 @@ describe("arte catalogue", () => {
     }
   });
 
-  it("selects the hero and mirada works the design places there", () => {
-    expect(arteHeroWorks.main.id).toBe(1);
-    expect(arteHeroWorks.small.id).toBe(2);
+  it("selects the mirada work the design places there", () => {
     expect(arteMiradaWork.id).toBe(8);
   });
 });
@@ -89,5 +88,31 @@ describe("arteCountLabel", () => {
 
   it("uses the singular for one work", () => {
     expect(arteCountLabel(1)).toBe("1 obra");
+  });
+});
+
+describe("arte hero carousel", () => {
+  it("keeps the eight slides of the requested selection in order", () => {
+    expect(arteHeroWorks).toHaveLength(8);
+    expect(arteHeroWorks.map((work) => work.code)).toEqual([
+      "01", "02", "03", "04", "05", "06", "07", "08",
+    ]);
+    expect(arteHeroDuration).toBe(7200);
+  });
+
+  it("serves every hero work from its own bundled asset", () => {
+    for (const work of arteHeroWorks) {
+      expect(work.src).toBe(`/design/arte/hero/obra-${work.code}.webp`);
+      expect(work.alt.length).toBeGreaterThan(0);
+      expect(work.bg).toMatch(/^#[0-9a-f]{6}$/);
+      expect(work.ink).toMatch(/^#[0-9a-f]{6}$/);
+      expect(work.width).toBeGreaterThan(0);
+      expect(work.height).toBeGreaterThan(0);
+    }
+  });
+
+  it("drops the hen of the reference package", () => {
+    expect(arteHeroWorks.some((work) => /Gallina/i.test(work.alt))).toBe(false);
+    expect(arteHeroWorks.every((work) => !/Estamos bien/i.test(work.alt))).toBe(true);
   });
 });

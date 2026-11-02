@@ -7,14 +7,62 @@ const footerNav = (page: import("@playwright/test").Page) =>
   page.getByRole("navigation", { name: "Navegación del pie de arte" });
 
 test.describe("Art section", () => {
-  test("shows the approved landing", async ({ page }) => {
+  test("shows the approved landing with the animated hero", async ({ page }) => {
     await page.goto("/arte");
 
-    await expect(page.getByRole("heading", { level: 1, name: /La vida/ })).toBeVisible();
-    await expect(page.getByText("Macarena Almeida · Artes visuales")).toBeVisible();
-    await expect(page.getByText("Un universo en expansión")).toBeVisible();
-    await expect(page.getByRole("link", { name: /Explorar las obras/ })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "La vida en otros colores.",
+    );
+    await expect(page.locator('[aria-roledescription="carrusel"]')).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Un mundo para/ })).toBeVisible();
     await expect(page.getByText("15 obras")).toBeVisible();
+  });
+
+  test("runs the hero carousel with eight works and no overview link", async ({ page }) => {
+    await page.goto("/arte");
+
+    const hero = page.locator('[aria-roledescription="carrusel"]');
+    await expect(hero.locator('[aria-roledescription="diapositiva"]')).toHaveCount(8);
+
+    const markers = hero.getByRole("button", { name: /^Ver obra \d\d:/ });
+    await expect(markers).toHaveCount(8);
+    await expect(markers.first()).toHaveAttribute("aria-current", "true");
+    await expect(page.getByText("Ver las seis obras")).toHaveCount(0);
+  });
+
+  test("follows the slide colour on the hero and on the header", async ({ page }) => {
+    await page.goto("/arte");
+
+    const hero = page.locator('[aria-roledescription="carrusel"]');
+    const markers = hero.getByRole("button", { name: /^Ver obra \d\d:/ });
+    const header = page.locator("header");
+
+    await expect(hero).toHaveCSS("background-color", "rgb(206, 7, 0)");
+    await expect(header).toHaveCSS("color", "rgb(255, 248, 232)");
+
+    // Slide 3 is the first light one, so both the hero and the header invert.
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+
+    await expect(markers.nth(2)).toHaveAttribute("aria-current", "true");
+    await expect(hero).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await expect(header).toHaveCSS("color", "rgb(43, 34, 56)");
+  });
+
+  test("pauses and resumes the hero reproduction", async ({ page }) => {
+    await page.goto("/arte");
+
+    await page.getByRole("button", { name: "Pausar reproducción" }).click();
+
+    const resume = page.getByRole("button", { name: "Reanudar reproducción" });
+    await expect(resume).toHaveAttribute("aria-pressed", "true");
+    await expect(page.getByText("PAUSA PARA CONTEMPLAR")).toBeVisible();
+
+    await resume.click();
+    await expect(page.getByRole("button", { name: "Pausar reproducción" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
   });
 
   test("navigates to the gallery from the section navigation", async ({ page }) => {
