@@ -128,6 +128,31 @@ test.describe("Art section", () => {
     await expect(page.getByText("Actualmente en exhibición")).toBeVisible();
   });
 
+  test("reveals each work as it scrolls into view", async ({ page }) => {
+    await page.goto("/arte");
+
+    const firstWork = page.locator("#galeria").getByRole("button", { name: /^Ver obra 01:/ });
+    await expect(firstWork).toHaveCSS("opacity", "0");
+
+    await firstWork.scrollIntoViewIfNeeded();
+
+    await expect(firstWork).toHaveCSS("opacity", "1");
+  });
+
+  test("never hides content when motion is reduced", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+
+    await page.goto("/arte/galeria");
+    const firstWork = page.getByRole("button", { name: /^Ver obra 01:/ });
+    await expect(firstWork).toBeVisible();
+    await expect(firstWork).toHaveCSS("opacity", "1");
+
+    await page.goto("/arte");
+    await expect(page.getByRole("heading", { name: /Un mundo para/ })).toHaveCSS("opacity", "1");
+    // The hero respects the same preference by starting paused.
+    await expect(page.getByRole("button", { name: "Reanudar reproducción" })).toBeVisible();
+  });
+
   test("filters the curated works and reports the count", async ({ page }) => {
     await page.goto("/arte/galeria");
 
