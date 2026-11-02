@@ -1,0 +1,40 @@
+# Arte — nueva identidad visual desde el paquete de referencia
+
+Porta el prototipo aprobado `refs/PAJARO_MACA_ARTE_COMPLETO/pajaro-maca-arte` (HTML/CSS/JS autocontenido + 15 WebP) a `/arte` en Next.js y lo convierte en la identidad de todo el subárbol: la landing queda idéntica al prototipo y las cuatro sub-rutas se reestilizan con los mismos tokens. Cierra con deploy a producción.
+
+## Specs
+
+- **S1** — Pedido del usuario, literal: «'/run/media/stefan/Nuevo vol/Proyectos/pajaroMacaWeb/refs/PAJARO_MACA_ARTE_COMPLETO' hey chat. he creado esta version para el dise;o de la pagina arte de la pagina pajaron maca Arte. puedes desplegar esta version?»
+- **S2** — Alcance elegido por el usuario, literal: «B · Nueva identidad para todo /arte» — «El chrome del prototipo pasa a ser el layout de todo /arte y las 4 sub-rutas se reestilizan con esos tokens. Landing idéntica + coherencia total. Más trabajo y toca 5 páginas.»
+- **S3** — Instrucciones de integración del paquete, literales: «La página es estática. Puedes usarla directamente o trasladar sus secciones, estilos e interacciones a React/Next.js.»; «Los enlaces a Escénico apuntan a la propuesta publicada en ChatGPT Sites; reemplázalos por la ruta correspondiente del proyecto oficial. Instagram apunta a @pajaro_maca.»; «Las categorías son propuestas curatoriales. Reemplaza «Sin título» por los títulos definitivos cuando estén disponibles. No incluye backend, carrito ni tienda.»
+- **S4** — Fidelidad del chrome y la landing, textos del prototipo literales: wordmark «pájaro maca✳»; etiqueta «Universo visual»; nav «Obras», «Mi mirada», «Escénico ↗», «Conversemos ↗»; menú móvil «Menú +» / «Cerrar −»; hero «La vida en otros colores.» con «Macarena Almeida · Artes visuales», «Un universo en expansión» y «DESLIZAR PARA DESCUBRIR ↓»; franja violeta «Lo natural ✳ Lo sensible ✳ Lo imaginado ✳»; sección «01 / Obra visual» con «Un mundo para mirar de cerca.»; filtros «Todas», «Cuerpo y naturaleza», «Fauna», «Símbolos» y contador «15 obras»; sección «02 / Una mirada, muchos lenguajes» con «Entre el cuerpo y lo silvestre.»; sección «03 / Sigamos la conversación» con «¿Una obra te hizo sentir algo?» y el botón «Escríbeme en Instagram ↗»; footer con «© 2026 Pájaro Maca · Macarena Almeida».
+- **S5** — Accesibilidad del prototipo, conservada: «Saltar al contenido», foco visible, menú móvil con `aria-expanded`, visor como diálogo nativo con flechas de teclado, cierre con Escape, bloqueo de scroll del body y retorno del foco al elemento que abrió el visor.
+- **S6** — Tokens visuales del prototipo, literales: `--paper:#f3f0e8`, `--ink:#24231f`, `--muted:#68665e`, `--line:#ccc9bf`, `--violet:#523097`, `--acid:#d4e28a`; serif Georgia, sans Arial.
+- **S7** — Sustituciones obligatorias: los enlaces a `https://pajaro-maca-escenico.boxyhull.chatgpt.site/` pasan a la ruta interna `/escenico`; Instagram a `https://www.instagram.com/pajaro_maca/`.
+- **S8** — No tocar lo compartido: los tokens `--art-*`, `--tattoo-*` y `--scenic-*` de `app/globals.css` y los bloques `Landing*Split` quedan como están; la nueva paleta se aísla en el módulo CSS de arte.
+- **S9** — Deploy a producción: `https://pajaro-maca-web.vercel.app` mediante push a `main` (integración Git de Vercel; no hay Vercel CLI ni `.vercel/`). El trabajo de tatuajes sin commitear en `main` no forma parte de ningún commit.
+
+## Tasks
+
+- [x] T1 — Recursos y contenido: 15 WebP en `public/design/arte/`, modelo de las obras en `app/_lib/arte/works.ts` y módulo `app/(art)/arte/arte.module.css` portado con los tokens de S6 aislados. (S3, S6, S8) · commit 1
+- [x] T2 — Chrome de arte: `app/(art)/layout.tsx` con header del prototipo (wordmark, etiqueta, nav, menú móvil accesible), skip link y footer. (S2, S4, S5, S7) · commit 2
+- [x] T3 — Landing `/arte`: hero con las dos obras rotadas y el sello, franja violeta, sección de galería con filtros y contador, sección «Mi mirada» y sección de contacto. (S4, S7) · commit 3
+- [x] T4 — Galería interactiva y visor: masonry, filtros por categoría y diálogo nativo con teclado, Escape, scroll lock y retorno de foco. (S4, S5) · commit 3
+- [x] T5 — Sub-rutas reestilizadas con los tokens: `/arte/galeria`, `/arte/exposiciones`, `/arte/sobre-mi`, `/arte/tienda`. (S2, S5) · commit 4
+- [x] T6 — Tests: unitarios del modelo/filtros y de las interacciones del visor; actualización de `e2e/arte.spec.ts` al nuevo diseño. (S4, S5) · commit 5
+- [x] T7 — Documentación de la paleta y tipografía de arte en `DESIGN.md`. (S6) · commit 5
+- [x] T8 — Controles: typecheck, lint, unit, build y e2e del recorrido de arte. (S4, S5)
+- [ ] T9 — Deploy: rama de trabajo, commits por unidad, merge a `main`, push y verificación de producción. (S9)
+
+## Log
+
+- L1 — Pedido original, literal: «'/run/media/stefan/Nuevo vol/Proyectos/pajaroMacaWeb/refs/PAJARO_MACA_ARTE_COMPLETO' hey chat. he creado esta version para el dise;o de la pagina arte de la pagina pajaron maca Arte. puedes desplegar esta version?»
+- L2 — El paquete de referencia es estático y autocontenido: `index.html` (19.585 bytes, CSS y JS inline) y `assets/obra-01..15.webp` (2,7 MB). No tiene build, framework, backend ni carrito.
+- L3 — Evidencia: la tabla `artworks` de Supabase responde `[]` con la anon key del proyecto, así que las 15 imágenes del paquete son hoy el único contenido de obra; no hay datos que cablear ni duplicar.
+- L4 — Evidencia: `/escenico` existe en la app (`app/(scenic)/escenico`), por eso S7 sustituye la URL de ChatGPT Sites por esa ruta.
+- L5 — Evidencia: el repo no tiene Vercel CLI ni `.vercel/`; el deploy de producción es la integración Git de Vercel sobre `main` (HANDOFF.md, deployment `6442826197`, commit `5026cdd`).
+- L6 — Decisión del usuario: alcance B, nueva identidad para todo `/arte` y sus cuatro sub-rutas.
+- L7 — Línea base: `main` en `5055adc` con 11 archivos modificados y 6 sin seguimiento de la tanda de tatuajes; esta feature no los toca ni los commitea (S9).
+- L8 — Precedente de repo aplicado: el rediseño de Escénico usó módulo CSS aislado, layout con header propio, modelo de contenido en `_lib/` y e2e actualizado; arte sigue el mismo patrón.
+- L9 — Límite de slices: el commit 1 (`82c60fe`) lleva 1732 líneas porque incluye el módulo CSS portado del paquete; es una hoja de estilos de un solo propósito y se revisa mecánicamente. Los slices 2–5 quedan chicos. El destino es un único push a `main` (integración Git de Vercel), no PRs encadenados.
+- L10 — Sesión concurrente: hay otra sesión de Pi trabajando en el mismo working tree (trabajo sin commitear de tatuajes y escénico en `app/(tattoo)`, `app/(scenic)`, `app/globals.css`, `e2e/escenico.spec.ts`). Por eso cada commit se prepara con `git add` de rutas explícitas y `DESIGN.md` se commitea en un parche con solo los hunks de arte. El merge y el push se hacen desde un worktree aislado para no cambiarle el HEAD a esa sesión.

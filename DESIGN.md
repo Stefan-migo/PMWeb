@@ -38,6 +38,24 @@ Both share the same base spacing system, border radius, and shadow tokens.
 | `--art-accent` | `#78716c` | Accent (muted earth tone) |
 | `--art-accent-hover` | `#57534e` | Accent hover |
 
+> The `--art-*` tokens above are still used by the landing split blocks. The
+> `/arte` subtree itself (landing, gallery, exhibitions, about, shop) runs on the
+> redesigned identity below, scoped in `app/(art)/arte/arte.module.css` as
+> `--ar-*` so it never leaks into the landing, tattoo or scenic sections.
+
+### Arte Section (Paper & Violet Identity)
+| Token | Hex | Role |
+|-------|-----|------|
+| `--ar-paper` | `#f3f0e8` | Page background (warm paper) |
+| `--ar-ink` | `#24231f` | Primary text, filled pills, filter pressed state |
+| `--ar-muted` | `#68665e` | Secondary text, captions, metadata |
+| `--ar-line` | `#ccc9bf` | Borders, dividers, pill outlines |
+| `--ar-violet` | `#523097` | Accent, hero emphasis, strip background, contact band |
+| `--ar-acid` | `#d4e28a` | Highlight: hero stamp, hover badge, contact CTA |
+| `--ar-sage` | `#e7e7dc` | «Mi mirada» band background |
+| `--ar-frame` | `#e6e2d7` | Image placeholder inside the work frames |
+| `--ar-violet-soft` | `#e3d8ef` | Body copy on the violet contact band |
+
 ### Scenic Section (Dark Theatre Theme)
 | Token | Hex | Role |
 |-------|-----|------|
@@ -70,6 +88,12 @@ Both share the same base spacing system, border radius, and shadow tokens.
 - **Display/Headings**: Cormorant Garamond (600) — elegant serif, gallery feel
 - **Body**: Inter (400) — clean, readable
 - **Accent/Labels**: Inter (500) — subtle, refined
+
+### Arte Section (Paper & Violet Identity)
+- **Display/Headings**: Georgia (400, italic for emphasis) — editorial serif at large sizes with tight tracking
+- **Body**: Arial / Helvetica system stack (400) — plain, unfussy, keeps the works as the protagonist
+- **Accent/Labels**: uppercase 10px with 2px tracking — eyebrows, stamps and section markers
+- **Rules**: 1px `--ar-line` dividers instead of cards and shadows; the only elevation is the rotated hero pair
 
 ### Scenic Section
 - **Display/Headings**: Bebas Neue (400) — condensed stage poster voice; single weight, so never bold it
