@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { assetPath } from "@/app/_lib/scenic/portfolio";
+import { GlyphPair } from "@/app/_components/shared/Glyph";
 import styles from "./escenico.module.css";
 
 const navigation = [
@@ -75,19 +76,19 @@ export function ScenicHeader() {
           </Link>
         ))}
         <Link href="/" className={styles.moreRoute} onClick={closeMenu}>
-          Más <span aria-hidden="true">↗</span>
+          <GlyphPair kind="up-right">Más</GlyphPair>
         </Link>
         <Link
           href="/escenico#contacto"
           className={styles.stageMobileContact}
           onClick={closeMenu}
         >
-          Conversemos <span aria-hidden="true">↗</span>
+          <GlyphPair kind="up-right">Conversemos</GlyphPair>
         </Link>
       </nav>
 
       <Link href="/escenico#contacto" className={styles.stageContact}>
-        Conversemos <span aria-hidden="true">↗</span>
+        <GlyphPair kind="up-right">Conversemos</GlyphPair>
       </Link>
     </header>
   );

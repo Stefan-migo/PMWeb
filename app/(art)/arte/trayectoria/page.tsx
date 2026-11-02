@@ -7,6 +7,7 @@ import {
   education,
   pastShows,
 } from "@/app/_lib/arte/trajectory";
+import { Glyph, GlyphPair } from "@/app/_components/shared/Glyph";
 
 export const metadata: Metadata = {
   title: "Trayectoria",
@@ -97,10 +98,10 @@ export default function TrayectoriaPage() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Escribirme <span aria-hidden="true">↗</span>
+          Escribirme <Glyph kind="up-right" />
         </a>
         <Link className={styles.textLink} href="/arte/sobre-mi">
-          Mi mirada ↗
+          <GlyphPair kind="up-right">Mi mirada</GlyphPair>
         </Link>
       </div>
     </div>

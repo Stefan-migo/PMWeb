@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { GlyphPair } from "@/app/_components/shared/Glyph";
 import { TattooMark } from "@/app/_components/tattoo/TattooMark";
 import "./TattooFooter.css";
 
@@ -31,7 +32,7 @@ export function TattooFooter({ variant = "section" }: TattooFooterProps) {
       <div className="tattoo-footer__top">
         <p>{copy.kicker}</p>
         <Link href="/tatuajes/cotizar">
-          {copy.headline} <span aria-hidden="true">↗</span>
+          <GlyphPair kind="up-right">{copy.headline}</GlyphPair>
         </Link>
       </div>
 
@@ -47,14 +48,14 @@ export function TattooFooter({ variant = "section" }: TattooFooterProps) {
           <Link href="/tatuajes">{copy.bottomLeft}</Link>
         )}
         <a href="https://instagram.com/pajaro_maca" target="_blank" rel="noopener noreferrer">
-          Instagram ↗
+          <GlyphPair kind="up-right">Instagram</GlyphPair>
         </a>
         {isLanding ? (
-          <Link href="/">Explorar más de mi universo ↗</Link>
+          <Link href="/"><GlyphPair kind="up-right">Explorar más de mi universo</GlyphPair></Link>
         ) : (
           <span>Villarrica, Chile</span>
         )}
-        <a href="#contenido">Volver arriba ↑</a>
+        <a href="#contenido"><GlyphPair kind="up">Volver arriba</GlyphPair></a>
       </div>
     </footer>
   );

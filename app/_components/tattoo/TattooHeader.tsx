@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { GlyphPair } from "@/app/_components/shared/Glyph";
 import { useCallback, useEffect, useState } from "react";
 import "./TattooHeader.css";
 
@@ -112,13 +113,13 @@ export function TattooHeader() {
           )}
 
           <Link href={TATTOO_HOME_PATH} onClick={closeMenu}>
-            Más <span aria-hidden="true">↗</span>
+            <GlyphPair kind="up-right">Más</GlyphPair>
           </Link>
         </nav>
 
         <div className="tattoo-header__actions">
           <a className="tattoo-header__cta" href={quoteHref} onClick={closeMenu}>
-            Hablemos <span aria-hidden="true">↗</span>
+            <GlyphPair kind="up-right">Hablemos</GlyphPair>
           </a>
 
           <button

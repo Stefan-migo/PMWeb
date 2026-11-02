@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { TattooImage } from "@/app/_lib/tattoo/designs";
+import { Glyph } from "@/app/_components/shared/Glyph";
 
 export function PortfolioGallery({
   items,
@@ -22,7 +23,7 @@ export function PortfolioGallery({
         >
           <span className="tp-piece-image">
             <Image src={item.src} alt={item.alt} fill sizes="(max-width: 700px) 47vw, (max-width: 1000px) 30vw, 390px" />
-            <span className="tp-piece-open" aria-hidden="true">↗</span>
+            <span className="tp-piece-open" aria-hidden="true"><Glyph kind="up-right" /></span>
             <span className="tp-piece-number" aria-hidden="true">{String(allItems.indexOf(item) + 1).padStart(2, "0")}</span>
           </span>
           <span className="tp-piece-caption">

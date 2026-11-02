@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { GlyphPair } from "@/app/_components/shared/Glyph";
 import { TattooMark } from "@/app/_components/tattoo/TattooMark";
 import { TattooBreadcrumb, TattooPageIntro } from "@/app/_components/tattoo/TattooSubpage";
 import {
@@ -149,7 +150,7 @@ export function CotizarPage() {
             <span>Lunes a sábado · 10:00 — 19:00</span>
           </div>
           <Link className="tattoo-text-link" href="/tatuajes/disenos-disponibles">
-            ¿Buscas inspiración? <span aria-hidden="true">↗</span>
+            <GlyphPair kind="up-right">¿Buscas inspiración?</GlyphPair>
           </Link>
         </aside>
 
@@ -199,7 +200,7 @@ export function CotizarPage() {
           </div>
 
           <button className="tattoo-button tp-cotizar__submit" type="submit">
-            Preparar mi mensaje <span aria-hidden="true">↗</span>
+            <GlyphPair kind="up-right">Preparar mi mensaje</GlyphPair>
           </button>
           <p className="tp-cotizar__form-note">
             Preparar el mensaje no envía una solicitud ni confirma una reserva.
@@ -213,7 +214,7 @@ export function CotizarPage() {
 
               <div className="tp-cotizar__actions">
                 <button type="button" className="tattoo-button" onClick={handleInstagram}>
-                  Abrir Instagram <span aria-hidden="true">↗</span>
+                  <GlyphPair kind="up-right">Abrir Instagram</GlyphPair>
                 </button>
                 <a
                   className="tp-cotizar__alt"
@@ -221,7 +222,7 @@ export function CotizarPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Enviar por WhatsApp <span aria-hidden="true">↗</span>
+                  <GlyphPair kind="up-right">Enviar por WhatsApp</GlyphPair>
                 </a>
                 <a className="tp-cotizar__email" href={mailtoLink("Cotización de tatuaje")}>
                   {getContactEmail()}

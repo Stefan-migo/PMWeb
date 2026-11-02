@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { TattooImage } from "@/app/_lib/tattoo/designs";
+import { GlyphPair } from "@/app/_components/shared/Glyph";
 
 const ROTATION_MS = 6500;
 
@@ -77,7 +78,7 @@ export function TattooHeroCarousel({ images }: { images: TattooImage[] }) {
 
       <div className="tatuajes-page-v2__hero-footer">
         <a className="tatuajes-page-v2__hero-quote" href="#cotizar">
-          Cotizar <span aria-hidden="true">↗</span>
+          <GlyphPair kind="up-right">Cotizar</GlyphPair>
         </a>
 
         <div className="tatuajes-page-v2__hero-controls">

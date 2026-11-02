@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { AvailableDesign } from "@/app/_lib/tattoo/designs";
+import { Glyph, GlyphPair } from "@/app/_components/shared/Glyph";
 import { TattooBreadcrumb, TattooPageCta, TattooPageIntro } from "@/app/_components/tattoo/TattooSubpage";
 import "./DisenosPage.css";
 
@@ -114,7 +115,7 @@ export function DisenosPage({ designs }: DisenosPageProps) {
                 >
                   <Image src={design.src} alt={design.alt} fill sizes="(max-width: 700px) 88vw, 30vw" />
                   <Availability status={design.status} />
-                  <span className="dp-open" aria-hidden="true">↗</span>
+                  <span className="dp-open" aria-hidden="true"><Glyph kind="up-right" /></span>
                 </button>
                 <div className="dp-meta">
                   <span className="dp-index">FLASH / {String(index + 1).padStart(2, "0")}</span>
@@ -122,7 +123,7 @@ export function DisenosPage({ designs }: DisenosPageProps) {
                   <div className="dp-tags">{[design.style, design.size].filter((tag): tag is string => Boolean(tag)).map((tag) => <span key={tag}>{tag}</span>)}</div>
                   <p>{design.detail}</p>
                   <Link className="tattoo-text-link" href={consultationHref(design)}>
-                    {isAvailable ? "Consultar este diseño" : "Pedir una variación"}<span aria-hidden="true">↗</span>
+                    <GlyphPair kind="up-right">{isAvailable ? "Consultar este diseño" : "Pedir una variación"}</GlyphPair>
                   </Link>
                 </div>
               </article>
@@ -163,7 +164,7 @@ export function DisenosPage({ designs }: DisenosPageProps) {
               <p className="dp-description">{selected.detail}</p>
               <div className="dp-tags">{[selected.style, selected.size].filter((tag): tag is string => Boolean(tag)).map((tag) => <span key={tag}>{tag}</span>)}</div>
               <p className="dp-note">Conversemos sobre ubicación, tamaño y disponibilidad antes de confirmar tu reserva.</p>
-              <Link className="tattoo-button" href={consultationHref(selected)}>{selected.status === "Reservado" ? "Pedir una variación" : "Consultar diseño"}<span aria-hidden="true">↗</span></Link>
+              <Link className="tattoo-button" href={consultationHref(selected)}><GlyphPair kind="up-right">{selected.status === "Reservado" ? "Pedir una variación" : "Consultar diseño"}</GlyphPair></Link>
             </div>
           </>
         ) : null}

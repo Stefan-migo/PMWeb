@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { GlyphPair } from "@/app/_components/shared/Glyph";
 import "@/app/_components/tattoo/TattooShell.css";
 
 /** Breadcrumb of the section: one level, back to the landing. */
@@ -48,7 +49,7 @@ export function TattooPageCta({ eyebrow, title, href, label }: TattooPageCtaProp
         <h2>{title}</h2>
       </div>
       <Link className="tattoo-button" href={href}>
-        {label} <span aria-hidden="true">↗</span>
+        <GlyphPair kind="up-right">{label}</GlyphPair>
       </Link>
     </section>
   );

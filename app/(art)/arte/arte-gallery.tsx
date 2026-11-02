@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import styles from "./arte.module.css";
+import { Glyph, GlyphPair } from "@/app/_components/shared/Glyph";
 import {
   arteCategories,
   arteCountLabel,
@@ -128,7 +129,7 @@ export function ArteGallery({ works }: ArteGalleryProps) {
                   loading={index < 3 ? "eager" : "lazy"}
                 />
                 <span className={styles.viewBadge} aria-hidden="true">
-                  ↗
+                  <Glyph kind="up-right" />
                 </span>
               </span>
               <span className={styles.caption}>
@@ -201,7 +202,7 @@ export function ArteGallery({ works }: ArteGalleryProps) {
                 aria-label="Obra anterior"
                 onClick={() => move(-1)}
               >
-                ←
+                <Glyph kind="left" />
               </button>
               <button
                 type="button"
@@ -209,7 +210,7 @@ export function ArteGallery({ works }: ArteGalleryProps) {
                 aria-label="Obra siguiente"
                 onClick={() => move(1)}
               >
-                →
+                <Glyph kind="right" />
               </button>
             </div>
           </div>
@@ -227,7 +228,7 @@ export function ArteGallery({ works }: ArteGalleryProps) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Consultar por esta obra ↗
+              <GlyphPair kind="up-right">Consultar por esta obra</GlyphPair>
             </a>
           </div>
         </div>

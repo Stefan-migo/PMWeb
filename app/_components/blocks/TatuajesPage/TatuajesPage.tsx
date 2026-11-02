@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import { Reveal } from "@/app/_components/shared/Reveal";
+import { GlyphPair } from "@/app/_components/shared/Glyph";
 import "./TatuajesPage.css";
 
 const tattooNavLinks = [
@@ -108,7 +109,7 @@ export function TatuajesPage() {
                 Inicio (Landing)
               </Link>
               <Link href="/arte" className="block rounded-lg px-4 py-3 text-sm text-[#a3a3a3] hover:bg-[#141414] hover:text-[#f5f5f5]">
-                Ir a Arte →
+                <GlyphPair kind="right">Ir a Arte</GlyphPair>
               </Link>
             </div>
           </div>
@@ -157,7 +158,7 @@ export function TatuajesPage() {
             <Reveal delay={0.2}>
               <div className="mb-8 flex items-center justify-between">
                 <h2 className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold">Trabajos Recientes</h2>
-                <a href="/tatuajes/portafolio" className="text-sm font-medium text-[#ef4444] hover:underline">Ver todos →</a>
+                <a href="/tatuajes/portafolio" className="text-sm font-medium text-[#ef4444] hover:underline"><GlyphPair kind="right">Ver todos</GlyphPair></a>
               </div>
               <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
                 {recentWorkPlaceholders.map((item) => (

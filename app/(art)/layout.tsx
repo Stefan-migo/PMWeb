@@ -4,6 +4,7 @@ import Link from "next/link";
 import styles from "./arte/arte.module.css";
 import { ArteHeader } from "./arte-header";
 import { PageTransition } from "@/app/_components/shared/PageTransition";
+import { Glyph, GlyphPair } from "@/app/_components/shared/Glyph";
 
 const footerNavigation = [
   { href: "/arte/galeria", label: "Obras" },
@@ -56,9 +57,11 @@ export default function ArtLayout({ children }: { children: ReactNode }) {
             </Link>
           ))}
           <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
-            Instagram ↗
+            <GlyphPair kind="up-right">Instagram</GlyphPair>
           </a>
-          <a href="#contenido">Volver arriba ↑</a>
+          <a href="#contenido">
+            <GlyphPair kind="up">Volver arriba</GlyphPair>
+          </a>
         </nav>
 
         <span className={styles.copyright}>

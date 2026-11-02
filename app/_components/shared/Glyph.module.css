@@ -1,0 +1,47 @@
+/* Markers that used to be literal characters (↗ ← ✳) are SVG icons now.
+   On phones the font fallback handed those code points to the colour emoji
+   font, so links and badges showed emoji instead of the drawn glyph. An SVG
+   keeps one optical size on every device and never depends on fonts. */
+
+/* The wrapper — not the svg — carries the layout. Section stylesheets reset the
+   svgs they contain to `display: block`, which would otherwise break the line
+   the marker sits on. The icon keeps its size through `.icon`, whose specificity
+   (two classes) survives those resets. */
+.glyph {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  vertical-align: -0.08em;
+}
+
+.icon {
+  /* Sized in `em` on purpose: each context keeps its own type scale, so the
+     header, the badges and the footer all inherit the right proportion. */
+  width: 0.85em;
+  height: 0.85em;
+}
+
+/* The asterisk reads as a solid stamp in the approved design, so it fills the
+   box instead of sitting inside it like the arrows. */
+.asterisk .icon {
+  width: 0.95em;
+  height: 0.95em;
+}
+
+.asterisk {
+  vertical-align: -0.02em;
+}
+
+/* Label and marker as one inline box: the section links are flex containers, so
+   without this the marker becomes a flex item of its own and drops to the next
+   line. */
+.pair {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  white-space: nowrap;
+}
+
+.pair .glyph {
+  vertical-align: 0;
+}

@@ -30,6 +30,7 @@ import {
   type PortfolioPhoto,
 } from "@/app/_lib/scenic/portfolio";
 import { identity } from "@/app/_lib/scenic/content";
+import { Glyph, GlyphPair } from "@/app/_components/shared/Glyph";
 
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
@@ -106,7 +107,7 @@ function WorkCard({
         />
         {feature && <span className={styles.imageLabel}>{item.category}</span>}
         <span className={styles.imageAction} aria-hidden="true">
-          ↗
+          <Glyph kind="up-right" />
         </span>
       </div>
       <div className={styles.workCaption}>
@@ -123,12 +124,12 @@ function WorkCard({
               <span className={styles.muted}>{item.meta[1]}</span>
             </p>
             <span className={styles.workLink}>
-              Explorar obra <span aria-hidden="true">↗</span>
+              <GlyphPair kind="up-right">Explorar obra</GlyphPair>
             </span>
           </>
         ) : (
           <span className={styles.workLink} aria-hidden="true">
-            ↗
+            <Glyph kind="up-right" />
           </span>
         )}
       </div>
@@ -524,20 +525,20 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
               aria-label={heroCopy.previous}
               onClick={() => goToSlide(slideIndex - 1, true)}
             >
-              ←
+              <Glyph kind="left" />
             </button>
             <button
               type="button"
               aria-label={heroCopy.next}
               onClick={() => goToSlide(slideIndex + 1, true)}
             >
-              →
+              <Glyph kind="right" />
             </button>
           </div>
         </div>
 
         <a className={styles.stageScroll} href="#obras" aria-label="Bajar a las obras">
-          {heroCopy.explore} <span aria-hidden="true">↓</span>
+          <GlyphPair kind="down">{heroCopy.explore}</GlyphPair>
         </a>
         <p className={styles.srOnly} aria-live="polite">
           {slideAnnouncement}
@@ -606,7 +607,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
           ))}
           <blockquote data-reveal>{sections.about.quote}</blockquote>
           <a className={styles.textLink} href={sections.about.link.href} data-reveal>
-            {sections.about.link.label} <span aria-hidden="true">↓</span>
+            <GlyphPair kind="down">{sections.about.link.label}</GlyphPair>
           </a>
         </div>
       </section>
@@ -618,7 +619,11 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
       >
         <div className={styles.sectionTop} data-reveal>
           <p className={styles.eyebrow}>{sections.international.eyebrow}</p>
-          <span className={styles.smallNote}>{sections.international.note}</span>
+          <span className={styles.smallNote}>
+            {sections.international.noteBefore}{" "}
+            <Glyph kind="left-right" />{" "}
+            {sections.international.noteAfter}
+          </span>
         </div>
         <div className={styles.sectionHeading} data-reveal>
           <h2 id="encuentros-heading">
@@ -661,7 +666,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
         <div className={styles.galleryHeader} data-reveal>
           <h3>{galleryCopy.heading}</h3>
           <p>
-            {galleryCopy.intro} <span aria-hidden="true">↘</span>
+            <GlyphPair kind="down-right">{galleryCopy.intro}</GlyphPair>
           </p>
         </div>
         <div className={styles.sceneGallery} aria-label="Galería de presentaciones">
@@ -694,7 +699,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
           </h2>
           <p data-reveal>{sections.trajectory.intro}</p>
           <a className={styles.textLink} href={portfolioPdf.href} download data-reveal>
-            {portfolioPdf.downloadLabel} <span aria-hidden="true">↓</span>
+            <GlyphPair kind="down">{portfolioPdf.downloadLabel}</GlyphPair>
           </a>
         </div>
 
@@ -740,12 +745,12 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
             <br />
             <em>escena.</em>
             <span className={styles.contactStar} aria-hidden="true">
-              ✳
+              <Glyph kind="asterisk" />
             </span>
           </h2>
           <p>{sections.contact.intro}</p>
           <a href={`mailto:${sections.contact.email}`} className={styles.contactEmail}>
-            {sections.contact.email} <span aria-hidden="true">↗</span>
+            <GlyphPair kind="up-right">{sections.contact.email}</GlyphPair>
           </a>
         </div>
         <div className={styles.contactSide} data-reveal>
@@ -760,14 +765,20 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
             rel="noopener noreferrer"
           >
             {sections.contact.instagram.label}{" "}
-            <span>{sections.contact.instagram.detail} ↗</span>
+            <span>
+              <GlyphPair kind="up-right">{sections.contact.instagram.detail}</GlyphPair>
+            </span>
           </a>
           <a href={sections.contact.phone.href}>
-            {sections.contact.phone.label} <span>{sections.contact.phone.detail} ↗</span>
+            {sections.contact.phone.label} <span>
+              <GlyphPair kind="up-right">{sections.contact.phone.detail}</GlyphPair>
+            </span>
           </a>
           <a href={sections.contact.portfolio.href} download>
             {sections.contact.portfolio.label}{" "}
-            <span>{sections.contact.portfolio.detail} ↓</span>
+            <span>
+              <GlyphPair kind="down">{sections.contact.portfolio.detail}</GlyphPair>
+            </span>
           </a>
         </div>
       </section>
@@ -884,7 +895,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
                 href={`/escenico/${activeWork.work.slug}`}
                 aria-label={`Ver ficha completa de ${activeWork.work.title}`}
               >
-                Ver ficha completa <span aria-hidden="true">→</span>
+                <GlyphPair kind="right">Ver ficha completa</GlyphPair>
               </a>
             </div>
           </div>
@@ -932,7 +943,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
         </div>
         <div className={styles.galleryStage}>
           <button type="button" onClick={() => stepGallery(-1)} aria-label="Fotografía anterior">
-            ←
+            <Glyph kind="left" />
           </button>
           <figure className={styles.galleryFigure}>
             <div className={styles.galleryImage}>
@@ -948,7 +959,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
             <figcaption>{activePhoto?.alt}</figcaption>
           </figure>
           <button type="button" onClick={() => stepGallery(1)} aria-label="Fotografía siguiente">
-            →
+            <Glyph kind="right" />
           </button>
         </div>
       </dialog>

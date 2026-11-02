@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { Glyph, GlyphPair } from "@/app/_components/shared/Glyph";
 import { TattooMark } from "@/app/_components/tattoo/TattooMark";
 import { TattooBreadcrumb, TattooPageIntro } from "@/app/_components/tattoo/TattooSubpage";
 import { whatsAppLink } from "@/app/_lib/tattoo/contact";
@@ -33,7 +34,7 @@ const stages = [
   },
 ];
 
-const symbols = ["☼", "≈", "⌁", "↔"];
+const symbols = ["☼", "≈", "⌁", "left-right"] as const;
 const avoid = ["Sol directo", "Piscina o jacuzzi", "Fricción y rascado", "Ropa ajustada"];
 
 export function CuidadosPage() {
@@ -73,7 +74,7 @@ export function CuidadosPage() {
         aside={
           <>
             <button type="button" className="tattoo-text-link tp-cuidados__print" onClick={() => window.print()}>
-              Guardar guía / PDF <span aria-hidden="true">↓</span>
+              <GlyphPair kind="down">Guardar guía / PDF</GlyphPair>
             </button>
             <p>
               Para tenerla a mano.
@@ -117,7 +118,7 @@ export function CuidadosPage() {
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <b>{stage.tab}</b>
                   <span className="tp-cuidados__tab-marker" aria-hidden="true">
-                    ↗
+                    <Glyph kind="up-right" />
                   </span>
                 </button>
               ))}
@@ -184,7 +185,7 @@ export function CuidadosPage() {
             <div className="tp-cuidados__avoid-grid">
               {avoid.map((label, index) => (
                 <div key={label}>
-                  <span aria-hidden="true">{symbols[index]}</span>
+                  <span aria-hidden="true">{symbols[index] === "left-right" ? <Glyph kind="left-right" /> : symbols[index]}</span>
                   <p>{label}</p>
                 </div>
               ))}
@@ -204,7 +205,7 @@ export function CuidadosPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Consultar por WhatsApp <span aria-hidden="true">↗</span>
+              <GlyphPair kind="up-right">Consultar por WhatsApp</GlyphPair>
             </a>
           </section>
         </div>

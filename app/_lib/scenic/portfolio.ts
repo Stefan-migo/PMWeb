@@ -120,7 +120,8 @@ export const sections = {
   international: {
     id: "encuentros",
     eyebrow: "03 / ESCENARIOS & ENCUENTROS",
-    note: "Chile ↔ Colombia",
+    noteBefore: "Chile",
+    noteAfter: "Colombia",
     heading: "Un lenguaje que viaja.",
     intro: "Danza afro, creación colectiva y encuentros que amplían la experiencia del cuerpo.",
   },

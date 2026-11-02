@@ -6,6 +6,7 @@ import styles from "./escenico.module.css";
 import { ScenicHeader } from "./scenic-header";
 import { identity } from "@/app/_lib/scenic/content";
 import { assetPath, sections } from "@/app/_lib/scenic/portfolio";
+import { GlyphPair } from "@/app/_components/shared/Glyph";
 
 // The reference package ships its own editorial and sans faces. They are
 // loaded locally so the theatre voice never depends on a third-party CDN and
@@ -47,7 +48,9 @@ export default function ScenicLayout({ children }: { children: ReactNode }) {
           />
         </Link>
         <p>{sections.footer.eyebrow}</p>
-        <a href="#contenido">{sections.footer.backToTop} ↑</a>
+        <a href="#contenido">
+          <GlyphPair kind="up">{sections.footer.backToTop}</GlyphPair>
+        </a>
       </footer>
 
       <span className="sr-only">

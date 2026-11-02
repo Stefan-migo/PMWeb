@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { Tattoo } from "@/app/_lib/queries/tattoos";
+import { GlyphPair } from "@/app/_components/shared/Glyph";
 import type { TattooImage } from "@/app/_lib/tattoo/designs";
 import { collectStyles, filterByStyle } from "@/app/_lib/tattoo/portfolio-filter";
 import { TattooBreadcrumb, TattooPageCta, TattooPageIntro } from "@/app/_components/tattoo/TattooSubpage";
@@ -72,7 +73,7 @@ export function PortafolioPage({ records }: { records: Tattoo[] }) {
         <div className="tp-gallery-end">
           <span>HASTA AQUÍ, UNA PEQUEÑA SELECCIÓN.</span>
           <a className="tattoo-text-link" href="https://instagram.com/pajaro_maca" target="_blank" rel="noopener noreferrer">
-            Más en Instagram <span aria-hidden="true">↗</span>
+            <GlyphPair kind="up-right">Más en Instagram</GlyphPair>
           </a>
         </div>
       </section>

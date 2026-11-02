@@ -5,6 +5,7 @@ import styles from "./arte.module.css";
 import { ArteGallery } from "./arte-gallery";
 import { ArteHero } from "./arte-hero";
 import { ArteReveal } from "./arte-reveal";
+import { Glyph, GlyphPair } from "@/app/_components/shared/Glyph";
 import { arteMiradaWork, arteWorks } from "@/app/_lib/arte/works";
 
 export const metadata: Metadata = {
@@ -31,8 +32,10 @@ export default function ArtePage() {
 
       <ArteReveal direction="none" duration={1.1} amount={0.3}>
         <div className={styles.strip} aria-hidden="true">
-          Lo natural <span>✳</span> Lo sensible <span>✳</span> Lo imaginado{" "}
-          <span>✳</span> Lo natural <span>✳</span> Lo sensible
+          Lo natural <span><Glyph kind="asterisk" /></span> Lo sensible{" "}
+          <span><Glyph kind="asterisk" /></span> Lo imaginado{" "}
+          <span><Glyph kind="asterisk" /></span> Lo natural <span><Glyph kind="asterisk" /></span> Lo
+          sensible
         </div>
       </ArteReveal>
 
@@ -89,7 +92,7 @@ export default function ArtePage() {
               vibrante; otras, suave y silenciosa.
             </p>
             <Link className={styles.textLink} href="/escenico">
-              Descubrir el universo escénico ↗
+              <GlyphPair kind="up-right">Descubrir el universo escénico</GlyphPair>
             </Link>
             <div className={styles.tagline}>CUERPO · NATURALEZA · IMAGINACIÓN</div>
           </ArteReveal>
@@ -117,7 +120,7 @@ export default function ArtePage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Escríbeme en Instagram <span aria-hidden="true">↗</span>
+              Escríbeme en Instagram <Glyph kind="up-right" />
             </a>
           </ArteReveal>
         </div>
