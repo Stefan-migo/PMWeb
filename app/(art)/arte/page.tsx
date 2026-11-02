@@ -3,11 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./arte.module.css";
 import { ArteGallery } from "./arte-gallery";
-import {
-  arteHeroWorks,
-  arteMiradaWork,
-  arteWorks,
-} from "@/app/_lib/arte/works";
+import { ArteHero } from "./arte-hero";
+import { arteMiradaWork, arteWorks } from "@/app/_lib/arte/works";
 
 export const metadata: Metadata = {
   title: "Arte",
@@ -29,72 +26,7 @@ const instagramUrl = "https://www.instagram.com/pajaro_maca/";
 export default function ArtePage() {
   return (
     <>
-      <section className={`${styles.hero} ${styles.wrap} ${styles.anchor}`} id="inicio">
-        <div className={styles.heroTop}>
-          <span className={styles.eyebrow}>Macarena Almeida · Artes visuales</span>
-          <span className={styles.status}>Un universo en expansión</span>
-        </div>
-
-        <div className={styles.heroMain}>
-          <div>
-            <h1 className={styles.heroTitle}>
-              La vida
-              <br />
-              en otros
-              <br />
-              <em>colores.</em>
-            </h1>
-            <p className={styles.heroLead}>
-              Cuerpos que florecen, animales que vibran.
-              <br />
-              Un encuentro entre lo cotidiano
-              <br />y lo imaginado.
-            </p>
-            <div className={styles.heroActions}>
-              <a className={styles.pill} href="#galeria">
-                Explorar las obras <span aria-hidden="true">↘</span>
-              </a>
-              <a className={styles.textLink} href="#mirada">
-                Mi universo ↗
-              </a>
-            </div>
-          </div>
-
-          <div className={styles.heroArt}>
-            <Image
-              className={styles.heroMainImg}
-              src={arteHeroWorks.main.src}
-              alt={arteHeroWorks.main.alt}
-              width={arteHeroWorks.main.width}
-              height={arteHeroWorks.main.height}
-              sizes="(max-width: 620px) 70vw, 40vw"
-              priority
-            />
-            <Image
-              className={styles.heroSmallImg}
-              src={arteHeroWorks.small.src}
-              alt={arteHeroWorks.small.alt}
-              width={arteHeroWorks.small.width}
-              height={arteHeroWorks.small.height}
-              sizes="(max-width: 620px) 32vw, 18vw"
-            />
-            <div className={styles.stamp} aria-hidden="true">
-              <span>✳</span>
-              CUERPO
-              <br />
-              NATURALEZA
-              <br />
-              COLOR
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.heroBottom}>
-          <span>ARTE &amp; EXPLORACIÓN</span>
-          <span>UNA SELECCIÓN DEL UNIVERSO PÁJARO MACA</span>
-          <a href="#galeria">DESLIZAR PARA DESCUBRIR ↓</a>
-        </div>
-      </section>
+      <ArteHero />
 
       <div className={styles.strip} aria-hidden="true">
         Lo natural <span>✳</span> Lo sensible <span>✳</span> Lo imaginado{" "}

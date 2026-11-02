@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import styles from "./arte/arte.module.css";
 
 const navigation = [
@@ -19,10 +20,15 @@ const contactLink = { href: "/arte#contacto", label: "Conversemos ↗" };
  * anchors of the prototype become real routes so the four art pages stay
  * reachable, and «Escénico» points at the project's own scenic section instead
  * of the external proposal site.
+ *
+ * On the landing the header overlays the animated hero and takes the colours of
+ * the slide on screen, exactly as the hero package does; on every other art page
+ * it stays the solid sticky bar it has always been.
  */
 export function ArteHeader() {
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const overHero = usePathname() === "/arte";
 
   useEffect(() => {
     if (!open) return;
@@ -40,8 +46,10 @@ export function ArteHeader() {
   const close = () => setOpen(false);
 
   return (
-    <header className={styles.header}>
-      <div className={`${styles.wrap} ${styles.head}`}>
+    <header className={`${styles.header} ${overHero ? styles.headerOverHero : ""}`}>
+      <div
+        className={`${styles.head} ${overHero ? styles.headOverHero : styles.wrap}`}
+      >
         <Link className={styles.wordmark} href="/arte" aria-label="Pájaro Maca, inicio">
           pájaro maca
           <span className={styles.wordmarkMark} aria-hidden="true">
@@ -76,7 +84,9 @@ export function ArteHeader() {
 
       <nav
         id="arte-mobile-nav"
-        className={`${styles.mobilePanel} ${open ? styles.mobilePanelOpen : ""}`}
+        className={`${styles.mobilePanel} ${open ? styles.mobilePanelOpen : ""} ${
+          overHero ? styles.mobilePanelOverHero : ""
+        }`}
         aria-label="Navegación móvil de arte"
       >
         {[...navigation, contactLink].map((item) => (

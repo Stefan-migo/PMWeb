@@ -19,6 +19,7 @@
   --ar-frame: #e6e2d7;
   --ar-violet-soft: #e3d8ef;
 
+  position: relative;
   min-height: 100vh;
   background: var(--ar-paper);
   color: var(--ar-ink);
@@ -131,6 +132,68 @@
   z-index: 20;
   background: rgba(243, 240, 232, 0.96);
   border-bottom: 1px solid var(--ar-line);
+}
+
+.headerOverHero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 30;
+  background: transparent;
+  color: var(--hero-ink, var(--ar-ink));
+  border-bottom-color: color-mix(in srgb, currentColor 15%, transparent);
+  transition: color 0.8s;
+}
+
+.headerOverHero .wordmarkMark {
+  color: inherit;
+}
+
+.headerOverHero .headLabel {
+  border-left-color: color-mix(in srgb, currentColor 30%, transparent);
+}
+
+.headerOverHero .contactPill {
+  border-color: color-mix(in srgb, currentColor 45%, transparent);
+}
+
+.headerOverHero .contactPill:hover {
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.headOverHero {
+  max-width: none;
+  height: 86px;
+  padding: 0 42px;
+}
+
+.headOverHero .nav a {
+  position: relative;
+  padding: 10px 0;
+}
+
+.headOverHero .nav a:not(.contactPill)::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s;
+}
+
+.headOverHero .nav a:not(.contactPill):hover::after {
+  transform: scaleX(1);
+}
+
+.mobilePanelOverHero {
+  background: var(--hero-bg, var(--ar-paper));
+  border-bottom-color: color-mix(in srgb, currentColor 25%, transparent);
+  box-shadow: 0 25px 35px #00000015;
 }
 
 .head {
@@ -984,20 +1047,7 @@
   }
 }
 
-@media (max-width: 620px) {
-  .wrap {
-    padding-left: 6%;
-    padding-right: 6%;
-  }
-
-  .head {
-    height: 70px;
-  }
-
-  .wordmark {
-    font-size: 25px;
-  }
-
+@media (max-width: 760px) {
   .nav {
     display: none;
   }
@@ -1013,6 +1063,26 @@
     gap: 20px;
     font-size: 15px;
     border-top: 1px solid var(--ar-line);
+  }
+
+  .headOverHero {
+    height: 76px;
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 620px) {
+  .wrap {
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+
+  .head {
+    height: 70px;
+  }
+
+  .wordmark {
+    font-size: 25px;
   }
 
   .hero {
