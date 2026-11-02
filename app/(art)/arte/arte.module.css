@@ -146,10 +146,6 @@
   transition: color 0.8s;
 }
 
-.headerOverHero .wordmarkMark {
-  color: inherit;
-}
-
 .headerOverHero .headLabel {
   border-left-color: color-mix(in srgb, currentColor 30%, transparent);
 }
@@ -210,14 +206,21 @@
   letter-spacing: -1.5px;
   font-weight: bold;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
 }
 
 .wordmarkMark {
-  color: var(--ar-violet);
-  font-size: 35px;
-  margin-left: 5px;
-  line-height: 1;
+  height: 64px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.footerMark {
+  height: 72px;
+  width: auto;
+  flex-shrink: 0;
 }
 
 .headLabel {
@@ -662,6 +665,9 @@
   font-size: 23px;
   letter-spacing: -1.5px;
   font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .footerLinks {
@@ -1083,6 +1089,10 @@
 
   .wordmark {
     font-size: 25px;
+  }
+
+  .wordmarkMark {
+    height: 44px;
   }
 
   .hero {

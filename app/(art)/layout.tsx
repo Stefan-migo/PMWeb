@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import styles from "./arte/arte.module.css";
 import { ArteHeader } from "./arte-header";
@@ -36,8 +37,16 @@ export default function ArtLayout({ children }: { children: ReactNode }) {
 
       <footer className={`${styles.wrap} ${styles.footer}`}>
         <Link className={styles.footerWordmark} href="/arte" aria-label="Pájaro Maca, inicio">
-          pájaro maca
-          <span aria-hidden="true">✳</span>
+          <Image
+            className={styles.footerMark}
+            src="/design/arte/logo/mark.webp"
+            alt=""
+            width={102}
+            height={160}
+            sizes="30px"
+            loading="lazy"
+          />
+          <span>pájaro maca</span>
         </Link>
 
         <nav className={styles.footerLinks} aria-label="Navegación del pie de arte">

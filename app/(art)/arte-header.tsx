@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./arte/arte.module.css";
@@ -51,10 +52,16 @@ export function ArteHeader() {
         className={`${styles.head} ${overHero ? styles.headOverHero : styles.wrap}`}
       >
         <Link className={styles.wordmark} href="/arte" aria-label="Pájaro Maca, inicio">
-          pájaro maca
-          <span className={styles.wordmarkMark} aria-hidden="true">
-            ✳
-          </span>
+          <Image
+            className={styles.wordmarkMark}
+            src="/design/arte/logo/mark@2x.webp"
+            alt=""
+            width={205}
+            height={320}
+            sizes="64px"
+            priority
+          />
+          <span>pájaro maca</span>
         </Link>
 
         <span className={styles.headLabel}>Universo visual</span>
