@@ -10,6 +10,11 @@
   --tattoo-text-muted: #a3a3a3;
   --tattoo-accent: #ef4444;
   --tattoo-accent-hover: #dc2626;
+  /* Deeper red for large filled panels: the accent at full strength is too
+     bright to sit behind a whole section of copy. */
+  --tattoo-quote-bg: #ad3b33;
+  /* Height of the single shared tattoo header; anchors and sticky offsets use it. */
+  --tattoo-header-height: 76px;
 
   /* Art Section (Light Theme) */
   --art-bg: #fafaf9;

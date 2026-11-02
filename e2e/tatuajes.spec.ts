@@ -74,6 +74,39 @@ test.describe("Tattoo Section", () => {
     );
   });
 
+  test("one header serves the landing and every section page", async ({ page }) => {
+    await page.goto("/tatuajes", { waitUntil: "domcontentloaded" });
+    await expect(page.getByRole("navigation")).toHaveCount(1);
+    const landingHome = page.getByRole("navigation").getByRole("link", { name: "PajaroMaca" });
+    await expect(landingHome).toHaveAttribute("href", "/");
+
+    await page.goto("/tatuajes/cotizar");
+    await expect(page.getByRole("navigation")).toHaveCount(1);
+    const sectionHome = page.getByRole("navigation").getByRole("link", { name: "PajaroMaca" });
+    await expect(sectionHome).toHaveAttribute("href", "/");
+
+    await sectionHome.click();
+    await expect(page).toHaveURL("/");
+    await expect(page.getByRole("heading", { name: "Tatuajes", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Escénico", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Arte", exact: true })).toBeVisible();
+  });
+
+  test("cotizar leads with Instagram and publishes the email last, with no form", async ({ page }) => {
+    await page.goto("/tatuajes/cotizar");
+
+    const contact = page.getByRole("region", { name: "Contacto para cotizar" });
+    const links = contact.getByRole("link");
+
+    await expect(links).toHaveCount(3);
+    await expect(links.nth(0)).toHaveAttribute("href", "https://instagram.com/pajaro_maca");
+    await expect(links.nth(1)).toHaveAttribute("href", /^https:\/\/wa\.me\//);
+    await expect(links.nth(2)).toHaveAttribute("href", /^mailto:/);
+    await expect(links.nth(2)).toContainText("@");
+
+    await expect(page.locator("form")).toHaveCount(0);
+  });
+
   test("mobile menu should work", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto("/tatuajes", { waitUntil: "domcontentloaded" });

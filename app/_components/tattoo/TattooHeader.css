@@ -1,0 +1,146 @@
+.tattoo-header {
+  z-index: 20;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  transition: background-color 200ms ease-out, border-color 200ms ease-out, backdrop-filter 200ms ease-out;
+}
+
+.tattoo-header--overlay {
+  position: fixed;
+  inset: 0 0 auto;
+}
+
+.tattoo-header--solid {
+  position: sticky;
+  top: 0;
+}
+
+.tattoo-header--solid,
+.tattoo-header.is-scrolled {
+  border-color: var(--tattoo-border);
+  background: rgb(10 10 10 / 94%);
+  backdrop-filter: blur(12px);
+}
+
+.tattoo-header__inner {
+  display: flex;
+  min-height: var(--tattoo-header-height);
+  align-items: center;
+  justify-content: center;
+  padding: 0 32px;
+}
+
+.tattoo-header__links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+.tattoo-header__links a,
+.tattoo-header__menu-button {
+  transition: color 150ms ease-out, background-color 150ms ease-out, border-color 150ms ease-out, opacity 150ms ease-out, transform 150ms ease-out;
+}
+
+.tattoo-header__links a {
+  position: relative;
+  color: var(--tattoo-text);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 75%);
+  text-transform: uppercase;
+}
+
+.tattoo-header__links a::after {
+  position: absolute;
+  right: 0;
+  bottom: -8px;
+  left: 0;
+  height: 1px;
+  background: var(--tattoo-accent);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 150ms ease-out;
+}
+
+.tattoo-header__links a:hover,
+.tattoo-header__links a:focus-visible,
+.tattoo-header__links a[aria-current="page"] {
+  color: var(--tattoo-text);
+}
+
+.tattoo-header__links a[aria-current="page"] {
+  color: var(--tattoo-accent);
+}
+
+.tattoo-header__links a:hover::after,
+.tattoo-header__links a:focus-visible::after,
+.tattoo-header__links a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.tattoo-header__links a:focus-visible {
+  outline: 2px solid var(--tattoo-accent);
+  outline-offset: 4px;
+}
+
+.tattoo-header__menu-button {
+  display: none;
+  border: 0;
+  background: transparent;
+  color: var(--tattoo-text);
+  cursor: pointer;
+  padding: 8px;
+}
+
+.tattoo-header__menu-button:focus-visible {
+  outline: 2px solid var(--tattoo-accent);
+  outline-offset: 4px;
+}
+
+.tattoo-header__menu-button svg {
+  height: 22px;
+  width: 22px;
+}
+
+@media (max-width: 767px) {
+  .tattoo-header__inner {
+    justify-content: flex-end;
+    padding: 0 16px;
+  }
+
+  .tattoo-header__menu-button { display: inline-flex; }
+
+  .tattoo-header__links {
+    position: absolute;
+    top: var(--tattoo-header-height);
+    right: 0;
+    left: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    border-top: 1px solid var(--tattoo-border);
+    background: var(--tattoo-bg);
+    padding: 8px 16px 16px;
+  }
+
+  .tattoo-header__links.is-open { display: flex; }
+
+  .tattoo-header__links a { padding: 14px 8px; }
+  .tattoo-header__links a::after { bottom: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tattoo-header,
+  .tattoo-header *,
+  .tattoo-header *::before,
+  .tattoo-header *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

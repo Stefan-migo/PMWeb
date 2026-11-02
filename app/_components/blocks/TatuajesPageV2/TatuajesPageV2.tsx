@@ -1,42 +1,34 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Instagram, Menu, X } from "lucide-react";
+import { ArrowRight, Instagram } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Reveal } from "@/app/_components/shared/Reveal";
 import { availableDesigns, portfolioImages as localPortfolioImages, type TattooImage } from "@/app/_lib/tattoo/designs";
 import "./TatuajesPageV2.css";
 
-const tattooNavLinks = [
+/** Hero CTAs cycle with the carousel; the header links live in TattooHeader. */
+const heroCtas = [
   { href: "#portafolio", label: "Portafolio" },
   { href: "#cotizar", label: "Cotizar" },
   { href: "#sobre-mi", label: "Sobre Mí" },
   { href: "#cuidados", label: "Cuidados" },
   { href: "#disenos-disponibles", label: "Diseños disponibles" },
-  { href: "/", label: "Más" },
 ];
-
-const heroCtas = tattooNavLinks.filter((link) => link.href.startsWith("#"));
 
 export function TatuajesPageV2({ portfolioImages = localPortfolioImages }: { portfolioImages?: TattooImage[] } = {}) {
   const heroImages = portfolioImages;
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 8);
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const handleMotionPreference = () => setReducedMotion(mediaQuery.matches);
 
-    handleScroll();
     handleMotionPreference();
-    window.addEventListener("scroll", handleScroll, { passive: true });
     mediaQuery.addEventListener("change", handleMotionPreference);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
       mediaQuery.removeEventListener("change", handleMotionPreference);
     };
   }, []);
@@ -53,29 +45,6 @@ export function TatuajesPageV2({ portfolioImages = localPortfolioImages }: { por
 
   return (
     <div className="tatuajes-page-v2 min-h-screen bg-[var(--tattoo-bg)] text-[var(--tattoo-text)]">
-      <nav className={`tatuajes-page-v2__nav ${scrolled ? "is-scrolled" : ""}`} aria-label="Navegación principal">
-        <div className="tatuajes-page-v2__nav-inner">
-          <button
-            type="button"
-            className="tatuajes-page-v2__menu-button"
-            onClick={() => setMobileOpen((open) => !open)}
-            aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
-            aria-expanded={mobileOpen}
-            aria-controls="tatuajes-page-v2-menu"
-          >
-            {mobileOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
-          </button>
-
-          <div id="tatuajes-page-v2-menu" className={`tatuajes-page-v2__links ${mobileOpen ? "is-open" : ""}`}>
-            {tattooNavLinks.map((link) => (
-              <a key={link.href} href={link.href} onClick={() => setMobileOpen(false)}>
-                {link.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </nav>
-
       <main>
         <section
           id="inicio"
