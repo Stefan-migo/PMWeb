@@ -12,10 +12,13 @@ integración que no viven en el código.
   (cursivas), `#b9a47b` (selección).
 - Superficies: `#211d17` (imagen), `#1c1813` (diálogo), `#12100e` (visor),
   `#242019` (contacto).
-- Composición: hero a pantalla completa con la fotografía a la derecha, obras en
-  una ficha grande más dos fichas en grilla, «Mi mirada» en dos columnas,
+- Composición: hero fotográfico a pantalla completa (seis imágenes, sin título
+  ni CTA superpuestos), header flotante con navegación en píldora, obras en una
+  ficha grande más dos fichas en grilla, «Mi mirada» en dos columnas,
   escenarios internacionales, galería de ocho fotografías, trayectoria
   desplegable y cierre de contacto.
+- El `h1` del hero es solo para lectores de pantalla («Pájaro Maca · Artes
+  escénicas»); el contenido visible empieza en las obras.
 
 ## Tipografía
 
@@ -42,13 +45,14 @@ y en `public/escenico/assets/FONT-LICENSE.txt`.
 
 ## Recursos
 
-- Fotografías y PDF: `public/escenico/assets/`.
+- Fotografías y PDF: `public/escenico/assets/`, incluidas las seis del hero.
 - Rutas públicas: `/escenico/assets/<archivo>`.
 - El paquete de referencia no se copia como HTML/CSS/JS: la composición se
   reimplementó con componentes de React y las interacciones con estado nativo.
 
 ## Interacciones
 
+- Header fijo que se compacta y opaca al pasar los 40px de scroll.
 - Menú móvil con `aria-expanded`, cierre con Escape y retorno del foco.
 - Ficha de obra en `<dialog>` nativo: foco devuelto al disparador, cierre con
   Escape, clic fuera y bloqueo de scroll.
@@ -57,3 +61,17 @@ y en `public/escenico/assets/FONT-LICENSE.txt`.
   secundarias también conservan su ruta.
 - La galería de escena suma las imágenes publicadas por el CMS
   (`scenic_works`) cuando existen.
+
+## Hero y movimiento
+
+- Carrusel de seis fotografías (`escena-hero-01..06.webp`), 7.5s por imagen,
+  con traspaso en fundido y zoom lento; encuadre distinto en escritorio y móvil.
+- Controles: pausa/reanudar con `aria-pressed`, miniaturas con `aria-current` y
+  barra de progreso, anterior/siguiente, flechas del teclado y swipe en móvil.
+- El carrusel se pausa con un diálogo abierto, el menú móvil abierto, la pestaña
+  oculta o el hero fuera de vista. En `prefers-reduced-motion` inicia pausado.
+- Visor de foto completa en `<dialog>` a pantalla completa, con Escape y retorno
+  del foco al botón de expansión.
+- Entradas progresivas por sección con Web Animations e `IntersectionObserver`:
+  una sola reproducción, escalonado de 85ms y contenido visible si no hay JS.
+  Se omiten con `prefers-reduced-motion`.
