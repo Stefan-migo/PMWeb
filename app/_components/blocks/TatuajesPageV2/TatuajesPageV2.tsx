@@ -374,7 +374,16 @@ export function TatuajesPageV2({
         </div>
 
         <p className="tatuajes-page-v2__footer-brand">
-          pájaro maca <span aria-hidden="true">✳</span>
+          pájaro maca
+          {/* The pack's single-colour stamp: the illustrated mark loses its
+              colours against a filled red field. */}
+          <Image
+            src="/design/logo/pajaro-maca-silhouette-dark.png"
+            alt=""
+            width={120}
+            height={188}
+            className="tatuajes-page-v2__footer-mark"
+          />
         </p>
 
         <div className="tatuajes-page-v2__footer-bottom">

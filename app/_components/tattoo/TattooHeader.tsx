@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
@@ -72,8 +73,20 @@ export function TattooHeader() {
           aria-label="Pájaro Maca, tatuajes"
           onClick={closeMenu}
         >
-          <span className="tattoo-header__brand-name">pájaro maca</span>
-          <span className="tattoo-header__brand-sub">Arte en la piel</span>
+          {/* The pack's head badge: the sanctioned mark below the illustrated
+              mark's 100 px minimum. */}
+          <Image
+            src="/design/logo/pajaro-maca-head-badge.png"
+            alt=""
+            width={76}
+            height={76}
+            className="tattoo-header__brand-mark"
+            priority
+          />
+          <span className="tattoo-header__brand-text">
+            <span className="tattoo-header__brand-name">pájaro maca</span>
+            <span className="tattoo-header__brand-sub">Arte en la piel</span>
+          </span>
         </Link>
 
         <nav

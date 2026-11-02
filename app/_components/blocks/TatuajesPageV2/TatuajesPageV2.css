@@ -752,10 +752,12 @@
   white-space: nowrap;
 }
 
-.tatuajes-page-v2__footer-brand span {
-  font-family: var(--font-sans);
-  font-size: 0.6em;
-  letter-spacing: 0;
+.tatuajes-page-v2__footer-mark {
+  width: auto;
+  height: clamp(3rem, 9vw, 8rem);
+  flex-shrink: 0;
+  /* The pack asks for clear space of at least 10% of the mark's height. */
+  margin-left: 10%;
 }
 
 .tatuajes-page-v2__footer-bottom {

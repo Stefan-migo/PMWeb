@@ -126,6 +126,15 @@ describe("TatuajesPageV2", () => {
     );
   });
 
+  it("stamps the brand mark in the footer", () => {
+    const { container } = render(<TatuajesPageV2 />);
+
+    const mark = container.querySelector('img[src*="pajaro-maca-silhouette-dark"]');
+
+    expect(mark).not.toBeNull();
+    expect(mark).toHaveAttribute("alt", "");
+  });
+
   it("renders the designs it is given instead of a hardcoded list", () => {
     const [firstDesign] = [
       { id: "pieza", src: portfolioImages[0].src, alt: "Pieza de prueba", name: "Pieza de prueba", status: "Disponible" as const, detail: "Detalle de prueba." },

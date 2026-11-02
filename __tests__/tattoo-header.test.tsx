@@ -49,6 +49,17 @@ describe("TattooHeader", () => {
     expect(screen.getByRole("link", { name: /Hablemos/ })).toHaveAttribute("href", "#cotizar");
   });
 
+  it("puts the head badge next to the wordmark without renaming the link", () => {
+    const { container } = render(<TattooHeader />);
+
+    const badge = container.querySelector('img[src*="pajaro-maca-head-badge"]');
+
+    expect(badge).not.toBeNull();
+    // The badge is decorative: the link keeps one readable name.
+    expect(badge).toHaveAttribute("alt", "");
+    expect(screen.getByRole("link", { name: "Pájaro Maca, tatuajes" })).toBeInTheDocument();
+  });
+
   it("links the same labels to the section pages outside the landing", () => {
     currentPath = "/tatuajes/disenos-disponibles";
     render(<TattooHeader />);
