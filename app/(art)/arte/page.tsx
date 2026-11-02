@@ -1,107 +1,188 @@
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Palette, Eye, ShoppingBag } from "lucide-react";
-import { Reveal } from "@/app/_components/shared/Reveal";
+import styles from "./arte.module.css";
+import { ArteGallery } from "./arte-gallery";
+import {
+  arteHeroWorks,
+  arteMiradaWork,
+  arteWorks,
+} from "@/app/_lib/arte/works";
 
+export const metadata: Metadata = {
+  title: "Arte",
+  description:
+    "El universo visual de Pájaro Maca. Una selección de ilustraciones donde se encuentran cuerpo, naturaleza y color.",
+  openGraph: {
+    title: "Arte | PajaroMaca",
+    description:
+      "El universo visual de Pájaro Maca. Ilustraciones donde se encuentran cuerpo, naturaleza y color.",
+  },
+};
+
+const instagramUrl = "https://www.instagram.com/pajaro_maca/";
+
+/**
+ * Art landing, ported from the approved reference package. The header and
+ * footer live in the section layout, so this page starts at the hero.
+ */
 export default function ArtePage() {
   return (
-    <div className="min-h-screen">
-      <section className="relative py-24 lg:py-32 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <Reveal>
-            <div className="max-w-3xl">
-              <span className="text-[#78716c] text-sm tracking-[0.2em] uppercase mb-4 block">
-                Artista Visual
-              </span>
-              <h1 className="font-[family-name:var(--font-cormorant)] text-4xl lg:text-6xl font-semibold mb-6 leading-tight">
-                Donde el arte cobra vida
-              </h1>
-              <p className="text-[#78716c] text-lg mb-8 max-w-xl">
-                Explora mi colecci&oacute;n de obras, ilustraciones y proyectos art&iacute;sticos.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/arte/galeria"
-                  className="inline-flex items-center justify-center gap-2 bg-[#1c1917] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#57534e] transition-colors focus-visible:outline-2 focus-visible:outline-[#1c1917] focus-visible:outline-offset-2"
-                >
-                  Ver Galer&iacute;a
-                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                </Link>
-                <Link
-                  href="/arte/tienda"
-                  className="inline-flex items-center justify-center gap-2 border border-[#e7e5e4] text-[#1c1917] px-6 py-3 rounded-lg font-medium hover:bg-[#f5f5f4] transition-colors focus-visible:outline-2 focus-visible:outline-[#1c1917] focus-visible:outline-offset-2"
-                >
-                  Tienda
-                </Link>
-              </div>
+    <>
+      <section className={`${styles.hero} ${styles.wrap} ${styles.anchor}`} id="inicio">
+        <div className={styles.heroTop}>
+          <span className={styles.eyebrow}>Macarena Almeida · Artes visuales</span>
+          <span className={styles.status}>Un universo en expansión</span>
+        </div>
+
+        <div className={styles.heroMain}>
+          <div>
+            <h1 className={styles.heroTitle}>
+              La vida
+              <br />
+              en otros
+              <br />
+              <em>colores.</em>
+            </h1>
+            <p className={styles.heroLead}>
+              Cuerpos que florecen, animales que vibran.
+              <br />
+              Un encuentro entre lo cotidiano
+              <br />y lo imaginado.
+            </p>
+            <div className={styles.heroActions}>
+              <a className={styles.pill} href="#galeria">
+                Explorar las obras <span aria-hidden="true">↘</span>
+              </a>
+              <a className={styles.textLink} href="#mirada">
+                Mi universo ↗
+              </a>
             </div>
-          </Reveal>
+          </div>
+
+          <div className={styles.heroArt}>
+            <Image
+              className={styles.heroMainImg}
+              src={arteHeroWorks.main.src}
+              alt={arteHeroWorks.main.alt}
+              width={arteHeroWorks.main.width}
+              height={arteHeroWorks.main.height}
+              sizes="(max-width: 620px) 70vw, 40vw"
+              priority
+            />
+            <Image
+              className={styles.heroSmallImg}
+              src={arteHeroWorks.small.src}
+              alt={arteHeroWorks.small.alt}
+              width={arteHeroWorks.small.width}
+              height={arteHeroWorks.small.height}
+              sizes="(max-width: 620px) 32vw, 18vw"
+            />
+            <div className={styles.stamp} aria-hidden="true">
+              <span>✳</span>
+              CUERPO
+              <br />
+              NATURALEZA
+              <br />
+              COLOR
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.heroBottom}>
+          <span>ARTE &amp; EXPLORACIÓN</span>
+          <span>UNA SELECCIÓN DEL UNIVERSO PÁJARO MACA</span>
+          <a href="#galeria">DESLIZAR PARA DESCUBRIR ↓</a>
         </div>
       </section>
 
-      <section className="py-16 px-4 sm:px-6 lg:px-8 border-t border-[#e7e5e4]">
-        <div className="max-w-7xl mx-auto">
-          <Reveal delay={0.1}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Link
-                href="/arte/galeria"
-                className="group flex items-start gap-4 p-6 bg-white border border-[#e7e5e4] rounded-xl hover:shadow-lg transition-shadow focus-visible:outline-2 focus-visible:outline-[#1c1917] focus-visible:outline-offset-2"
-              >
-                <div className="w-12 h-12 bg-[#fafaf9] rounded-lg flex items-center justify-center group-hover:bg-[#1c1917] group-hover:text-white transition-colors shrink-0" aria-hidden="true">
-                  <Palette className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-medium mb-1">Galer&iacute;a</h3>
-                  <p className="text-[#78716c] text-sm">Explora mi colecci&oacute;n de obras</p>
-                </div>
-              </Link>
-              <Link
-                href="/arte/exposiciones"
-                className="group flex items-start gap-4 p-6 bg-white border border-[#e7e5e4] rounded-xl hover:shadow-lg transition-shadow focus-visible:outline-2 focus-visible:outline-[#1c1917] focus-visible:outline-offset-2"
-              >
-                <div className="w-12 h-12 bg-[#fafaf9] rounded-lg flex items-center justify-center group-hover:bg-[#1c1917] group-hover:text-white transition-colors shrink-0" aria-hidden="true">
-                  <Eye className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-medium mb-1">Exposiciones</h3>
-                  <p className="text-[#78716c] text-sm">Actuales y pasadas</p>
-                </div>
-              </Link>
-              <Link
-                href="/arte/tienda"
-                className="group flex items-start gap-4 p-6 bg-white border border-[#e7e5e4] rounded-xl hover:shadow-lg transition-shadow focus-visible:outline-2 focus-visible:outline-[#1c1917] focus-visible:outline-offset-2"
-              >
-                <div className="w-12 h-12 bg-[#fafaf9] rounded-lg flex items-center justify-center group-hover:bg-[#1c1917] group-hover:text-white transition-colors shrink-0" aria-hidden="true">
-                  <ShoppingBag className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-medium mb-1">Tienda</h3>
-                  <p className="text-[#78716c] text-sm">Impresiones y productos</p>
-                </div>
-              </Link>
-            </div>
-          </Reveal>
+      <div className={styles.strip} aria-hidden="true">
+        Lo natural <span>✳</span> Lo sensible <span>✳</span> Lo imaginado{" "}
+        <span>✳</span> Lo natural <span>✳</span> Lo sensible
+      </div>
+
+      <section className={`${styles.section} ${styles.wrap} ${styles.anchor}`} id="galeria">
+        <div className={styles.sectionHead}>
+          <div>
+            <span className={styles.eyebrow}>01 / Obra visual</span>
+            <h2 className={styles.sectionTitle}>
+              Un mundo para
+              <br />
+              <em>mirar de cerca.</em>
+            </h2>
+          </div>
+          <p className={styles.intro}>
+            Recorre las obras a tu ritmo.
+            <br />
+            Abre cada imagen para verla completa
+            <br />y descubrir sus detalles.
+          </p>
+        </div>
+
+        <ArteGallery works={arteWorks} />
+      </section>
+
+      <section className={`${styles.section} ${styles.mirada} ${styles.anchor}`} id="mirada">
+        <div className={`${styles.wrap} ${styles.miradaGrid}`}>
+          <div className={styles.miradaPicture}>
+            <Image
+              className={styles.miradaImage}
+              src={arteMiradaWork.src}
+              alt={arteMiradaWork.alt}
+              width={arteMiradaWork.width}
+              height={arteMiradaWork.height}
+              sizes="(max-width: 620px) 80vw, 40vw"
+              loading="lazy"
+            />
+          </div>
+
+          <div className={styles.miradaText}>
+            <span className={styles.eyebrow}>02 / Una mirada, muchos lenguajes</span>
+            <h2 className={styles.sectionTitle}>
+              Entre el cuerpo
+              <br />y lo <em>silvestre.</em>
+            </h2>
+            <p className={styles.miradaBody}>
+              En este universo visual, los cuerpos se entrelazan con hojas,
+              animales y símbolos. El color transforma lo familiar: una gallina,
+              un gesto o una figura humana se abren a otras posibilidades.
+            </p>
+            <p className={styles.miradaBody}>
+              La línea reúne estas imágenes como un hilo común. A veces intensa y
+              vibrante; otras, suave y silenciosa.
+            </p>
+            <Link className={styles.textLink} href="/escenico">
+              Descubrir el universo escénico ↗
+            </Link>
+            <div className={styles.tagline}>CUERPO · NATURALEZA · IMAGINACIÓN</div>
+          </div>
         </div>
       </section>
 
-      <section className="py-16 px-4 sm:px-6 lg:px-8 border-t border-[#e7e5e4]">
-        <div className="max-w-7xl mx-auto">
-          <Reveal delay={0.2}>
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="font-[family-name:var(--font-cormorant)] text-2xl font-semibold">Obras Recientes</h2>
-              <Link href="/arte/galeria" className="text-[#78716c] text-sm font-medium hover:text-[#1c1917] transition-colors focus-visible:outline-2 focus-visible:outline-[#1c1917] focus-visible:outline-offset-2">
-                Ver todas &rarr;
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="aspect-square bg-white border border-[#e7e5e4] rounded-lg flex items-center justify-center text-[#e7e5e4]" aria-label="Placeholder obra">
-                  <span>Obra {i}</span>
-                </div>
-              ))}
-            </div>
-          </Reveal>
+      <section className={`${styles.contactSection} ${styles.anchor}`} id="contacto">
+        <div className={`${styles.wrap} ${styles.contactTop}`}>
+          <div>
+            <span className={styles.eyebrow}>03 / Sigamos la conversación</span>
+            <h2 className={styles.contactTitle}>
+              ¿Una obra te
+              <br />
+              hizo <em>sentir algo?</em>
+            </h2>
+            <p>
+              Para consultar por una pieza, proponer una colaboración o conocer
+              más del trabajo de Pájaro Maca.
+            </p>
+          </div>
+          <a
+            className={`${styles.pill} ${styles.contactPillAction}`}
+            href={instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Escríbeme en Instagram <span aria-hidden="true">↗</span>
+          </a>
         </div>
       </section>
-    </div>
+    </>
   );
 }
