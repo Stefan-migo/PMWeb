@@ -21,25 +21,75 @@ export type PortfolioPhoto = {
   alt: string;
 };
 
-export const hero = {
-  eyebrow: "MACARENA ALMEIDA · ARTES ESCÉNICAS",
-  titleLines: ["El cuerpo", "como territorio."],
-  description: [
-    "Danza, dirección de arte y diseño escénico.",
-    "Una práctica que nace del movimiento y toma forma en la materia.",
-  ],
-  primaryCta: "Explorar las obras",
-  image: {
-    src: assetPath("materialidad.webp"),
-    alt: "Una tela translúcida envuelve una silueta sobre un escenario oscuro.",
+export type HeroSlide = {
+  src: string;
+  title: string;
+  alt: string;
+  focus: string;
+  mobileFocus: string;
+};
+
+/** The six photographs of the hero carousel, in the approved order. */
+export const heroSlides: HeroSlide[] = [
+  {
+    src: assetPath("escena-hero-01.webp"),
+    title: "Tensión Superficial",
+    alt: "Intérpretes con vestuario blanco en un encuentro de cuerpos y gestos bajo una luz cenital.",
+    focus: "50% 48%",
+    mobileFocus: "48% 45%",
   },
-  bottom: {
-    location: identity.residence.toUpperCase(),
-    locationSecondary: "COLOMBIA",
-    period: "SELECCIÓN 2014 — 2026",
-    scroll: "DESLIZAR",
+  {
+    src: assetPath("escena-hero-02.webp"),
+    title: "Archivo escénico",
+    alt: "Intérpretes en escena con sudaderas amarillas, pantalones cortos claros y gestos abiertos.",
+    focus: "50% 58%",
+    mobileFocus: "54% 50%",
   },
+  {
+    src: assetPath("escena-hero-03.webp"),
+    title: "Tres prácticas para habitar",
+    alt: "Intérpretes con vestuario rojo y cañas de bambú sobre un escenario negro.",
+    focus: "50% 48%",
+    mobileFocus: "50% 45%",
+  },
+  {
+    src: assetPath("escena-hero-04.webp"),
+    title: "Archivo escénico",
+    alt: "Grupo de intérpretes sosteniendo máscaras blancas alrededor de una figura con vestuario amarillo.",
+    focus: "50% 48%",
+    mobileFocus: "50% 45%",
+  },
+  {
+    src: assetPath("escena-hero-05.webp"),
+    title: "Festival Corona",
+    alt: "Escenario nocturno del Festival Corona iluminado por un gran elemento radial con fuego.",
+    focus: "50% 52%",
+    mobileFocus: "50% 50%",
+  },
+  {
+    src: assetPath("escena-hero-06.webp"),
+    title: "Tensión Superficial",
+    alt: "Composición colectiva de intérpretes con vestuario blanco en Tensión Superficial.",
+    focus: "50% 48%",
+    mobileFocus: "50% 45%",
+  },
+];
+
+export const heroCopy = {
+  ariaLabel: "Archivo escénico de Macarena Almeida",
+  srTitle: "Pájaro Maca · Artes escénicas",
+  author: "MACARENA ALMEIDA",
+  explore: "EXPLORAR",
+  expand: "Ver fotografía completa",
+  viewerLabel: "Fotografía escénica completa",
+  viewerKicker: "ARCHIVO ESCÉNICO / PÁJARO MACA",
+  pause: "Pausar carrusel",
+  resume: "Reanudar carrusel",
+  previous: "Fotografía anterior",
+  next: "Fotografía siguiente",
 } as const;
+
+export const heroSlideDuration = 7500;
 
 export const sections = {
   works: {

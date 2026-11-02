@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   featuredWorks,
+  heroSlides,
   fullTimeline,
   internationalStages,
   mainTimeline,
@@ -9,6 +10,19 @@ import {
   workSheetCredits,
 } from "@/app/_lib/scenic/portfolio";
 import { stageWork, works } from "@/app/_lib/scenic/content";
+
+describe("scenic portfolio: hero", () => {
+  it("keeps the six hero photographs in order with alt text", () => {
+    expect(heroSlides).toHaveLength(6);
+    heroSlides.forEach((slide, index) => {
+      expect(slide.src).toBe(
+        `/escenico/assets/escena-hero-0${index + 1}.webp`,
+      );
+      expect(slide.alt.length).toBeGreaterThan(0);
+      expect(slide.focus).toMatch(/^\d+% \d+%$/);
+    });
+  });
+});
 
 describe("scenic portfolio: work sheets", () => {
   it("maps the three featured works to the verified content", () => {

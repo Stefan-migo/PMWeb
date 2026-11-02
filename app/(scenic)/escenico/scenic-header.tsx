@@ -12,6 +12,7 @@ const navigation = [
 
 export function ScenicHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -27,17 +28,23 @@ export function ScenicHeader() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const closeMenu = () => setOpen(false);
+
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
       <Link className={styles.wordmark} href="/" aria-label="Pájaro Maca, inicio">
         pájaro maca
         <span className={styles.wordmarkMark} aria-hidden="true">
           ✳
         </span>
-      </Link>
-
-      <Link className={styles.headerSection} href="/escenico">
-        PORTAFOLIO ESCÉNICO
+        <small className={styles.wordmarkSmall}>ARTES ESCÉNICAS</small>
       </Link>
 
       <button
@@ -58,18 +65,25 @@ export function ScenicHeader() {
         data-open={open ? "true" : "false"}
       >
         {navigation.map((link) => (
-          <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>
+          <Link key={link.href} href={link.href} onClick={closeMenu}>
             {link.label}
           </Link>
         ))}
+        <Link href="/arte" className={styles.artRoute} onClick={closeMenu}>
+          Arte <span aria-hidden="true">↗</span>
+        </Link>
         <Link
           href="/escenico#contacto"
-          className={styles.navContact}
-          onClick={() => setOpen(false)}
+          className={styles.stageMobileContact}
+          onClick={closeMenu}
         >
           Conversemos <span aria-hidden="true">↗</span>
         </Link>
       </nav>
+
+      <Link href="/escenico#contacto" className={styles.stageContact}>
+        Conversemos <span aria-hidden="true">↗</span>
+      </Link>
     </header>
   );
 }

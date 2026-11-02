@@ -39,18 +39,74 @@ beforeAll(() => {
 });
 
 function openWork(trigger: RegExp, title: string) {
-  fireEvent.click(screen.getByRole("button", { name: trigger }));
+  const works = document.querySelector("#obras");
+  if (!(works instanceof HTMLElement)) throw new Error("The works section is missing");
+  fireEvent.click(within(works).getByRole("button", { name: trigger }));
   return screen.getByRole("dialog", { name: title });
 }
 
 describe("Escénico portfolio — content", () => {
-  it("renders the redesigned hero as the page title", () => {
+  it("renders the photographic hero and its carousel controls", () => {
     render(<PortfolioEscenico />);
 
     const title = screen.getByRole("heading", { level: 1 });
-    expect(title).toHaveTextContent("El cuerpo");
-    expect(title).toHaveTextContent("como territorio.");
-    expect(screen.getByText("MACARENA ALMEIDA · ARTES ESCÉNICAS")).toBeInTheDocument();
+    expect(title).toHaveTextContent("Pájaro Maca · Artes escénicas");
+
+    const hero = screen.getByRole("region", {
+      name: "Archivo escénico de Macarena Almeida",
+    });
+    expect(within(hero).getByText("01")).toBeInTheDocument();
+    expect(within(hero).getAllByRole("button", { name: /^Ver fotografía \d+:/ })).toHaveLength(6);
+    expect(within(hero).getByRole("group", { name: "1 de 6" })).toBeInTheDocument();
+    expect(within(hero).getByRole("button", { name: "Pausar carrusel" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
+  });
+
+  it("advances the carousel, announces the change and toggles pause", () => {
+    render(<PortfolioEscenico />);
+    const hero = screen.getByRole("region", {
+      name: "Archivo escénico de Macarena Almeida",
+    });
+
+    fireEvent.click(within(hero).getByRole("button", { name: "Fotografía siguiente" }));
+
+    expect(within(hero).getByText("02")).toBeInTheDocument();
+    expect(within(hero).getByRole("group", { name: "2 de 6" })).toBeInTheDocument();
+    expect(
+      within(hero).getByText("Fotografía 2 de 6. Archivo escénico"),
+    ).toBeInTheDocument();
+    expect(
+      within(hero).getByRole("button", { name: "Ver fotografía 2: Archivo escénico" }),
+    ).toHaveAttribute("aria-current", "true");
+
+    fireEvent.click(within(hero).getByRole("button", { name: "Fotografía anterior" }));
+    expect(within(hero).getByText("01")).toBeInTheDocument();
+
+    const pause = within(hero).getByRole("button", { name: "Pausar carrusel" });
+    fireEvent.click(pause);
+    expect(pause).toHaveAttribute("aria-pressed", "true");
+    expect(pause).toHaveAccessibleName("Reanudar carrusel");
+  });
+
+  it("opens the full hero photograph and returns the focus on Escape", () => {
+    render(<PortfolioEscenico />);
+    const hero = screen.getByRole("region", {
+      name: "Archivo escénico de Macarena Almeida",
+    });
+    const expand = within(hero).getByRole("button", { name: "Ver fotografía completa" });
+
+    fireEvent.click(expand);
+
+    const viewer = screen.getByRole("dialog", { name: "Fotografía escénica completa" });
+    expect(
+      within(viewer).getByAltText(/Intérpretes con vestuario blanco/),
+    ).toBeInTheDocument();
+
+    fireEvent.keyDown(viewer, { key: "Escape" });
+    expect(viewer).not.toHaveAttribute("open");
+    expect(expand).toHaveFocus();
   });
 
   it("keeps the work sheets, the three featured works and the other crosses", () => {
@@ -88,8 +144,10 @@ describe("Escénico portfolio — content", () => {
   it("keeps the PDF portfolio reachable", () => {
     render(<PortfolioEscenico />);
 
-    const downloads = screen.getAllByRole("link", { name: /Portafolio PDF|Descargar portafolio/ });
-    expect(downloads.length).toBeGreaterThanOrEqual(2);
+    const downloads = screen.getAllByRole("link", {
+      name: /Descargar portafolio|Portafolio escénico/,
+    });
+    expect(downloads).toHaveLength(2);
     for (const link of downloads) {
       expect(link).toHaveAttribute("href", "/escenico/assets/pajaro-maca-portafolio-escenico.pdf");
       expect(link).toHaveAttribute("download");
@@ -114,7 +172,9 @@ describe("Escénico portfolio — work sheet dialog", () => {
 
   it("locks the page scroll while open and restores it on Escape", () => {
     render(<PortfolioEscenico />);
-    const trigger = screen.getByRole("button", { name: /Tensión Superficial/ });
+    const works = document.querySelector("#obras");
+    if (!(works instanceof HTMLElement)) throw new Error("The works section is missing");
+    const trigger = within(works).getByRole("button", { name: /Tensión Superficial/ });
     const dialog = openWork(/Tensión Superficial/, "Tensión Superficial");
 
     expect(document.body.style.overflow).toBe("hidden");
@@ -169,6 +229,7 @@ describe("Escénico header — mobile menu", () => {
 
     const toggle = screen.getByRole("button", { name: /Menú/ });
     const nav = screen.getByRole("navigation", { name: /Navegación principal/ });
+    expect(screen.getByRole("link", { name: /Arte/ })).toHaveAttribute("href", "/arte");
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(nav).toHaveAttribute("data-open", "false");
 

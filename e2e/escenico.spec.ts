@@ -4,8 +4,14 @@ test.describe("Escénico page", () => {
   test("shows the portfolio sections", async ({ page }) => {
     await page.goto("/escenico");
 
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("El cuerpo");
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("como territorio.");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "Pájaro Maca · Artes escénicas",
+    );
+    await expect(
+      page
+        .getByRole("navigation", { name: "Navegación principal" })
+        .getByRole("link", { name: "Arte", exact: true }),
+    ).toHaveAttribute("href", "/arte");
     await expect(
       page.getByRole("heading", { name: /La escena, un cuerpo vivo\./ }),
     ).toBeVisible();
@@ -17,6 +23,31 @@ test.describe("Escénico page", () => {
       page.getByRole("heading", { name: /Una práctica/ }),
     ).toBeVisible();
     await expect(page.getByRole("heading", { name: /Hagamos/ })).toBeVisible();
+  });
+
+  test("runs the hero carousel and opens the full photograph", async ({ page }) => {
+    await page.goto("/escenico");
+
+    const hero = page.locator("#inicio");
+    const live = hero.locator("[aria-live='polite']");
+
+    await page.getByRole("button", { name: "Pausar carrusel" }).click();
+    await page.getByRole("button", { name: "Fotografía siguiente" }).click();
+
+    await expect(live).toHaveText("Fotografía 2 de 6. Archivo escénico");
+    await expect(
+      page.getByRole("button", { name: "Ver fotografía 2: Archivo escénico" }),
+    ).toHaveAttribute("aria-current", "true");
+
+    const expand = page.getByRole("button", { name: "Ver fotografía completa" });
+    await expand.click();
+
+    const viewer = page.getByRole("dialog", { name: "Fotografía escénica completa" });
+    await expect(viewer).toBeVisible();
+
+    await page.keyboard.press("Escape");
+    await expect(viewer).toBeHidden();
+    await expect(expand).toBeFocused();
   });
 
   test("lists every work from the portfolio document", async ({ page }) => {
@@ -38,7 +69,7 @@ test.describe("Escénico page", () => {
   test("opens the work sheet without leaving the page", async ({ page }) => {
     await page.goto("/escenico");
 
-    const trigger = page.getByRole("button", { name: /Tensión Superficial/ });
+    const trigger = page.locator("#obras").getByRole("button", { name: /Tensión Superficial/ });
     await trigger.click();
 
     const sheet = page.getByRole("dialog", { name: "Tensión Superficial" });
@@ -54,7 +85,7 @@ test.describe("Escénico page", () => {
   test("locks the page scroll while a dialog is open", async ({ page }) => {
     await page.goto("/escenico");
 
-    await page.getByRole("button", { name: /Tensión Superficial/ }).click();
+    await page.locator("#obras").getByRole("button", { name: /Tensión Superficial/ }).click();
     await expect(page.locator("body")).toHaveCSS("overflow", "hidden");
 
     await page.keyboard.press("Escape");
@@ -64,7 +95,7 @@ test.describe("Escénico page", () => {
   test("opens a work detail from the sheet", async ({ page }) => {
     await page.goto("/escenico");
 
-    await page.getByRole("button", { name: /Tensión Superficial/ }).click();
+    await page.locator("#obras").getByRole("button", { name: /Tensión Superficial/ }).click();
     await page
       .getByRole("dialog", { name: "Tensión Superficial" })
       .getByRole("link", { name: /Ver ficha completa/ })
@@ -132,5 +163,21 @@ test.describe("Escénico mobile navigation", () => {
     await page.keyboard.press("Escape");
     await expect(toggle).toHaveAttribute("aria-expanded", "false");
     await expect(toggle).toBeFocused();
+  });
+});
+
+test.describe("Escénico reduced motion", () => {
+  test("starts the carousel paused", async ({ browser, baseURL }) => {
+    const context = await browser.newContext({ reducedMotion: "reduce" });
+    const page = await context.newPage();
+
+    await page.goto(`${baseURL}/escenico`);
+
+    await expect(page.getByRole("button", { name: "Reanudar carrusel" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+
+    await context.close();
   });
 });

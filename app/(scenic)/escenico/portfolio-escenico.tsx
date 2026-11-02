@@ -2,13 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { MouseEvent as ReactMouseEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
+import type { CSSProperties, MouseEvent as ReactMouseEvent } from "react";
 import styles from "./escenico.module.css";
 import {
   featuredWorks,
   galleryCopy,
-  hero,
+  heroCopy,
+  heroSlideDuration,
+  heroSlides,
   internationalStages,
   mainTimeline,
   fullTimeline,
@@ -21,6 +30,29 @@ import {
   type PortfolioPhoto,
 } from "@/app/_lib/scenic/portfolio";
 import { identity } from "@/app/_lib/scenic/content";
+
+function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return false;
+  }
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function subscribeReducedMotion(onChange: () => void) {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return () => {};
+  }
+  const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+
+function reducedMotionSnapshot(): boolean {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return false;
+  }
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 export type ScenicMediaItem = {
   id: number | string;
@@ -61,6 +93,7 @@ function WorkCard({
     <button
       type="button"
       className={`${styles.work} ${feature ? styles.workFeature : ""}`}
+      data-reveal
       aria-haspopup="dialog"
       onClick={(event) => onOpen(item, event.currentTarget)}
     >
@@ -106,11 +139,27 @@ function WorkCard({
 export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
   const [activeWork, setActiveWork] = useState<FeaturedWork | null>(null);
   const [gallery, setGallery] = useState<GalleryState | null>(null);
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [pauseOverride, setPauseOverride] = useState<boolean | null>(null);
+  const reduceMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    reducedMotionSnapshot,
+    () => false,
+  );
+  const slidePaused = pauseOverride ?? reduceMotion;
+  const [heroViewerOpen, setHeroViewerOpen] = useState(false);
+  const [slideAnnouncement, setSlideAnnouncement] = useState("");
 
+  const mainRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const thumbsRef = useRef<HTMLDivElement>(null);
   const workDialogRef = useRef<HTMLDialogElement>(null);
   const galleryDialogRef = useRef<HTMLDialogElement>(null);
+  const heroViewerRef = useRef<HTMLDialogElement>(null);
   const workTriggerRef = useRef<HTMLElement | null>(null);
   const galleryTriggerRef = useRef<HTMLElement | null>(null);
+  const heroTriggerRef = useRef<HTMLElement | null>(null);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
   const cmsPhotos = useMemo<PortfolioPhoto[]>(
     () =>
@@ -165,6 +214,33 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
     });
   }, []);
 
+  const goToSlide = useCallback((next: number, manual = false) => {
+    const total = heroSlides.length;
+    const index = ((next % total) + total) % total;
+    setSlideIndex(index);
+    thumbsRef.current
+      ?.querySelectorAll<HTMLElement>(`.${styles.stageProgress}`)
+      .forEach((bar) => {
+        bar.style.transform = "scaleX(0)";
+      });
+    if (manual) {
+      setSlideAnnouncement(
+        `Fotografía ${index + 1} de ${total}. ${heroSlides[index].title}`,
+      );
+    }
+  }, []);
+
+  const openHeroViewer = useCallback((trigger: HTMLElement) => {
+    heroTriggerRef.current = trigger;
+    setHeroViewerOpen(true);
+  }, []);
+
+  const closeHeroViewer = useCallback(() => {
+    const dialog = heroViewerRef.current;
+    if (dialog?.open) dialog.close();
+    else setHeroViewerOpen(false);
+  }, []);
+
   useEffect(() => {
     const dialog = workDialogRef.current;
     if (!dialog) return;
@@ -177,7 +253,103 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
     if (gallery && !dialog.open) dialog.showModal();
   }, [gallery]);
 
-  const dialogOpen = Boolean(activeWork || gallery);
+  useEffect(() => {
+    const dialog = heroViewerRef.current;
+    if (!dialog) return;
+    if (heroViewerOpen && !dialog.open) dialog.showModal();
+  }, [heroViewerOpen]);
+
+  useEffect(() => {
+    if (slidePaused) return;
+    if (typeof requestAnimationFrame !== "function") return;
+
+    let frame = 0;
+    let last = performance.now();
+    let elapsed = 0;
+
+    thumbsRef.current
+      ?.querySelectorAll<HTMLElement>(`.${styles.stageProgress}`)
+      .forEach((bar) => {
+        bar.style.transform = "scaleX(0)";
+      });
+
+    const tick = (now: number) => {
+      const delta = Math.min(now - last, 100);
+      last = now;
+      const menuOpen =
+        document
+          .querySelector('[aria-controls="navigation"]')
+          ?.getAttribute("aria-expanded") === "true";
+      const anyDialogOpen = Boolean(document.querySelector("dialog[open]"));
+      const hero = heroRef.current;
+      const heroVisible = hero ? hero.getBoundingClientRect().bottom > 100 : false;
+
+      if (!document.hidden && !menuOpen && !anyDialogOpen && heroVisible) {
+        elapsed += delta;
+        const activeBar = thumbsRef.current?.children[slideIndex]?.querySelector<HTMLElement>(
+          `.${styles.stageProgress}`,
+        );
+        if (activeBar) {
+          activeBar.style.transform = `scaleX(${Math.min(elapsed / heroSlideDuration, 1)})`;
+        }
+        if (elapsed >= heroSlideDuration) {
+          elapsed = 0;
+          setSlideIndex((current) => (current + 1) % heroSlides.length);
+        }
+      }
+
+      frame = requestAnimationFrame(tick);
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [slidePaused, slideIndex]);
+
+  useEffect(() => {
+    if (prefersReducedMotion() || typeof IntersectionObserver === "undefined") return;
+    const root = mainRef.current;
+    if (!root) return;
+
+    const targets = Array.from(root.querySelectorAll<HTMLElement>("[data-reveal]"));
+    if (targets.length === 0) return;
+
+    const groups = new Map<Element, number>();
+    for (const target of targets) {
+      const parent = target.parentElement ?? root;
+      const position = groups.get(parent) ?? 0;
+      groups.set(parent, position + 1);
+      target.dataset.revealDelay = String(Math.min(position % 4, 3) * 85);
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const element = entry.target as HTMLElement;
+          observer.unobserve(element);
+          if (typeof element.animate !== "function") continue;
+          element.animate(
+            [
+              { opacity: 0, transform: "translate3d(0,26px,0)" },
+              { opacity: 1, transform: "translate3d(0,0,0)" },
+            ],
+            {
+              duration: 850,
+              delay: Number(element.dataset.revealDelay ?? 0),
+              easing: "cubic-bezier(.2,.65,.3,1)",
+              fill: "backwards",
+            },
+          );
+        }
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -24px 0px" },
+    );
+
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, []);
+
+  const dialogOpen = Boolean(activeWork || gallery || heroViewerOpen);
 
   useEffect(() => {
     if (!dialogOpen) return;
@@ -198,6 +370,11 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
     galleryTriggerRef.current?.focus();
   };
 
+  const handleHeroViewerClose = () => {
+    setHeroViewerOpen(false);
+    heroTriggerRef.current?.focus();
+  };
+
   const closeOnBackdrop = (event: ReactMouseEvent<HTMLDialogElement>) => {
     const dialog = event.currentTarget;
     if (event.target !== dialog) return;
@@ -214,62 +391,162 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
   const activePhoto = activePhotos[gallery?.index ?? 0];
 
   return (
-    <main>
-      <section id="inicio" className={styles.hero}>
-        <div className={styles.heroImage}>
-          <Image
-            src={hero.image.src}
-            alt={hero.image.alt}
-            fill
-            priority
-            sizes="(max-width: 760px) 100vw, 60vw"
-          />
-          <div className={styles.imageWash} aria-hidden="true" />
+    <main ref={mainRef}>
+      <section
+        id="inicio"
+        ref={heroRef}
+        className={styles.hero}
+        aria-roledescription="carrusel"
+        aria-label={heroCopy.ariaLabel}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            goToSlide(slideIndex + 1, true);
+          }
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            goToSlide(slideIndex - 1, true);
+          }
+        }}
+        onTouchStart={(event) => {
+          const touch = event.changedTouches[0];
+          touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+        }}
+        onTouchEnd={(event) => {
+          const start = touchStartRef.current;
+          if (!start) return;
+          const touch = event.changedTouches[0];
+          const dx = touch.clientX - start.x;
+          const dy = touch.clientY - start.y;
+          if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+            goToSlide(slideIndex + (dx < 0 ? 1 : -1), true);
+          }
+          touchStartRef.current = null;
+        }}
+      >
+        <div className={styles.stageSlides}>
+          {heroSlides.map((slide, index) => (
+            <div
+              key={slide.src}
+              className={`${styles.stageSlide} ${
+                index === slideIndex ? styles.stageSlideActive : ""
+              }`}
+              role="group"
+              aria-roledescription="diapositiva"
+              aria-label={`${index + 1} de ${heroSlides.length}`}
+              aria-hidden={index !== slideIndex}
+              style={
+                {
+                  "--focus": slide.focus,
+                  "--mobile-focus": slide.mobileFocus,
+                } as CSSProperties
+              }
+            >
+              <Image
+                src={slide.src}
+                alt={slide.alt}
+                fill
+                priority={index === 0}
+                loading={index === 0 ? undefined : "eager"}
+                sizes="100vw"
+              />
+            </div>
+          ))}
         </div>
+        <div className={styles.stageShade} aria-hidden="true" />
 
-        <div className={styles.heroContent}>
-          <p className={styles.eyebrow}>
-            <span className={styles.tinyLine} aria-hidden="true" />
-            {hero.eyebrow}
-          </p>
-          <h1 className={styles.heroTitle}>
-            El cuerpo
-            <br />
-            como <em>territorio.</em>
-          </h1>
-          <p className={styles.heroDescription}>
-            {hero.description[0]}
-            <br />
-            {hero.description[1]}
-          </p>
-          <div className={styles.heroActions}>
-            <a className={styles.button} href="#obras">
-              {hero.primaryCta} <span aria-hidden="true">↘</span>
-            </a>
-            <a className={styles.textLink} href={portfolioPdf.href} download>
-              {portfolioPdf.label} <span aria-hidden="true">↓</span>
-            </a>
+        <button
+          type="button"
+          className={styles.stageExpand}
+          aria-label={heroCopy.expand}
+          title={heroCopy.expand}
+          onClick={(event) => openHeroViewer(event.currentTarget)}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5" />
+          </svg>
+        </button>
+
+        <h1 className={styles.srOnly}>{heroCopy.srTitle}</h1>
+
+        <div className={styles.stageBottom}>
+          <div className={styles.stageCount}>
+            <span>{String(slideIndex + 1).padStart(2, "0")}</span>
+            <span className={styles.stageTotal}>
+              / {String(heroSlides.length).padStart(2, "0")}
+            </span>
+            <span className={styles.stageAuthor}>{heroCopy.author}</span>
+          </div>
+
+          <div
+            ref={thumbsRef}
+            className={styles.stageThumbs}
+            role="group"
+            aria-label="Elegir fotografía"
+          >
+            {heroSlides.map((slide, index) => (
+              <button
+                key={slide.src}
+                type="button"
+                className={styles.stageThumb}
+                aria-label={`Ver fotografía ${index + 1}: ${slide.title}`}
+                aria-current={index === slideIndex ? "true" : "false"}
+                onClick={() => goToSlide(index, true)}
+              >
+                <Image src={slide.src} alt="" fill sizes="64px" />
+                <span className={styles.stageProgress} aria-hidden="true" />
+              </button>
+            ))}
+          </div>
+
+          <div className={styles.stageControls}>
+            <button
+              type="button"
+              aria-label={slidePaused ? heroCopy.resume : heroCopy.pause}
+              aria-pressed={slidePaused}
+              onClick={() => setPauseOverride(!slidePaused)}
+            >
+              {slidePaused ? (
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="m6 3 10 7-10 7Z" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M7 4v12M13 4v12" />
+                </svg>
+              )}
+            </button>
+            <button
+              type="button"
+              aria-label={heroCopy.previous}
+              onClick={() => goToSlide(slideIndex - 1, true)}
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              aria-label={heroCopy.next}
+              onClick={() => goToSlide(slideIndex + 1, true)}
+            >
+              →
+            </button>
           </div>
         </div>
 
-        <div className={styles.heroBottom}>
-          <span>
-            {hero.bottom.location} <span className={styles.muted}>/</span>{" "}
-            {hero.bottom.locationSecondary}
-          </span>
-          <span className={styles.heroPeriod}>{hero.bottom.period}</span>
-          <a href="#obras" aria-label="Bajar a obras seleccionadas">
-            {hero.bottom.scroll} <span aria-hidden="true">↓</span>
-          </a>
-        </div>
+        <a className={styles.stageScroll} href="#obras" aria-label="Bajar a las obras">
+          {heroCopy.explore} <span aria-hidden="true">↓</span>
+        </a>
+        <p className={styles.srOnly} aria-live="polite">
+          {slideAnnouncement}
+        </p>
       </section>
 
       <section id="obras" aria-labelledby="obras-heading" className={`${styles.section} ${styles.works}`}>
-        <div className={styles.sectionTop}>
+        <div className={styles.sectionTop} data-reveal>
           <p className={styles.eyebrow}>{sections.works.eyebrow}</p>
           <span className={styles.smallNote}>{sections.works.note}</span>
         </div>
-        <div className={styles.sectionHeading}>
+        <div className={styles.sectionHeading} data-reveal>
           <h2 id="obras-heading">
             La escena, <em>un cuerpo vivo.</em>
           </h2>
@@ -291,9 +568,9 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
         </div>
 
         <div className={styles.otherWorks}>
-          <p className={styles.eyebrow}>OTROS CRUCES CREATIVOS</p>
+          <p className={styles.eyebrow} data-reveal>OTROS CRUCES CREATIVOS</p>
           {otherWorks.map((item) => (
-            <Link key={item.slug} href={`/escenico/${item.slug}`} className={styles.otherRow}>
+            <Link key={item.slug} href={`/escenico/${item.slug}`} className={styles.otherRow} data-reveal>
               <span>{item.period}</span>
               <h3>{item.title}</h3>
               <p>{item.detail}</p>
@@ -304,7 +581,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
       </section>
 
       <section id="mirada" aria-labelledby="mirada-heading" className={`${styles.about} ${styles.section}`}>
-        <div className={styles.aboutPhoto}>
+        <div className={styles.aboutPhoto} data-reveal>
           <Image
             src={sections.about.image.src}
             alt={sections.about.image.alt}
@@ -314,18 +591,18 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
           <p className={styles.photoCaption}>{sections.about.imageCaption}</p>
         </div>
         <div className={styles.aboutCopy}>
-          <p className={styles.eyebrow}>{sections.about.eyebrow}</p>
-          <h2 id="mirada-heading">
+          <p className={styles.eyebrow} data-reveal>{sections.about.eyebrow}</p>
+          <h2 id="mirada-heading" data-reveal>
             De las artes visuales
             <br />
             al <em>cuerpo en escena.</em>
           </h2>
-          <p className={styles.lead}>{sections.about.lead}</p>
+          <p className={styles.lead} data-reveal>{sections.about.lead}</p>
           {sections.about.paragraphs.map((paragraph) => (
-            <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+            <p key={paragraph.slice(0, 40)} data-reveal>{paragraph}</p>
           ))}
-          <blockquote>{sections.about.quote}</blockquote>
-          <a className={styles.textLink} href={sections.about.link.href}>
+          <blockquote data-reveal>{sections.about.quote}</blockquote>
+          <a className={styles.textLink} href={sections.about.link.href} data-reveal>
             {sections.about.link.label} <span aria-hidden="true">↓</span>
           </a>
         </div>
@@ -336,11 +613,11 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
         aria-labelledby="encuentros-heading"
         className={`${styles.section} ${styles.international}`}
       >
-        <div className={styles.sectionTop}>
+        <div className={styles.sectionTop} data-reveal>
           <p className={styles.eyebrow}>{sections.international.eyebrow}</p>
           <span className={styles.smallNote}>{sections.international.note}</span>
         </div>
-        <div className={styles.sectionHeading}>
+        <div className={styles.sectionHeading} data-reveal>
           <h2 id="encuentros-heading">
             Un lenguaje <em>que viaja.</em>
           </h2>
@@ -349,7 +626,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
 
         <div className={styles.internationalGrid}>
           {internationalStages.map((stage, index) => (
-            <figure key={stage.name}>
+            <figure key={stage.name} data-reveal>
               <button
                 type="button"
                 aria-label={`Ampliar fotografía de ${stage.name}`}
@@ -378,7 +655,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
           ))}
         </div>
 
-        <div className={styles.galleryHeader}>
+        <div className={styles.galleryHeader} data-reveal>
           <h3>{galleryCopy.heading}</h3>
           <p>
             {galleryCopy.intro} <span aria-hidden="true">↘</span>
@@ -389,6 +666,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
             <button
               key={`${photo.src}-${index}`}
               type="button"
+              data-reveal
               aria-label={`Ampliar fotografía ${index + 1} de presentaciones en escena`}
               onClick={(event) => openGallery(allScenePhotos, index, event.currentTarget)}
             >
@@ -396,7 +674,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
             </button>
           ))}
         </div>
-        <p className={styles.galleryHint}>{galleryCopy.hint}</p>
+        <p className={styles.galleryHint} data-reveal>{galleryCopy.hint}</p>
       </section>
 
       <section
@@ -405,14 +683,14 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
         className={`${styles.section} ${styles.trajectory}`}
       >
         <div className={styles.trajectoryIntro}>
-          <p className={styles.eyebrow}>{sections.trajectory.eyebrow}</p>
-          <h2 id="trayectoria-heading">
+          <p className={styles.eyebrow} data-reveal>{sections.trajectory.eyebrow}</p>
+          <h2 id="trayectoria-heading" data-reveal>
             Una práctica
             <br />
             en <em>movimiento.</em>
           </h2>
-          <p>{sections.trajectory.intro}</p>
-          <a className={styles.textLink} href={portfolioPdf.href} download>
+          <p data-reveal>{sections.trajectory.intro}</p>
+          <a className={styles.textLink} href={portfolioPdf.href} download data-reveal>
             {portfolioPdf.downloadLabel} <span aria-hidden="true">↓</span>
           </a>
         </div>
@@ -420,7 +698,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
         <div>
           <div className={styles.timeline}>
             {mainTimeline.map((entry) => (
-              <div key={`${entry.period}-${entry.title}`} className={styles.timelineRow}>
+              <div key={`${entry.period}-${entry.title}`} className={styles.timelineRow} data-reveal>
                 <span>{entry.period}</span>
                 <div>
                   <h3>{entry.title}</h3>
@@ -430,12 +708,12 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
             ))}
           </div>
 
-          <details className={styles.fullTimeline}>
+          <details className={styles.fullTimeline} data-reveal>
             <summary>
               {sections.trajectory.expandLabel} <span aria-hidden="true">+</span>
             </summary>
             {fullTimeline.map((entry) => (
-              <div key={`${entry.period}-${entry.title}`} className={styles.timelineRow}>
+              <div key={`${entry.period}-${entry.title}`} className={styles.timelineRow} data-reveal>
                 <span>{entry.period}</span>
                 <div>
                   <h3>{entry.title}</h3>
@@ -452,7 +730,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
         aria-labelledby="contacto-heading"
         className={`${styles.section} ${styles.contact}`}
       >
-        <div>
+        <div data-reveal>
           <p className={styles.eyebrow}>{sections.contact.eyebrow}</p>
           <h2 id="contacto-heading">
             Hagamos
@@ -467,7 +745,7 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
             {sections.contact.email} <span aria-hidden="true">↗</span>
           </a>
         </div>
-        <div className={styles.contactSide}>
+        <div className={styles.contactSide} data-reveal>
           <p>
             {identity.name.toUpperCase()}
             <br />
@@ -670,6 +948,43 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
           </button>
         </div>
       </dialog>
+      <dialog
+        ref={heroViewerRef}
+        className={styles.stageViewer}
+        aria-label={heroCopy.viewerLabel}
+        onCancel={(event) => {
+          event.preventDefault();
+          closeHeroViewer();
+        }}
+        onClick={closeOnBackdrop}
+        onClose={handleHeroViewerClose}
+        onKeyDown={(event) => {
+          if (event.key !== "Escape") return;
+          event.preventDefault();
+          closeHeroViewer();
+        }}
+      >
+        <div className={styles.stageViewerToolbar}>
+          <span>{heroCopy.viewerKicker}</span>
+          <button
+            type="button"
+            className={styles.closeDialog}
+            onClick={closeHeroViewer}
+            aria-label="Cerrar fotografía"
+          >
+            Cerrar <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div className={styles.stageViewerImage}>
+          <Image
+            src={heroSlides[slideIndex].src}
+            alt={heroSlides[slideIndex].alt}
+            fill
+            sizes="100vw"
+          />
+        </div>
+      </dialog>
+
     </main>
   );
 }
