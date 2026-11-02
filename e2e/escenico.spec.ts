@@ -80,6 +80,17 @@ test.describe("Escénico page", () => {
 
     const sheet = page.getByRole("dialog", { name: "Tensión Superficial" });
     await expect(sheet).toBeVisible();
+
+    const box = await sheet.boundingBox();
+    const viewport = page.viewportSize();
+    expect(box).not.toBeNull();
+    expect(viewport).not.toBeNull();
+    if (box && viewport) {
+      expect(box.x).toBeGreaterThan(0);
+      expect(box.x + box.width).toBeLessThan(viewport.width + 1);
+      expect(box.y).toBeGreaterThanOrEqual(0);
+      expect(box.y + box.height).toBeLessThan(viewport.height + 1);
+    }
     await expect(sheet.getByText("Kattya Soto")).toBeVisible();
     await expect(sheet.getByText("42 minutos")).toBeVisible();
 
@@ -108,6 +119,9 @@ test.describe("Escénico page", () => {
       .click();
 
     await expect(page).toHaveURL("/escenico/tension-superficial");
+    await expect(
+      page.getByRole("heading", { name: "Tensión Superficial", level: 1 }),
+    ).toBeVisible();
   });
 
   test("opens the scene gallery and steps through the photographs", async ({ page }) => {

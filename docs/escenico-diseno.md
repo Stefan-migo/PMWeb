@@ -69,7 +69,12 @@ y en `public/escenico/assets/FONT-LICENSE.txt`.
 - Header fijo que se compacta y opaca al pasar los 40px de scroll.
 - Menú móvil con `aria-expanded`, cierre con Escape y retorno del foco.
 - Ficha de obra en `<dialog>` nativo: foco devuelto al disparador, cierre con
-  Escape, clic fuera y bloqueo de scroll.
+  Escape, clic fuera y bloqueo de scroll. Los diálogos se centran con
+  `inset: 0; margin: auto` porque la preflight de Tailwind anula el margen
+  automático nativo.
+- «Ver ficha completa» es un enlace de documento a `/escenico/<slug>` (no una
+  navegación de cliente dentro del modal), con flecha `→` para indicar que es
+  una página interna.
 - Visor de fotografías con flechas del teclado, contador y cierre con Escape.
 - Las fichas de obra se enlazan con `/escenico/[slug]`; las tres obras
   secundarias también conservan su ruta.

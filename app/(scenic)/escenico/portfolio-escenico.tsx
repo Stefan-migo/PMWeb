@@ -879,12 +879,13 @@ export function PortfolioEscenico({ media = [] }: PortfolioEscenicoProps) {
                 </div>
               )}
 
-              <Link
+              <a
                 className={styles.dialogSheetLink}
                 href={`/escenico/${activeWork.work.slug}`}
+                aria-label={`Ver ficha completa de ${activeWork.work.title}`}
               >
-                Ver ficha completa <span aria-hidden="true">↗</span>
-              </Link>
+                Ver ficha completa <span aria-hidden="true">→</span>
+              </a>
             </div>
           </div>
         )}
