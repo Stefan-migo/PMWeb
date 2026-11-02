@@ -100,6 +100,24 @@ on every touched path; unit suite 146/146 (26 files, was 133/23); `next build` g
 12/12. Screenshots reviewed at 1440x900 for the five pages, including the composer after submitting
 and the care guide's stages.
 
+L9 (user report, verbatim): "solo veo un issue en el footer donde el asterisco fue cambiado por el
+logo monocromo negro. pero esta muy chiquito". The report was right and the cause was worse than a
+size: the base box of the mark (`.tattoo-mark`) lived in `TattooShell.css`, and the landing never
+loads that file — the shell was only reachable through `TattooSubpage`, which the landing does not
+import. Measured on the production build: the footer mark had `height: 0` and no intrinsic box, and
+the same missing import also meant **the landing itself had no section palette** (`.tattoo-section`
+background computed as transparent over a white canvas, `--tattoo-bg` falling back to the global
+`#0a0a0a`). The screenshots reviewed after the shell refactor covered the sub-pages, which do load
+it, so the landing regression survived a green suite: no test asserted a background.
+
+L9a (fix): the mark's base rule moved to `TattooMark.css`, imported by the component itself; the
+layout imports the shell it renders; every use sizes the mark through `--tattoo-mark-height`
+instead of a competing `height` rule that depended on stylesheet order. The footer mark grows from
+128 px to a `clamp(4.5rem, 12vw, 12rem)` box (173 px at 1440), and 72 px on mobile.
+
+L9b (lesson): "the component renders" is not "the component is styled". A stylesheet that only
+travels with a sibling component is a load-order bet; import the CSS where the element is owned.
+
 ## Delivery
 
 | Slice | Content | Commit |
@@ -108,3 +126,4 @@ and the care guide's stages.
 | 2 | the five sub-pages, the composer and its tests | `40d8fcf` |
 | 3 | caption fix found by the e2e | `2c23db1` |
 | 4 | this record | see the closing report |
+| 5 | mark sizing and the missing shell import (L9) | `9fe1161` |
