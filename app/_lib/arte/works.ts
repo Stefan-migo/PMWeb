@@ -161,11 +161,112 @@ export const arteWorks: ArteWork[] = seeds.map((seed) => {
   };
 });
 
-/** Works shown as the rotated pair in the hero, in the approved order. */
-export const arteHeroWorks = {
-  main: arteWorks[0],
-  small: arteWorks[1],
-};
+/**
+ * Works shown in the animated hero of `/arte`.
+ *
+ * Ported from the approved hero package: five of its six works keep their
+ * original background and ink colour, the hen of `Ilustración-sin-título 4(1)`
+ * is dropped as requested, and three works are added (`4(2)`, `2(2)`, `3(2)`),
+ * for eight slides in total.
+ */
+export interface ArteHeroWork {
+  id: number;
+  code: string;
+  alt: string;
+  src: string;
+  width: number;
+  height: number;
+  /** Slide background; it matches the artwork's own background. */
+  bg: string;
+  /** Interface colour on that background. */
+  ink: string;
+}
+
+export const arteHeroWorks: ArteHeroWork[] = [
+  {
+    id: 1,
+    code: "01",
+    alt: "Figura negra en postura invertida, cabello violeta y vestimenta verde sobre rojo",
+    src: "/design/arte/hero/obra-01.webp",
+    width: 1350,
+    height: 1800,
+    bg: "#ce0700",
+    ink: "#fff8e8",
+  },
+  {
+    id: 2,
+    code: "02",
+    alt: "Figura negra en equilibrio sobre las manos, cabello rojo y vestimenta clara sobre violeta",
+    src: "/design/arte/hero/obra-02.webp",
+    width: 1350,
+    height: 1800,
+    bg: "#8800d0",
+    ink: "#fff8e8",
+  },
+  {
+    id: 3,
+    code: "03",
+    alt: "Figura en movimiento con cabello violeta dentro de un círculo de línea negra",
+    src: "/design/arte/hero/obra-03.webp",
+    width: 1800,
+    height: 1771,
+    bg: "#ffffff",
+    ink: "#2b2238",
+  },
+  {
+    id: 4,
+    code: "04",
+    alt: "Figura verde y turquesa vertiendo agua de un cántaro, sobre un óvalo azul",
+    src: "/design/arte/hero/obra-04.webp",
+    width: 1686,
+    height: 1800,
+    bg: "#faf7f0",
+    ink: "#193c8c",
+  },
+  {
+    id: 5,
+    code: "05",
+    alt: "Figura violeta sentada entre estrellas y motivos vegetales",
+    src: "/design/arte/hero/obra-05.webp",
+    width: 1761,
+    height: 1800,
+    bg: "#ffffff",
+    ink: "#2b2238",
+  },
+  {
+    id: 6,
+    code: "06",
+    alt: "Figura verde y turquesa con los brazos en alto entre hojas y lluvia, dentro de un óvalo verde oliva",
+    src: "/design/arte/hero/obra-06.webp",
+    width: 1678,
+    height: 1800,
+    bg: "#ffffff",
+    ink: "#2b2238",
+  },
+  {
+    id: 7,
+    code: "07",
+    alt: "Figura fucsia con flores dibujadas sobre la piel y cabello ondulado, dentro de un arco rojo profundo",
+    src: "/design/arte/hero/obra-07.webp",
+    width: 1758,
+    height: 1800,
+    bg: "#000000",
+    ink: "#fff8e8",
+  },
+  {
+    id: 8,
+    code: "08",
+    alt: "Figura amarilla flotando con el brazo en alto sobre un campo naranja lleno de destellos",
+    src: "/design/arte/hero/obra-08.webp",
+    width: 1428,
+    height: 1800,
+    bg: "#ffffff",
+    ink: "#2b2238",
+  },
+];
+
+/** Time each hero slide stays on screen, from the reference package. */
+export const arteHeroDuration = 7200;
 
 /** Work that illustrates «Mi mirada» in the approved design. */
 export const arteMiradaWork = arteWorks[7];
