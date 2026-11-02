@@ -163,29 +163,34 @@
 }
 
 .wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
   width: max-content;
-  font-family: var(--font-escenico-editorial), Georgia, serif;
-  font-size: 29px;
   line-height: 1;
-  white-space: nowrap;
-  letter-spacing: -1px;
 }
 
-.wordmarkMark {
-  margin-left: 7px;
-  font-family: Georgia, serif;
-  font-size: 22px;
-  color: var(--es-gold);
-  display: inline-block;
+.shell .wordmarkLogo {
+  width: auto;
+  height: 72px;
+}
+
+.shell .header.scrolled .wordmarkLogo {
+  height: 54px;
 }
 
 .wordmarkSmall {
   display: block;
-  margin-top: 12px;
   font-family: var(--font-escenico-sans), Arial, sans-serif;
   font-size: 8px;
   letter-spacing: 2.8px;
   color: #d1bd98;
+}
+
+.shell .footerLogo {
+  width: auto;
+  height: 46px;
 }
 
 .nav {
@@ -216,7 +221,7 @@
   background: #ffffff0c;
 }
 
-.artRoute {
+.moreRoute {
   margin-left: 5px;
   padding-left: 23px;
   padding-right: 19px;
@@ -224,7 +229,7 @@
   border-radius: 0;
 }
 
-.artRoute span {
+.moreRoute span {
   margin-left: 12px;
 }
 
@@ -1112,10 +1117,6 @@
   padding: 32px 6.2%;
 }
 
-.footer .wordmark {
-  font-size: 27px;
-}
-
 .footer p {
   font-size: 9px;
   letter-spacing: 1.5px;
@@ -1454,8 +1455,8 @@
     padding: 10px 14px;
   }
 
-  .wordmark {
-    font-size: 26px;
+  .shell .wordmarkLogo {
+    height: 62px;
   }
 
   .stageBottom {
@@ -1540,18 +1541,16 @@
   }
 
   .wordmark {
-    font-size: 25px;
+    gap: 6px;
   }
 
-  .wordmarkMark {
-    margin-left: 6px;
-    font-size: 18px;
+  .shell .wordmarkLogo {
+    height: 52px;
   }
 
   .wordmarkSmall {
     font-size: 7px;
     letter-spacing: 2.2px;
-    margin-top: 9px;
   }
 
   .stageContact {
@@ -1608,7 +1607,7 @@
     border: 0;
   }
 
-  .artRoute {
+  .moreRoute {
     display: flex;
     justify-content: space-between;
     margin: 0;

@@ -229,7 +229,7 @@ describe("Escénico header — mobile menu", () => {
 
     const toggle = screen.getByRole("button", { name: /Menú/ });
     const nav = screen.getByRole("navigation", { name: /Navegación principal/ });
-    expect(screen.getByRole("link", { name: /Arte/ })).toHaveAttribute("href", "/arte");
+    expect(screen.getByRole("link", { name: "Más" })).toHaveAttribute("href", "/");
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(nav).toHaveAttribute("data-open", "false");
 

@@ -10,8 +10,10 @@ test.describe("Escénico page", () => {
     await expect(
       page
         .getByRole("navigation", { name: "Navegación principal" })
-        .getByRole("link", { name: "Arte", exact: true }),
-    ).toHaveAttribute("href", "/arte");
+        .getByRole("link", { name: "Más", exact: true }),
+    ).toHaveAttribute("href", "/");
+    await expect(page.locator('header img[src*="pajaro-maca-logo"]')).toBeVisible();
+    await expect(page.locator('footer img[src*="pajaro-maca-logo"]')).toBeVisible();
     await expect(
       page.getByRole("heading", { name: /La escena, un cuerpo vivo\./ }),
     ).toBeVisible();

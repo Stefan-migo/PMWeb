@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { assetPath } from "@/app/_lib/scenic/portfolio";
 import styles from "./escenico.module.css";
 
 const navigation = [
@@ -40,10 +42,14 @@ export function ScenicHeader() {
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
       <Link className={styles.wordmark} href="/" aria-label="Pájaro Maca, inicio">
-        pájaro maca
-        <span className={styles.wordmarkMark} aria-hidden="true">
-          ✳
-        </span>
+        <Image
+          src={assetPath("pajaro-maca-logo.webp")}
+          alt=""
+          width={720}
+          height={388}
+          priority
+          className={styles.wordmarkLogo}
+        />
         <small className={styles.wordmarkSmall}>ARTES ESCÉNICAS</small>
       </Link>
 
@@ -69,8 +75,8 @@ export function ScenicHeader() {
             {link.label}
           </Link>
         ))}
-        <Link href="/arte" className={styles.artRoute} onClick={closeMenu}>
-          Arte <span aria-hidden="true">↗</span>
+        <Link href="/" className={styles.moreRoute} onClick={closeMenu}>
+          Más <span aria-hidden="true">↗</span>
         </Link>
         <Link
           href="/escenico#contacto"

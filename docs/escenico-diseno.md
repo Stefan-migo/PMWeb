@@ -33,6 +33,17 @@ Las tres fuentes vienen del paquete y se cargan con `next/font/local` en
 La licencia viaja junto a los archivos en `app/(scenic)/escenico/fonts/FONT-LICENSE.txt`
 y en `public/escenico/assets/FONT-LICENSE.txt`.
 
+## Marca
+
+- El logo sale del `PAJARO_MACA_LOGO_PACK` (`02-lockups/pajaro-maca-horizontal-on-dark`),
+  recortado y optimizado a `public/escenico/assets/pajaro-maca-logo.webp`.
+- Se usa en el header (72 px, 54 px con scroll, 52 px en móvil) y en el footer
+  (46 px), sobre el fondo oscuro.
+- No se modificó el favicon, `app/favicon.ico` ni los metadatos de iconos: esa
+  pieza pertenece al trabajo de arte que se mergea en `main`.
+- El último ítem de la navegación es «Más», que vuelve a `/` (la selección de
+  las tres páginas), y conserva el separador visual del ítem anterior.
+
 ## Aislamiento
 
 - Todos los estilos viven en `app/(scenic)/escenico/escenico.module.css`, con
