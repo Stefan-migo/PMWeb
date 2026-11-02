@@ -29,17 +29,28 @@ describe("TattooHeader", () => {
       "href",
       "#portafolio",
     );
-    expect(within(nav).getByRole("link", { name: "Cotizar" })).toHaveAttribute(
+    expect(within(nav).getByRole("link", { name: "Diseños" })).toHaveAttribute(
       "href",
-      "#cotizar",
+      "#disenos-disponibles",
     );
-    expect(
-      within(nav).getByRole("link", { name: "Diseños disponibles" }),
-    ).toHaveAttribute("href", "#disenos-disponibles");
+    expect(within(nav).getByRole("link", { name: "Cuidados" })).toHaveAttribute(
+      "href",
+      "#cuidados",
+    );
+  });
+
+  it("offers the wordmark as the way back into the landing and the quote pill", () => {
+    render(<TattooHeader />);
+
+    expect(screen.getByRole("link", { name: "Pájaro Maca, tatuajes" })).toHaveAttribute(
+      "href",
+      "#inicio",
+    );
+    expect(screen.getByRole("link", { name: /Hablemos/ })).toHaveAttribute("href", "#cotizar");
   });
 
   it("links the same labels to the section pages outside the landing", () => {
-    currentPath = "/tatuajes/cotizar";
+    currentPath = "/tatuajes/disenos-disponibles";
     render(<TattooHeader />);
 
     const nav = screen.getByRole("navigation");
@@ -48,17 +59,26 @@ describe("TattooHeader", () => {
       "href",
       "/tatuajes/portafolio",
     );
-    expect(
-      within(nav).getByRole("link", { name: "Diseños disponibles" }),
-    ).toHaveAttribute("href", "/tatuajes/disenos-disponibles");
+    expect(within(nav).getByRole("link", { name: "Cuidados" })).toHaveAttribute(
+      "href",
+      "/tatuajes/cuidados",
+    );
+    expect(screen.getByRole("link", { name: "Pájaro Maca, tatuajes" })).toHaveAttribute(
+      "href",
+      "/tatuajes",
+    );
+    expect(screen.getByRole("link", { name: /Hablemos/ })).toHaveAttribute(
+      "href",
+      "/tatuajes/cotizar",
+    );
   });
 
   it("marks the current section page as the active link", () => {
-    currentPath = "/tatuajes/cotizar";
+    currentPath = "/tatuajes/cuidados";
     render(<TattooHeader />);
 
     const nav = screen.getByRole("navigation");
-    const active = within(nav).getByRole("link", { name: "Cotizar" });
+    const active = within(nav).getByRole("link", { name: "Cuidados" });
 
     expect(active).toHaveAttribute("aria-current", "page");
     expect(within(nav).getByRole("link", { name: "Portafolio" })).not.toHaveAttribute(
@@ -66,26 +86,16 @@ describe("TattooHeader", () => {
     );
   });
 
-  it("returns to the three-option main page from PajaroMaca", () => {
-    render(<TattooHeader />);
-
-    const homeLink = within(screen.getByRole("navigation")).getByRole("link", {
-      name: "PajaroMaca",
-    });
-
-    expect(homeLink).toHaveAttribute("href", "/");
-  });
-
-  it("keeps the PajaroMaca link on section pages too", () => {
+  it("leaves the section for the three-option main page from Más", () => {
     currentPath = "/tatuajes/portafolio";
     render(<TattooHeader />);
 
     expect(
-      within(screen.getByRole("navigation")).getByRole("link", { name: "PajaroMaca" }),
+      within(screen.getByRole("navigation")).getByRole("link", { name: /Más/ }),
     ).toHaveAttribute("href", "/");
   });
 
-  it("toggles the mobile menu", () => {
+  it("toggles the mobile menu and closes it with Escape", () => {
     render(<TattooHeader />);
 
     fireEvent.click(screen.getByRole("button", { name: "Abrir menú" }));
@@ -94,7 +104,7 @@ describe("TattooHeader", () => {
       "true",
     );
 
-    fireEvent.click(screen.getByRole("button", { name: "Cerrar menú" }));
+    fireEvent.keyDown(window, { key: "Escape" });
     expect(screen.getByRole("button", { name: "Abrir menú" })).toHaveAttribute(
       "aria-expanded",
       "false",
