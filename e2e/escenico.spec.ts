@@ -4,27 +4,25 @@ test.describe("Escénico page", () => {
   test("shows the portfolio sections", async ({ page }) => {
     await page.goto("/escenico");
 
-    await expect(page.getByRole("heading", { name: "Escénico", level: 1 })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("El cuerpo");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("como territorio.");
     await expect(
-      page.getByRole("heading", { name: "Sobre Macarena", level: 2 }),
+      page.getByRole("heading", { name: /La escena, un cuerpo vivo\./ }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Dirección de arte", level: 2 }),
+      page.getByRole("heading", { name: /De las artes visuales/ }),
     ).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Un lenguaje que viaja\./ })).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Formación y trayectoria", level: 2 }),
+      page.getByRole("heading", { name: /Una práctica/ }),
     ).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Obras", level: 2 })).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Escenarios internacionales", level: 2 }),
-    ).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Contacto", level: 2 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Hagamos/ })).toBeVisible();
   });
 
   test("lists every work from the portfolio document", async ({ page }) => {
     await page.goto("/escenico");
 
-    const works = page.getByRole("region", { name: "Obras" });
+    const works = page.locator("#obras");
     for (const title of [
       "Tensión Superficial",
       "Tres prácticas para habitar",
@@ -37,11 +35,59 @@ test.describe("Escénico page", () => {
     }
   });
 
-  test("opens a work detail from the list", async ({ page }) => {
+  test("opens the work sheet without leaving the page", async ({ page }) => {
     await page.goto("/escenico");
 
-    await page.getByRole("link", { name: /Tensión Superficial/ }).first().click();
+    const trigger = page.getByRole("button", { name: /Tensión Superficial/ });
+    await trigger.click();
+
+    const sheet = page.getByRole("dialog", { name: "Tensión Superficial" });
+    await expect(sheet).toBeVisible();
+    await expect(sheet.getByText("Kattya Soto")).toBeVisible();
+    await expect(sheet.getByText("42 minutos")).toBeVisible();
+
+    await page.keyboard.press("Escape");
+    await expect(sheet).toBeHidden();
+    await expect(trigger).toBeFocused();
+  });
+
+  test("locks the page scroll while a dialog is open", async ({ page }) => {
+    await page.goto("/escenico");
+
+    await page.getByRole("button", { name: /Tensión Superficial/ }).click();
+    await expect(page.locator("body")).toHaveCSS("overflow", "hidden");
+
+    await page.keyboard.press("Escape");
+    await expect(page.locator("body")).not.toHaveCSS("overflow", "hidden");
+  });
+
+  test("opens a work detail from the sheet", async ({ page }) => {
+    await page.goto("/escenico");
+
+    await page.getByRole("button", { name: /Tensión Superficial/ }).click();
+    await page
+      .getByRole("dialog", { name: "Tensión Superficial" })
+      .getByRole("link", { name: /Ver ficha completa/ })
+      .click();
+
     await expect(page).toHaveURL("/escenico/tension-superficial");
+  });
+
+  test("opens the scene gallery and steps through the photographs", async ({ page }) => {
+    await page.goto("/escenico");
+
+    await page
+      .getByRole("button", { name: "Ampliar fotografía 1 de presentaciones en escena" })
+      .click();
+
+    const gallery = page.getByRole("dialog", { name: "Visor de fotografías" });
+    await expect(gallery.getByText("ARCHIVO ESCÉNICO / 01 — 08")).toBeVisible();
+
+    await page.keyboard.press("ArrowRight");
+    await expect(gallery.getByText("ARCHIVO ESCÉNICO / 02 — 08")).toBeVisible();
+
+    await page.keyboard.press("Escape");
+    await expect(gallery).toBeHidden();
   });
 
   test("keeps the art direction credit with its author", async ({ page }) => {
@@ -54,9 +100,7 @@ test.describe("Escénico page", () => {
     const credits = page.getByRole("region", { name: "Ficha técnica" });
     await expect(credits.getByText("Kattya Soto", { exact: true })).toBeVisible();
     await expect(credits.getByText("42 minutos", { exact: true })).toBeVisible();
-    await expect(
-      credits.getByText("Dirección de arte", { exact: true }),
-    ).toBeVisible();
+    await expect(credits.getByText("Dirección de arte", { exact: true })).toBeVisible();
     // Macarena holds two roles in this work, so both rows credit her.
     await expect(credits.getByText("Macarena Almeida", { exact: true })).toHaveCount(2);
   });
@@ -68,5 +112,25 @@ test.describe("Escénico page", () => {
       page.getByRole("heading", { name: "El final de mi carrera", level: 1 }),
     ).toBeVisible();
     await expect(page.getByText("próximo estreno", { exact: false })).toHaveCount(0);
+    await expect(page.getByText("Estrenada", { exact: true })).toBeVisible();
+  });
+});
+
+test.describe("Escénico mobile navigation", () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+
+  test("opens the menu and closes it with Escape", async ({ page }) => {
+    await page.goto("/escenico");
+
+    const toggle = page.getByRole("button", { name: /Menú/ });
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+
+    await toggle.click();
+    await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    await expect(page.getByRole("navigation", { name: "Navegación principal" })).toBeVisible();
+
+    await page.keyboard.press("Escape");
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    await expect(toggle).toBeFocused();
   });
 });

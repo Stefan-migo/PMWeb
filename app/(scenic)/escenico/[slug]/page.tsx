@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 import { getWorkBySlug, works } from "@/app/_lib/scenic/content";
-import { ScenicImagePlaceholder } from "@/app/_components/scenic/ScenicImagePlaceholder";
+import { featuredWorks, workSheetCredits } from "@/app/_lib/scenic/portfolio";
+import styles from "../escenico.module.css";
 
 const kindLabel: Record<string, string> = {
   obra: "Obra",
@@ -49,122 +50,100 @@ export default async function ScenicWorkPage({ params }: PageProps) {
     notFound();
   }
 
+  const presentation = featuredWorks.find((item) => item.work.slug === work.slug);
   const summaryParagraphs = work.summary?.split("\n\n") ?? [];
+  const credits = workSheetCredits(work);
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-      <Link
-        href="/escenico#obras"
-        className="inline-flex items-center gap-2 text-sm text-scenic-text-muted transition-colors hover:text-scenic-accent"
-      >
-        <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-        Volver a Escénico
-      </Link>
-
-      <p className="mt-8 text-xs uppercase tracking-[0.3em] text-scenic-accent">
-        {kindLabel[work.kind]} · {work.yearLabel}
-        {work.status === "premiered" && (
-          <span className="ml-3 border border-scenic-accent/60 px-2 py-0.5 text-[0.65rem] tracking-[0.2em]">
-            Estrenada
-          </span>
-        )}
-      </p>
-
-      <h1 className="mt-4 font-[family-name:var(--font-serif)] text-5xl font-semibold leading-tight sm:text-6xl">
-        {work.title}
-      </h1>
-
-      {work.entity && (
-        <p className="mt-3 text-lg text-scenic-text-muted">{work.entity}</p>
-      )}
-      {work.place && <p className="text-sm text-scenic-text-muted">{work.place}</p>}
-
-      <ScenicImagePlaceholder label={work.mediaPlaceholder} aspect="wide" className="mt-8" />
-
-      {summaryParagraphs.length > 0 && (
-        <div className="mt-10 space-y-4 text-lg leading-relaxed text-scenic-text-muted">
-          {summaryParagraphs.map((paragraph) => (
-            <p key={paragraph.slice(0, 40)}>{paragraph}</p>
-          ))}
-        </div>
-      )}
-
-      <section
-        aria-labelledby="ficha-heading"
-        className="mt-12 border-t border-scenic-border/30 pt-8"
-      >
-        <h2
-          id="ficha-heading"
-          className="font-[family-name:var(--font-serif)] text-3xl font-semibold"
-        >
-          Ficha técnica
-        </h2>
-
-        <dl className="mt-6 divide-y divide-scenic-border/30">
-          {work.credits.map((credit) => (
-            <div
-              key={`${credit.role}-${credit.person}`}
-              className="grid gap-1 py-3 sm:grid-cols-[16rem_1fr] sm:gap-6"
-            >
-              <dt className="text-xs uppercase tracking-[0.2em] text-scenic-text-muted">
-                {credit.role}
-              </dt>
-              <dd className="text-scenic-text">{credit.person}</dd>
-            </div>
-          ))}
-
-          {work.macarenaRoles.map((role) => (
-            <div
-              key={role}
-              className="grid gap-1 py-3 sm:grid-cols-[16rem_1fr] sm:gap-6"
-            >
-              <dt className="text-xs uppercase tracking-[0.2em] text-scenic-text-muted">
-                {role}
-              </dt>
-              <dd className="text-scenic-text">Macarena Almeida</dd>
-            </div>
-          ))}
-
-          {work.duration && (
-            <div className="grid gap-1 py-3 sm:grid-cols-[16rem_1fr] sm:gap-6">
-              <dt className="text-xs uppercase tracking-[0.2em] text-scenic-text-muted">
-                Duración
-              </dt>
-              <dd className="text-scenic-text">{work.duration}</dd>
-            </div>
-          )}
-        </dl>
-      </section>
-
-      {work.artDirectionNote && (
-        <section aria-labelledby="resena-heading" className="mt-12">
-          <h2
-            id="resena-heading"
-            className="font-[family-name:var(--font-serif)] text-3xl font-semibold"
-          >
-            Reseña de dirección de arte
-          </h2>
-          <p className="mt-4 leading-relaxed text-scenic-text-muted">
-            {work.artDirectionNote}
+    <main>
+      <article className={styles.workSheet}>
+        <div className={styles.workSheetTop}>
+          <Link href="/escenico#obras" className={styles.textLink}>
+            ← Volver a Escénico
+          </Link>
+          <p className={styles.eyebrow}>
+            {kindLabel[work.kind]} · {work.yearLabel}
+            {work.status === "premiered" && (
+              <span className={styles.workSheetTag}>Estrenada</span>
+            )}
           </p>
-        </section>
-      )}
+          <h1 className={styles.workSheetTitle}>{work.title}</h1>
+          {work.entity && <p className={styles.dialogSubtitle}>{work.entity}</p>}
+          {work.place && <p className={styles.dialogSubtitle}>{work.place}</p>}
+        </div>
 
-      {work.cast.length > 0 && (
-        <section aria-labelledby="elenco-heading" className="mt-12">
-          <h2
-            id="elenco-heading"
-            className="font-[family-name:var(--font-serif)] text-3xl font-semibold"
-          >
-            Creadores intérpretes
-          </h2>
-          <ul className="mt-4 grid gap-x-8 gap-y-2 text-sm text-scenic-text-muted sm:grid-cols-2">
-            {work.cast.map((name) => (
-              <li key={name}>{name}</li>
+        {presentation && (
+          <div className={styles.workSheetCover}>
+            <Image
+              src={presentation.cover.src}
+              alt={presentation.cover.alt}
+              fill
+              priority
+              sizes="(max-width: 760px) 100vw, 1200px"
+            />
+          </div>
+        )}
+
+        <div className={styles.workSheetColumns}>
+          <div>
+            <h2>SOBRE LA OBRA</h2>
+            {summaryParagraphs.length > 0 ? (
+              summaryParagraphs.map((paragraph) => (
+                <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+              ))
+            ) : (
+              <p>{work.artDirectionNote}</p>
+            )}
+
+            {summaryParagraphs.length > 0 && work.artDirectionNote && (
+              <>
+                <h2>RESEÑA DE DIRECCIÓN DE ARTE</h2>
+                <p>{work.artDirectionNote}</p>
+              </>
+            )}
+
+            {work.cast.length > 0 && (
+              <>
+                <h2>CREADORES INTÉRPRETES</h2>
+                <p>{work.cast.join(", ")}.</p>
+              </>
+            )}
+          </div>
+
+          <section aria-labelledby="ficha-heading">
+            <h2 id="ficha-heading">Ficha técnica</h2>
+            <dl className={styles.credits}>
+              {credits.map((credit) => (
+                <div key={`${credit.role}-${credit.person}`}>
+                  <dt>{credit.role}</dt>
+                  <dd>{credit.person}</dd>
+                </div>
+              ))}
+              {presentation?.extraCredit && (
+                <div>
+                  <dt>{presentation.extraCredit.role}</dt>
+                  <dd>{presentation.extraCredit.person}</dd>
+                </div>
+              )}
+            </dl>
+          </section>
+        </div>
+
+        {presentation && presentation.photos.length > 0 && (
+          <div className={styles.workSheetPhotos}>
+            {presentation.photos.map((photo) => (
+              <div key={photo.src} className={styles.workSheetPhoto}>
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes="(max-width: 760px) 100vw, 600px"
+                />
+              </div>
             ))}
-          </ul>
-        </section>
-      )}
+          </div>
+        )}
+      </article>
     </main>
   );
 }
