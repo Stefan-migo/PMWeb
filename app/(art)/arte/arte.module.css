@@ -423,7 +423,11 @@
 /* ---------- sections ---------- */
 
 .section {
-  padding: 90px 0;
+  /* Vertical rhythm only. The shorthand (`padding: 90px 0`) used to reset the
+     inline padding that `.wrap` sets, so the works section bled to the edges of
+     the 1440px column — invisible on a wider screen, edge-to-edge on any screen
+     at or below it. */
+  padding-block: 90px;
 }
 
 .sectionHead {
@@ -1207,14 +1211,6 @@
     padding-right: 6%;
   }
 
-  /* `.section` resets the inline padding with its shorthand, so the works
-     section is deliberately full-bleed on the wide canvas. On a phone that
-     reads as a bug: the grid runs to both edges with no gutter at all. */
-  .section.wrap {
-    padding-left: 6%;
-    padding-right: 6%;
-  }
-
   .head {
     height: 70px;
   }
@@ -1296,7 +1292,7 @@
   }
 
   .section {
-    padding: 58px 0;
+    padding-block: 58px;
   }
 
   .sectionHead {
