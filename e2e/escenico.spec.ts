@@ -173,7 +173,7 @@ test.describe("Escénico mobile navigation", () => {
   test("opens the menu and closes it with Escape", async ({ page }) => {
     await page.goto("/escenico");
 
-    const toggle = page.getByRole("button", { name: /Menú/ });
+    const toggle = page.getByRole("button", { name: /menú/i });
     await expect(toggle).toHaveAttribute("aria-expanded", "false");
 
     await toggle.click();

@@ -196,14 +196,15 @@ test.describe("Art section", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/arte");
 
-    // The toggle label swaps between «Menú +» and «Cerrar −», so the locator
-    // anchors on the relationship it owns instead of its visible text.
+    // The toggle is an animated hamburger now: the visible word stays «Menú», so
+    // the state has to be read from the accessible name and aria-expanded.
     const toggle = page.locator("button[aria-controls='arte-mobile-nav']");
-    await expect(toggle).toHaveText("Menú +");
+    await expect(toggle).toHaveAccessibleName("Abrir menú");
     await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    await expect(toggle).toContainText("Menú");
 
     await toggle.click();
-    await expect(toggle).toHaveText("Cerrar −");
+    await expect(toggle).toHaveAccessibleName("Cerrar menú");
     await expect(toggle).toHaveAttribute("aria-expanded", "true");
     await expect(
       page.getByRole("navigation", { name: "Navegación móvil de arte" }).getByRole("link", { name: "Obras" }),
@@ -211,7 +212,7 @@ test.describe("Art section", () => {
 
     await page.keyboard.press("Escape");
     await expect(toggle).toHaveAttribute("aria-expanded", "false");
-    await expect(toggle).toHaveText("Menú +");
+    await expect(toggle).toHaveAccessibleName("Abrir menú");
     await expect(toggle).toBeFocused();
     await expect(
       page.getByRole("navigation", { name: "Navegación móvil de arte" }),

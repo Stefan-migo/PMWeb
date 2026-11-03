@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./arte/arte.module.css";
 import { GlyphPair, type GlyphKind } from "@/app/_components/shared/Glyph";
+import { MenuToggle } from "@/app/_components/shared/MenuToggle";
 
 interface NavItem {
   href: string;
@@ -94,16 +95,13 @@ export function ArteHeader() {
           </Link>
         </nav>
 
-        <button
-          ref={toggleRef}
-          type="button"
+        <MenuToggle
+          open={open}
+          controls="arte-mobile-nav"
+          onChange={setOpen}
           className={styles.menuToggle}
-          aria-expanded={open}
-          aria-controls="arte-mobile-nav"
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? "Cerrar −" : "Menú +"}
-        </button>
+          buttonRef={toggleRef}
+        />
       </div>
 
       <nav
