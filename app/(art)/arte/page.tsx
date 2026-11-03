@@ -32,8 +32,8 @@ export default function ArtePage() {
 
       <ArteReveal direction="none" duration={1.1} amount={0.3}>
         <div className={styles.strip} aria-hidden="true">
-          Lo natural <span><Glyph kind="asterisk" /></span> Lo sensible{" "}
-          <span><Glyph kind="asterisk" /></span> Lo imaginado
+          Lo natural <span className={styles.stripMark} /> Lo sensible{" "}
+          <span className={styles.stripMark} /> Lo imaginado
         </div>
       </ArteReveal>
 

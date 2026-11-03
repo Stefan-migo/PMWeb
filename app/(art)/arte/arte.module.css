@@ -398,10 +398,26 @@
   word-spacing: 13px;
 }
 
-.strip span {
-  /* The separator is monochrome on purpose: it inherits the band's own colour
-     instead of the acid accent, so the three phrases read as one line of type. */
-  padding: 0 25px;
+/* The separator between the three phrases is the pack's monochrome silhouette.
+   Painted through a mask so it takes the band's own text colour instead of the
+   white fill the file ships with, which keeps the line a single colour. The
+   spacing lives in margins: the section resets `box-sizing` to border-box, so the
+   old span padding would have eaten the mark's own width. */
+.stripMark {
+  display: inline-block;
+  width: 0.64em;
+  height: 1em;
+  margin: 0 0.9em;
+  vertical-align: -0.08em;
+  background-color: currentColor;
+  -webkit-mask-image: url("/design/arte/logo/pajaro-maca-silhouette.svg");
+  mask-image: url("/design/arte/logo/pajaro-maca-silhouette.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
 /* ---------- sections ---------- */
@@ -1275,8 +1291,8 @@
     padding: 16px 0;
   }
 
-  .strip span {
-    padding: 0 6px;
+  .stripMark {
+    margin: 0 0.6em;
   }
 
   .section {
