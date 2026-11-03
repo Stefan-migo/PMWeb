@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getWorkBySlug, works } from "@/app/_lib/scenic/content";
 import { featuredWorks, workSheetCredits } from "@/app/_lib/scenic/portfolio";
+import { Glyph } from "@/app/_components/shared/Glyph";
 import styles from "../escenico.module.css";
 
 const kindLabel: Record<string, string> = {
@@ -59,7 +60,7 @@ export default async function ScenicWorkPage({ params }: PageProps) {
       <article className={styles.workSheet}>
         <div className={styles.workSheetTop}>
           <Link href="/escenico#obras" className={styles.textLink}>
-            ← Volver a Escénico
+            <Glyph kind="left" /> Volver a Escénico
           </Link>
           <p className={styles.eyebrow}>
             {kindLabel[work.kind]} · {work.yearLabel}

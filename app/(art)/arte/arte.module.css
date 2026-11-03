@@ -249,6 +249,7 @@
 
 .menuToggle {
   display: none;
+  min-height: 44px;
   background: none;
   padding: 12px;
   font-size: 12px;
@@ -397,9 +398,26 @@
   word-spacing: 13px;
 }
 
-.strip span {
-  color: var(--ar-acid);
-  padding: 0 25px;
+/* The separator between the three phrases is the pack's monochrome silhouette.
+   Painted through a mask so it takes the band's own text colour instead of the
+   white fill the file ships with, which keeps the line a single colour. The
+   spacing lives in margins: the section resets `box-sizing` to border-box, so the
+   old span padding would have eaten the mark's own width. */
+.stripMark {
+  display: inline-block;
+  width: 0.64em;
+  height: 1em;
+  margin: 0 0.9em;
+  vertical-align: -0.08em;
+  background-color: currentColor;
+  -webkit-mask-image: url("/design/arte/logo/pajaro-maca-silhouette.svg");
+  mask-image: url("/design/arte/logo/pajaro-maca-silhouette.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
 /* ---------- sections ---------- */
@@ -1164,7 +1182,8 @@
   }
 
   .menuToggle {
-    display: block;
+    display: flex;
+    align-items: center;
   }
 
   .mobilePanelOpen {
@@ -1184,6 +1203,14 @@
 
 @media (max-width: 620px) {
   .wrap {
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+
+  /* `.section` resets the inline padding with its shorthand, so the works
+     section is deliberately full-bleed on the wide canvas. On a phone that
+     reads as a bug: the grid runs to both edges with no gutter at all. */
+  .section.wrap {
     padding-left: 6%;
     padding-right: 6%;
   }
@@ -1256,12 +1283,16 @@
   }
 
   .strip {
-    font-size: 20px;
+    /* Only three phrases now, and they have to be read: the type scales with the
+       viewport instead of being cut, and the separators tighten so the line still
+       fits at 360px. */
+    font-size: clamp(13px, 3.9vw, 20px);
+    word-spacing: 6px;
     padding: 16px 0;
   }
 
-  .strip span {
-    padding: 0 10px;
+  .stripMark {
+    margin: 0 0.6em;
   }
 
   .section {

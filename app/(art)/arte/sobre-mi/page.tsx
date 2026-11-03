@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "../arte.module.css";
 import { arteMiradaWork } from "@/app/_lib/arte/works";
+import { Glyph, GlyphPair } from "@/app/_components/shared/Glyph";
 
 export const metadata: Metadata = {
   title: "Mi mirada — Arte",
@@ -61,17 +62,17 @@ export default function MiMiradaPage() {
             rel="noopener noreferrer"
             aria-label="Instagram @pajaro_maca"
           >
-            @pajaro_maca ↗
+            <GlyphPair kind="up-right">@pajaro_maca</GlyphPair>
           </a>
         </div>
       </section>
 
       <div className={styles.ctaRow}>
         <Link className={styles.pill} href="/arte/trayectoria">
-          Ver la trayectoria <span aria-hidden="true">↘</span>
+          Ver la trayectoria <Glyph kind="down-right" />
         </Link>
         <Link className={styles.textLink} href="/arte/galeria">
-          Explorar las obras ↗
+          <GlyphPair kind="up-right">Explorar las obras</GlyphPair>
         </Link>
       </div>
     </div>

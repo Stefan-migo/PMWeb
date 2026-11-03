@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef } from "react";
 import type { TattooImage } from "@/app/_lib/tattoo/designs";
+import { Glyph } from "@/app/_components/shared/Glyph";
 
 const MODAL_OPEN_CLASS = "tattoo-lightbox-open";
 
@@ -84,7 +85,7 @@ export function TattooLightbox({ items, index, onChange, onClose }: TattooLightb
         aria-label="Fotografía anterior"
         onClick={() => step(-1)}
       >
-        ←
+        <Glyph kind="left" />
       </button>
 
       <figure className="tatuajes-page-v2__lightbox-figure">
@@ -106,7 +107,7 @@ export function TattooLightbox({ items, index, onChange, onClose }: TattooLightb
         aria-label="Siguiente fotografía"
         onClick={() => step(1)}
       >
-        →
+        <Glyph kind="right" />
       </button>
     </dialog>
   );

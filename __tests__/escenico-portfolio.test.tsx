@@ -229,7 +229,7 @@ describe("Escénico header — mobile menu", () => {
   it("toggles the navigation, exposes aria-expanded and closes with Escape", () => {
     render(<ScenicHeader />);
 
-    const toggle = screen.getByRole("button", { name: /Menú/ });
+    const toggle = screen.getByRole("button", { name: /menú/i });
     const nav = screen.getByRole("navigation", { name: /Navegación principal/ });
     expect(screen.getByRole("link", { name: "Más" })).toHaveAttribute("href", "/");
     expect(screen.queryByText("ARTES ESCÉNICAS")).not.toBeInTheDocument();

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { Reveal } from "@/app/_components/shared/Reveal";
+import { Glyph, GlyphPair } from "@/app/_components/shared/Glyph";
 import { TattooFooter } from "@/app/_components/tattoo/TattooFooter";
 import { TattooHeroCarousel } from "@/app/_components/tattoo/TattooHeroCarousel";
 import { TattooLightbox } from "@/app/_components/tattoo/TattooLightbox";
@@ -81,7 +82,7 @@ export function TatuajesPageV2({
                 Un recorrido por mis últimos trabajos.
               </p>
               <Link className="tatuajes-page-v2__text-link" href="/tatuajes/portafolio">
-                Ver portafolio completo <span aria-hidden="true">↗</span>
+                <GlyphPair kind="up-right">Ver portafolio completo</GlyphPair>
               </Link>
             </div>
           </div>
@@ -109,7 +110,7 @@ export function TatuajesPageV2({
                     className="tatuajes-page-v2__photo-image"
                   />
                   <span className="tatuajes-page-v2__expand" aria-hidden="true">
-                    ↗
+                    <Glyph kind="up-right" />
                   </span>
                 </span>
                 <span className="tatuajes-page-v2__caption">
@@ -142,7 +143,7 @@ export function TatuajesPageV2({
                     className="tatuajes-page-v2__photo-image"
                   />
                   <span className="tatuajes-page-v2__expand" aria-hidden="true">
-                    ↗
+                    <Glyph kind="up-right" />
                   </span>
                 </span>
                 <span className="tatuajes-page-v2__caption">
@@ -192,7 +193,7 @@ export function TatuajesPageV2({
                 className="tatuajes-page-v2__text-link"
                 href="/tatuajes/disenos-disponibles"
               >
-                Ver diseños disponibles <span aria-hidden="true">↗</span>
+                <GlyphPair kind="up-right">Ver diseños disponibles</GlyphPair>
               </Link>
             </div>
           </div>
@@ -217,7 +218,7 @@ export function TatuajesPageV2({
                 </div>
                 <div className="tatuajes-page-v2__design-label">
                   <h3>{design.name}</h3>
-                  <span aria-hidden="true">↗</span>
+                  <span aria-hidden="true"><Glyph kind="up-right" /></span>
                 </div>
                 <p className="tatuajes-page-v2__design-detail">{design.detail}</p>
               </Link>
@@ -270,7 +271,7 @@ export function TatuajesPageV2({
               target="_blank"
               rel="noopener noreferrer"
             >
-              Conoce mi universo <span aria-hidden="true">↗</span>
+              <GlyphPair kind="up-right">Conoce mi universo</GlyphPair>
             </a>
             <p className="tatuajes-page-v2__location">
               <span className="tatuajes-page-v2__dot" aria-hidden="true" />
@@ -295,7 +296,7 @@ export function TatuajesPageV2({
               Le damos forma, juntos.
             </p>
             <Link className="tatuajes-page-v2__button" href="/tatuajes/cotizar">
-              Solicitar cotización <span aria-hidden="true">↗</span>
+              <GlyphPair kind="up-right">Solicitar cotización</GlyphPair>
             </Link>
           </div>
         </Reveal>
@@ -308,7 +309,7 @@ export function TatuajesPageV2({
                 <h3>Tu idea</h3>
                 <p>Una historia, un símbolo o una referencia visual. No necesitas tener todo resuelto.</p>
               </div>
-              <b aria-hidden="true">↗</b>
+              <b aria-hidden="true"><Glyph kind="up-right" /></b>
             </div>
             <div>
               <span>02</span>
@@ -316,7 +317,7 @@ export function TatuajesPageV2({
                 <h3>El lugar y el tamaño</h3>
                 <p>Dónde te gustaría llevarlo y sus medidas aproximadas.</p>
               </div>
-              <b aria-hidden="true">↗</b>
+              <b aria-hidden="true"><Glyph kind="up-right" /></b>
             </div>
             <div>
               <span>03</span>
@@ -326,7 +327,7 @@ export function TatuajesPageV2({
                   Con esa información puedo orientarte sobre el diseño, el valor y la disponibilidad.
                 </p>
               </div>
-              <b aria-hidden="true">↗</b>
+              <b aria-hidden="true"><Glyph kind="up-right" /></b>
             </div>
           </div>
         </Reveal>
@@ -350,7 +351,7 @@ export function TatuajesPageV2({
               la cicatrización.
             </p>
             <Link className="tatuajes-page-v2__text-link" href="/tatuajes/cuidados">
-              Leer guía de cuidados <span aria-hidden="true">↗</span>
+              <GlyphPair kind="up-right">Leer guía de cuidados</GlyphPair>
             </Link>
           </div>
         </Reveal>

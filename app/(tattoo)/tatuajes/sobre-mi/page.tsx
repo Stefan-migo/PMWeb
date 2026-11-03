@@ -5,6 +5,7 @@ import { Reveal } from "@/app/_components/shared/Reveal";
 import { TattooMark } from "@/app/_components/tattoo/TattooMark";
 import { TattooBreadcrumb, TattooPageCta } from "@/app/_components/tattoo/TattooSubpage";
 import "./SobreMiPage.css";
+import { Glyph } from "@/app/_components/shared/Glyph";
 
 export const metadata: Metadata = {
   title: "Sobre mí",
@@ -59,7 +60,7 @@ export default function SobreMiPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              @pajaro_maca <span aria-hidden="true">↗</span>
+              @pajaro_maca <Glyph kind="up-right" />
             </a>
           </div>
         </Reveal>
@@ -78,7 +79,9 @@ export default function SobreMiPage() {
         </div>
         <Link href="/tatuajes/cotizar">
           <span>03 / Conversemos</span>
-          <h2>Tu idea es el comienzo ↗</h2>
+          <h2>
+            Tu idea es el comienzo <Glyph kind="up-right" />
+          </h2>
           <p>Hablemos de tu próxima pieza.</p>
         </Link>
       </section>
@@ -106,7 +109,7 @@ export default function SobreMiPage() {
             </h2>
             <p className="tp-sobre-mi__text">Cada idea encuentra su propio lenguaje visual.</p>
             <Link className="tattoo-text-link" href="/tatuajes/portafolio">
-              Explorar mi trabajo <span aria-hidden="true">↗</span>
+              Explorar mi trabajo <Glyph kind="up-right" />
             </Link>
           </div>
         </Reveal>

@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { assetPath } from "@/app/_lib/scenic/portfolio";
+import { GlyphPair } from "@/app/_components/shared/Glyph";
+import { MenuToggle } from "@/app/_components/shared/MenuToggle";
 import styles from "./escenico.module.css";
 
 const navigation = [
@@ -52,16 +54,13 @@ export function ScenicHeader() {
         />
       </Link>
 
-      <button
-        ref={toggleRef}
-        type="button"
+      <MenuToggle
+        open={open}
+        controls="navigation"
+        onChange={setOpen}
         className={styles.menuToggle}
-        aria-expanded={open}
-        aria-controls="navigation"
-        onClick={() => setOpen((value) => !value)}
-      >
-        Menú <span aria-hidden="true">{open ? "−" : "+"}</span>
-      </button>
+        buttonRef={toggleRef}
+      />
 
       <nav
         id="navigation"
@@ -75,19 +74,19 @@ export function ScenicHeader() {
           </Link>
         ))}
         <Link href="/" className={styles.moreRoute} onClick={closeMenu}>
-          Más <span aria-hidden="true">↗</span>
+          <GlyphPair kind="up-right">Más</GlyphPair>
         </Link>
         <Link
           href="/escenico#contacto"
           className={styles.stageMobileContact}
           onClick={closeMenu}
         >
-          Conversemos <span aria-hidden="true">↗</span>
+          <GlyphPair kind="up-right">Conversemos</GlyphPair>
         </Link>
       </nav>
 
       <Link href="/escenico#contacto" className={styles.stageContact}>
-        Conversemos <span aria-hidden="true">↗</span>
+        <GlyphPair kind="up-right">Conversemos</GlyphPair>
       </Link>
     </header>
   );

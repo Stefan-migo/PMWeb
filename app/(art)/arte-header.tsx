@@ -5,15 +5,27 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./arte/arte.module.css";
+import { GlyphPair, type GlyphKind } from "@/app/_components/shared/Glyph";
+import { MenuToggle } from "@/app/_components/shared/MenuToggle";
 
-const navigation = [
+interface NavItem {
+  href: string;
+  label: string;
+  glyph?: GlyphKind;
+}
+
+const navigation: NavItem[] = [
   { href: "/arte/galeria", label: "Obras" },
   { href: "/arte/sobre-mi", label: "Mi mirada" },
   { href: "/arte/trayectoria", label: "Trayectoria" },
-  { href: "/", label: "Más ↗" },
+  { href: "/", label: "Más", glyph: "up-right" },
 ];
 
-const contactLink = { href: "/arte#contacto", label: "Conversemos ↗" };
+const contactLink: NavItem = {
+  href: "/arte#contacto",
+  label: "Conversemos",
+  glyph: "up-right",
+};
 
 /**
  * Arte section header.
@@ -69,24 +81,27 @@ export function ArteHeader() {
         <nav className={styles.nav} aria-label="Navegación de arte">
           {navigation.map((item) => (
             <Link key={item.href} href={item.href}>
-              {item.label}
+              {item.glyph ? (
+                <GlyphPair kind={item.glyph}>{item.label}</GlyphPair>
+              ) : (
+                item.label
+              )}
             </Link>
           ))}
           <Link className={styles.contactPill} href={contactLink.href}>
-            {contactLink.label}
+            <GlyphPair kind={contactLink.glyph ?? "up-right"}>
+              {contactLink.label}
+            </GlyphPair>
           </Link>
         </nav>
 
-        <button
-          ref={toggleRef}
-          type="button"
+        <MenuToggle
+          open={open}
+          controls="arte-mobile-nav"
+          onChange={setOpen}
           className={styles.menuToggle}
-          aria-expanded={open}
-          aria-controls="arte-mobile-nav"
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? "Cerrar −" : "Menú +"}
-        </button>
+          buttonRef={toggleRef}
+        />
       </div>
 
       <nav
@@ -98,7 +113,11 @@ export function ArteHeader() {
       >
         {[...navigation, contactLink].map((item) => (
           <Link key={item.href} href={item.href} onClick={close}>
-            {item.label}
+            {item.glyph ? (
+              <GlyphPair kind={item.glyph}>{item.label}</GlyphPair>
+            ) : (
+              item.label
+            )}
           </Link>
         ))}
       </nav>
